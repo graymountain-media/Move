@@ -1,20 +1,21 @@
 //
-//  HomeViewController.swift
+//  RoomsViewController.swift
 //  Move
 //
-//  Created by Jake Gray on 4/21/18.
+//  Created by Jake Gray on 4/23/18.
 //  Copyright © 2018 Jake Gray. All rights reserved.
 //
 
+
 import UIKit
 
-class HomeViewController: UIViewController {
-
+class RoomsViewController: UIViewController {
+    
     let addButton: UIButton = {
         let button = UIButton()
         button.setTitle("Add New Space or Home", for: .normal)
         button.setTitleColor(.white, for: .normal)
-//        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 38)
+        //        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 38)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(activateAddView), for: .touchUpInside)
         return button
@@ -42,7 +43,7 @@ class HomeViewController: UIViewController {
     }()
     
     let searchBar : UISearchBar = {
-       let searchBar = UISearchBar()
+        let searchBar = UISearchBar()
         searchBar.placeholder = "Enter item or box name..."
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
@@ -126,10 +127,11 @@ class HomeViewController: UIViewController {
         inputStackView.bottomAnchor.constraint(equalTo: addView.bottomAnchor, constant: -8).isActive = true
         inputStackView.leadingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: 16).isActive = true
         inputStackView.trailingAnchor.constraint(equalTo: addButton.trailingAnchor, constant: -16).isActive = true
-
+        
         addView.bringSubview(toFront: addButton)
         
     }
-
+    
 }
+
 
