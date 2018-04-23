@@ -15,7 +15,7 @@ class Room {
     
     init(name: String, space: Space){
         self.name = name
-        self.boxes = boxes
+        self.boxes = []
         self.space = space
     }
 }

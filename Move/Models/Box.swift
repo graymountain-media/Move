@@ -14,7 +14,7 @@ class Box {
     let items: [Item]
     let room: Room
     
-    let init(name: String, room: Room){
+    init(name: String, room: Room){
         self.name = name
         self.items = []
         self.room = room
