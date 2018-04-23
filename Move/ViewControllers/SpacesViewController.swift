@@ -18,6 +18,7 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let mainTableView: UITableView = {
         let tableView = UITableView()
         tableView.layer.borderWidth = 0
+        tableView.separatorStyle = .none
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -38,7 +39,7 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let addButton: UIButton = {
         let button = UIButton()
         button.setTitle("Add New Space or Home", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(mainColor, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(activateAddView), for: .touchUpInside)
         return button
@@ -47,7 +48,7 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let submitButton: UIButton = {
         let button = UIButton()
         button.setTitle("Add", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(mainColor, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(submitAdd), for: .touchUpInside)
         button.isHidden = true
@@ -62,6 +63,7 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         textField.isHidden = true
         textField.alpha = 0.0
         textField.backgroundColor = .white
+        textField.textColor = mainColor
         return textField
     }()
     
@@ -77,7 +79,7 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     let addView: UIView = {
         let view = UIView()
-        view.backgroundColor = .blue
+        view.backgroundColor = secondaryColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -109,11 +111,10 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @objc private func activateAddView() {
         print("add button pressed")
         UIView.animate(withDuration: 0.5, animations: {
-            self.addView.heightAnchor.constraint(equalToConstant: 96).isActive = true
-            self.addButton.isHidden = true
+            self.addView.frame.size.height += 52;
+            self.addButton.alpha = 0.0
             self.nameTextField.isHidden = false
             self.submitButton.isHidden = false
-            self.view.layoutIfNeeded()
         }) { (complete) in
             if complete {
                 UIView.animate(withDuration: 0.2, animations: {
@@ -126,7 +127,28 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @objc private func submitAdd(){
+        guard let name = nameTextField.text, !name.isEmpty else { return }
+            
+        SpaceController.shared.createSpace(withName: name)
+        nameTextField.text = ""
         
+        UIView.animate(withDuration: 0.2, animations: {
+            self.nameTextField.alpha = 0.0
+            self.submitButton.alpha = 0.0
+            self.noEntitiesLabel.alpha = 0.0
+        }) { (complete) in
+            if complete {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.addView.frame.size.height -= 52;
+                    self.addButton.alpha = 1.0
+                    self.nameTextField.isHidden = true
+                    self.submitButton.isHidden = true
+                    self.noEntitiesLabel.isHidden = true
+                })
+            }
+        }
+        mainTableView.isHidden = false
+        mainTableView.reloadData()
     }
     
     private func setupFooter() {
@@ -169,36 +191,38 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     private func setupBody(){
+        if SpaceController.shared.spaces.count == 0 {
+            noEntitiesLabel.isHidden = false
+        } else {
+            noEntitiesLabel.isHidden = true
+        }
         
-        //        if mainTableView.visibleCells.isEmpty {
-        //            noEntitiesLabel.isHidden = false
-        ////            noEntitiesLabel.isHidden = true
-        //
-        //            noEntitiesLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //            noEntitiesLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        //            noEntitiesLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        //            noEntitiesLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        //
-        //        } else {
         mainTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         mainTableView.bottomAnchor.constraint(equalTo: addView.topAnchor).isActive = true
         mainTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         mainTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
+        noEntitiesLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        noEntitiesLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50).isActive = true
+        noEntitiesLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        noEntitiesLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        view.bringSubview(toFront: noEntitiesLabel)
     }
     
     // MARK: - TableView Data Source
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("Rows Proccessed")
-        return 4
+        return SpaceController.shared.spaces.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         
-        cell.textLabel?.text = "Hello World"
-        print("Cell Created")
+        let room = SpaceController.shared.spaces[indexPath.row]
+        cell.textLabel?.text = room.name
+        
         return cell
     }
     

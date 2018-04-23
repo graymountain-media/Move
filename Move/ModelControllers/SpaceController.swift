@@ -41,7 +41,7 @@ class SpaceController {
     
     //delete Room
     func delete(room: Room, inSpace space: Space){
-        guard let index = space.index(of: room) else {
+        guard let index = space.rooms.index(of: room) else {
             print("Error deleting room")
             return
         }
