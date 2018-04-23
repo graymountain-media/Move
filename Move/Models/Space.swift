@@ -8,12 +8,18 @@
 
 import Foundation
 
-class Space {
-    let name: String
-    let rooms: [Room]
+class Space: Equatable{
+    
+    var name: String
+    var rooms: [Room]
     
     init(name: String){
         self.name = name
         self.rooms = []
     }
+    
+    static func == (lhs: Space, rhs: Space) -> Bool {
+        return (lhs.name == rhs.name && rhs.rooms == rhs.rooms)
+    }
+    
 }

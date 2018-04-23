@@ -8,15 +8,20 @@
 
 import Foundation
 
-class Box {
-    let name: String
+class Box: Equatable {
+    
+    var name: String
 //    let QRID = String
-    let items: [Item]
-    let room: Room
+    var items: [Item]
+    var room: Room
     
     init(name: String, room: Room){
         self.name = name
         self.items = []
         self.room = room
+    }
+    
+    static func == (lhs: Box, rhs: Box) -> Bool {
+        return (lhs.name == rhs.name && lhs.items == rhs.items && lhs.room == rhs.room)
     }
 }

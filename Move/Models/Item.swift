@@ -8,12 +8,17 @@
 
 import Foundation
 
-class Item {
-    let name: String
-    let box: Box
+class Item: Equatable {
+    
+    var name: String
+    var box: Box
     
     init(name: String, box: Box) {
         self.name = name
         self.box = box
+    }
+    
+    static func == (lhs: Item, rhs: Item) -> Bool {
+        return (lhs.name == rhs.name && lhs.box == rhs.box)
     }
 }
