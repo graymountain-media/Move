@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A120412A208E52E00093E782 /* RoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204129208E52E00093E782 /* RoomsViewController.swift */; };
+		A120412E208E56390093E782 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412D208E56390093E782 /* Constants.swift */; };
+		A1204130208E72680093E782 /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412F208E72680093E782 /* Space.swift */; };
+		A1204132208E72BA0093E782 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204131208E72BA0093E782 /* Room.swift */; };
+		A1204134208E72D80093E782 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204133208E72D80093E782 /* Box.swift */; };
+		A1204136208E72DE0093E782 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204135208E72DE0093E782 /* Item.swift */; };
 		A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */; };
 		A1EFE632208BBE42000C6E21 /* SpacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EFE631208BBE42000C6E21 /* SpacesViewController.swift */; };
 		A1EFE637208BBE43000C6E21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EFE636208BBE43000C6E21 /* Assets.xcassets */; };
@@ -15,7 +19,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A1204129208E52E00093E782 /* RoomsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsViewController.swift; sourceTree = "<group>"; };
+		A120412D208E56390093E782 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		A120412F208E72680093E782 /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
+		A1204131208E72BA0093E782 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		A1204133208E72D80093E782 /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
+		A1204135208E72DE0093E782 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		A1EFE62C208BBE42000C6E21 /* Move.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Move.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1EFE631208BBE42000C6E21 /* SpacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesViewController.swift; sourceTree = "<group>"; };
@@ -49,9 +57,19 @@
 			isa = PBXGroup;
 			children = (
 				A1EFE631208BBE42000C6E21 /* SpacesViewController.swift */,
-				A1204129208E52E00093E782 /* RoomsViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		A1204137208E74680093E782 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A120412F208E72680093E782 /* Space.swift */,
+				A1204131208E72BA0093E782 /* Room.swift */,
+				A1204133208E72D80093E782 /* Box.swift */,
+				A1204135208E72DE0093E782 /* Item.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		A1EFE623208BBE42000C6E21 = {
@@ -76,6 +94,8 @@
 				A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */,
 				A120412C208E53360093E782 /* ViewControllers */,
 				A120412B208E532B0093E782 /* Resources */,
+				A120412D208E56390093E782 /* Constants.swift */,
+				A1204137208E74680093E782 /* Models */,
 			);
 			path = Move;
 			sourceTree = "<group>";
@@ -151,8 +171,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1EFE632208BBE42000C6E21 /* SpacesViewController.swift in Sources */,
-				A120412A208E52E00093E782 /* RoomsViewController.swift in Sources */,
 				A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */,
+				A1204130208E72680093E782 /* Space.swift in Sources */,
+				A1204134208E72D80093E782 /* Box.swift in Sources */,
+				A1204136208E72DE0093E782 /* Item.swift in Sources */,
+				A120412E208E56390093E782 /* Constants.swift in Sources */,
+				A1204132208E72BA0093E782 /* Room.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,7 +314,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6K47ASRSPN;
-				INFOPLIST_FILE = Move/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Move/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -308,7 +332,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6K47ASRSPN;
-				INFOPLIST_FILE = Move/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Move/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

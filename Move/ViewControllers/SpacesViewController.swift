@@ -8,13 +8,37 @@
 
 import UIKit
 
-class SpacesViewController: UIViewController {
-
+class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    // MARK: - Properties
+    
+    let cellIdentifier = "RoomCell"
+    
+    // Body
+    
+    let mainTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.layer.borderWidth = 0
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
+    let noEntitiesLabel: UILabel = {
+        let label = UILabel()
+        label.text = "You do not have any spaces or homes set up."
+        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.isHidden = true
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    // Footer
+    
     let addButton: UIButton = {
         let button = UIButton()
         button.setTitle("Add New Space or Home", for: .normal)
         button.setTitleColor(.white, for: .normal)
-//        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 38)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(activateAddView), for: .touchUpInside)
         return button
@@ -42,9 +66,12 @@ class SpacesViewController: UIViewController {
     }()
     
     let searchBar : UISearchBar = {
-       let searchBar = UISearchBar()
-        searchBar.placeholder = "Enter item or box name..."
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "Search for item or box name..."
         searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.barTintColor = mainColor
+        searchBar.layer.borderWidth = 0
+        searchBar.backgroundImage = UIImage()
         return searchBar
     }()
     
@@ -55,15 +82,25 @@ class SpacesViewController: UIViewController {
         return view
     }()
     
+    
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Spaces"
-        view.backgroundColor = .white
+        view.backgroundColor = mainColor
+        
+        mainTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        mainTableView.delegate = self
+        mainTableView.dataSource = self
+        
+        view.addSubview(noEntitiesLabel)
+        view.addSubview(mainTableView)
         
         view.addSubview(addView)
         view.addSubview(searchBar)
         
         setupFooter()
+        setupBody()
     }
     
     
@@ -126,10 +163,46 @@ class SpacesViewController: UIViewController {
         inputStackView.bottomAnchor.constraint(equalTo: addView.bottomAnchor, constant: -8).isActive = true
         inputStackView.leadingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: 16).isActive = true
         inputStackView.trailingAnchor.constraint(equalTo: addButton.trailingAnchor, constant: -16).isActive = true
-
+        
         addView.bringSubview(toFront: addButton)
         
     }
-
+    
+    private func setupBody(){
+        
+        //        if mainTableView.visibleCells.isEmpty {
+        //            noEntitiesLabel.isHidden = false
+        ////            noEntitiesLabel.isHidden = true
+        //
+        //            noEntitiesLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        //            noEntitiesLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        //            noEntitiesLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        //            noEntitiesLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        //
+        //        } else {
+        mainTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        mainTableView.bottomAnchor.constraint(equalTo: addView.topAnchor).isActive = true
+        mainTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        mainTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+    }
+    
+    // MARK: - TableView Data Source
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("Rows Proccessed")
+        return 4
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        
+        cell.textLabel?.text = "Hello World"
+        print("Cell Created")
+        return cell
+    }
+    
+    
+    
 }
 

@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = UINavigationController(rootViewController: homeViewController)
 //        navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
 //        navigationController.navigationBar.shadowImage = UIImage()
-//        navigationController.navigationBar.isTranslucent = true
+        navigationController.navigationBar.isTranslucent = false
         
         navigationController.navigationBar.backgroundColor = .white
         
