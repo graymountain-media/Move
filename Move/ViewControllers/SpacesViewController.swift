@@ -8,7 +8,8 @@
 
 import UIKit
 
-class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TitleTableViewCellDelegate {
+    
     // MARK: - Properties
     
     let cellIdentifier = "RoomCell"
@@ -20,6 +21,7 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.layer.borderWidth = 0
         tableView.separatorStyle = .none
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.rowHeight = 60
         return tableView
     }()
     
@@ -89,9 +91,9 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Spaces"
-        view.backgroundColor = mainColor
-        
-        mainTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        self.navigationItem.rightBarButtonItem = self.editButtonItem
+        view.backgroundColor = mainColor        
+        mainTableView.register(TitleTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         mainTableView.delegate = self
         mainTableView.dataSource = self
         
@@ -110,14 +112,14 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @objc private func activateAddView() {
         print("add button pressed")
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.addView.frame.size.height += 52;
             self.addButton.alpha = 0.0
             self.nameTextField.isHidden = false
             self.submitButton.isHidden = false
         }) { (complete) in
             if complete {
-                UIView.animate(withDuration: 0.2, animations: {
+                UIView.animate(withDuration: 0.15, animations: {
                     self.nameTextField.alpha = 1.0
                     self.submitButton.alpha = 1.0
                 })
@@ -218,15 +220,39 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? TitleTableViewCell else {
+            print("Cell failed")
+            return UITableViewCell()}
         
         let room = SpaceController.shared.spaces[indexPath.row]
-        cell.textLabel?.text = room.name
+        cell.update(withTitle: room.name)
+        cell.delegate = self
+        
+        let bgView = UIView()
+        bgView.backgroundColor = secondaryColor
+        cell.selectedBackgroundView = bgView
         
         return cell
     }
     
+    func deleteButtonPressed() {
+        guard let indexPath = mainTableView.indexPathForSelectedRow else {
+            print("Error deleting space")
+            return
+        }
+        let space = SpaceController.shared.spaces[indexPath.row]
+        
+        SpaceController.shared.delete(space: space)
+    }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            let space = SpaceController.shared.spaces[indexPath.row]
+            SpaceController.shared.delete(space: space)
+            
+            mainTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
     
 }
 
