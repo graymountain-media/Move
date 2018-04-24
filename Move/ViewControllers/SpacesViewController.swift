@@ -8,12 +8,12 @@
 
 import UIKit
 
-class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TitleTableViewCellDelegate {
+class SpacesViewController: UIViewController{
     
     // MARK: - Properties
     
     let cellIdentifier = "RoomCell"
-    
+    var inputStackViewBottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
     // Body
     
     let mainTableView: UITableView = {
@@ -66,6 +66,8 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         textField.alpha = 0.0
         textField.backgroundColor = .white
         textField.textColor = mainColor
+        textField.layer.cornerRadius = 10
+        textField.clipsToBounds = true
         return textField
     }()
     
@@ -87,28 +89,75 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }()
     
     
+    var rightButton: UIBarButtonItem = {
+        let navButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(goToSearch))
+        navButton.tintColor = mainColor
+        return navButton
+    }()
+    
+    
     // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Spaces"
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
-        view.backgroundColor = mainColor        
+        view.backgroundColor = mainColor
+        self.navigationItem.rightBarButtonItem = rightButton
+        
         mainTableView.register(TitleTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         mainTableView.delegate = self
         mainTableView.dataSource = self
         
-        view.addSubview(noEntitiesLabel)
+        nameTextField.delegate = self
+        
         view.addSubview(mainTableView)
+        view.addSubview(noEntitiesLabel)
         
         view.addSubview(addView)
         view.addSubview(searchBar)
         
         setupFooter()
         setupBody()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardShowNotification), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardHideNotification), name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    @objc func handleKeyboardShowNotification(notification: NSNotification){
+        if let userInfo = notification.userInfo {
+            let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+            inputStackViewBottomConstraint.constant = -keyboardFrame.height + 84
+        }
+    }
+    
+    @objc func handleKeyboardHideNotification(notification: NSNotification){
+        if let userInfo = notification.userInfo {
+            let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+            inputStackViewBottomConstraint.constant = keyboardFrame.height + 84
+        }
+    }
+    
+    @objc private func goToSearch(){
+        //FIXME: Search
+        print("I need to search")
+    }
+    
+    @objc func showEditing(sender: UIBarButtonItem)
+    {
+        if(self.mainTableView.isEditing == true)
+        {
+            self.mainTableView.isEditing = false
+            self.navigationItem.rightBarButtonItem?.title = "Done"
+        }
+        else
+        {
+            self.mainTableView.isEditing = true
+            self.navigationItem.rightBarButtonItem?.title = "Edit"
+        }
     }
     
     
-    // MARK: Button Actions
+    // MARK: - Button Actions
     
     @objc private func activateAddView() {
         print("add button pressed")
@@ -122,6 +171,7 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 UIView.animate(withDuration: 0.15, animations: {
                     self.nameTextField.alpha = 1.0
                     self.submitButton.alpha = 1.0
+                    self.nameTextField.becomeFirstResponder()
                 })
             }
         }
@@ -149,8 +199,9 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 })
             }
         }
+        nameTextField.resignFirstResponder()
         mainTableView.isHidden = false
-        mainTableView.reloadData()
+        mainTableView.insertRows(at: [IndexPath(item: 0, section: 0)], with: .automatic)
     }
     
     private func setupFooter() {
@@ -179,12 +230,14 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         inputStackView.distribution = .fillEqually
         inputStackView.axis = .vertical
         inputStackView.spacing = 4
+        inputStackView.backgroundColor = mainColor
         inputStackView.translatesAutoresizingMaskIntoConstraints = false
         
         addView.addSubview(inputStackView)
         
         inputStackView.topAnchor.constraint(equalTo: addView.topAnchor, constant: 8).isActive = true
-        inputStackView.bottomAnchor.constraint(equalTo: addView.bottomAnchor, constant: -8).isActive = true
+        inputStackViewBottomConstraint = inputStackView.bottomAnchor.constraint(equalTo: addView.bottomAnchor, constant: -8)
+        inputStackViewBottomConstraint.isActive = true
         inputStackView.leadingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: 16).isActive = true
         inputStackView.trailingAnchor.constraint(equalTo: addButton.trailingAnchor, constant: -16).isActive = true
         
@@ -209,13 +262,15 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         noEntitiesLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         noEntitiesLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
-        view.bringSubview(toFront: noEntitiesLabel)
+//        view.bringSubview(toFront: noEntitiesLabel)
     }
-    
+}
+
     // MARK: - TableView Data Source
+
+extension SpacesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("Rows Proccessed")
         return SpaceController.shared.spaces.count
     }
     
@@ -226,23 +281,12 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let room = SpaceController.shared.spaces[indexPath.row]
         cell.update(withTitle: room.name)
-        cell.delegate = self
         
         let bgView = UIView()
         bgView.backgroundColor = secondaryColor
         cell.selectedBackgroundView = bgView
         
         return cell
-    }
-    
-    func deleteButtonPressed() {
-        guard let indexPath = mainTableView.indexPathForSelectedRow else {
-            print("Error deleting space")
-            return
-        }
-        let space = SpaceController.shared.spaces[indexPath.row]
-        
-        SpaceController.shared.delete(space: space)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -254,5 +298,34 @@ class SpacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        
+        super.setEditing(editing, animated: animated)
+        self.mainTableView.setEditing(editing, animated: true)
+        
+    }
+    
+}
+
+extension SpacesViewController: UITextFieldDelegate {
+    
+//    func moveTextField(textField: UITextField, moveDistance: Int, up: Bool){
+//        let moveDuration = 0.3
+//        let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
+//
+//        UIView.beginAnimations("animateTextField", context: nil)
+//        UIView.setAnimationBeginsFromCurrentState(true)
+//        UIView.setAnimationDuration(moveDuration)
+//        self.view.frame.offsetBy(dx: 0, dy: movement)
+//        UIView.commitAnimations()
+//    }
+    
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//        return true
+//    }
 }
 
