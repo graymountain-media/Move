@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol TitleTableViewCellDelegate: class {
+    func deleteButtonPressed()
+}
+
 class TitleTableViewCell: UITableViewCell {
+    
+    weak var delegate: TitleTableViewCellDelegate?
     
     let containerView: UIView = {
         let view = UIView()
@@ -34,6 +40,7 @@ class TitleTableViewCell: UITableViewCell {
         button.contentMode = UIViewContentMode.scaleAspectFill
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = secondaryColor
+        button.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -58,6 +65,11 @@ class TitleTableViewCell: UITableViewCell {
         deleteButton.widthAnchor.constraint(equalToConstant: 38).isActive = true
         deleteButton.heightAnchor.constraint(equalToConstant: 38).isActive = true
 
+    }
+    
+    @objc func deleteButtonPressed(){
+        print("Delete pressed")
+        delegate?.deleteButtonPressed()
     }
     
     func update(withTitle title: String){
