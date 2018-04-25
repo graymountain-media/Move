@@ -1,5 +1,5 @@
 //
-//  SpacesViewController.swift
+//  MoveViewController.swift
 //  Move
 //
 //  Created by Jake Gray on 4/21/18.
@@ -9,7 +9,9 @@
 import UIKit
 import CoreData
 
-class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDelegate{
+class MoveViewController: UIViewController, UITextFieldDelegate, UISearchBarDelegate{
+    
+    required let testVariable = ""
     
     let SpacesFetchedResultsController: NSFetchedResultsController<Space> = {
         let request: NSFetchRequest<Space> = Space.fetchRequest()

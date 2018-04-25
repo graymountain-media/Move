@@ -106,7 +106,11 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     
     
     var rightButton: UIBarButtonItem = {
-        let navButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(goToSearch))
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "moreOptions"), for: .normal)
+        button.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        button.contentMode = .scaleAspectFill
+        let navButton = UIBarButtonItem(customView: button)
         navButton.tintColor = mainColor
         return navButton
     }()
@@ -121,7 +125,6 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
         if let space = space {
             self.title = space.name
         }
-        
         view.backgroundColor = mainColor
         self.navigationItem.rightBarButtonItem = rightButton
         
@@ -163,7 +166,7 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
             var predicate = NSPredicate()
             
             if let space = self.space {
-                predicate = NSPredicate(format: "space == %@", space.name!)
+                predicate = NSPredicate(format: "space == %@", space)
             }
             // In the predicate, you need to check to see if the room's space is the same as the one above
             request.predicate = predicate

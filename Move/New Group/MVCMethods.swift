@@ -1,5 +1,5 @@
 //
-//  SVCMethods.swift
+//  MVCMethods.swift
 //  Move
 //
 //  Created by Jake Gray on 4/24/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension SpacesViewController{
+extension MoveViewController{
     @objc func handleKeyboardShowNotification(notification: NSNotification){
         if let userInfo = notification.userInfo {
             let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue

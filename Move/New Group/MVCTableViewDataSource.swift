@@ -1,5 +1,5 @@
 //
-//  SVCTableViewDataSource.swift
+//  MVCTableViewDataSource.swift
 //  Move
 //
 //  Created by Jake Gray on 4/24/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension SpacesViewController: UITableViewDelegate, UITableViewDataSource, TitleTableViewCellDelegate {
+extension MoveViewController: UITableViewDelegate, UITableViewDataSource, TitleTableViewCellDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return SpacesFetchedResultsController.sections?.count ?? 0

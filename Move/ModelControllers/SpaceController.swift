@@ -33,7 +33,8 @@ class SpaceController {
     
     //create Room
     static func createRoom(withName name: String, inSpace space: Space ){
-        let _ = Room(name: name, space: space)
+        let newRoom = Room(name: name, space: space)
+        print(newRoom)
         saveData()
     }
     

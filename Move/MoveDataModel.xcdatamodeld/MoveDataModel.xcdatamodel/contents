@@ -16,12 +16,12 @@
     </entity>
     <entity name="Space" representedClassName="Space" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="rooms" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Room" inverseName="space" inverseEntity="Room" syncable="YES"/>
+        <relationship name="rooms" toMany="YES" deletionRule="Nullify" destinationEntity="Room" inverseName="space" inverseEntity="Room" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Space" positionX="-63" positionY="-18" width="128" height="75"/>
-        <element name="Room" positionX="-54" positionY="-9" width="128" height="90"/>
-        <element name="Item" positionX="-36" positionY="9" width="128" height="75"/>
         <element name="Box" positionX="-18" positionY="27" width="128" height="90"/>
+        <element name="Item" positionX="-36" positionY="9" width="128" height="75"/>
+        <element name="Room" positionX="-54" positionY="-9" width="128" height="90"/>
+        <element name="Space" positionX="-63" positionY="-18" width="128" height="75"/>
     </elements>
 </model>

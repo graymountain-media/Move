@@ -34,20 +34,11 @@ extension RoomViewController: UITableViewDelegate, UITableViewDataSource, TitleT
         return cell
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        
-        super.setEditing(editing, animated: animated)
-        self.mainTableView.setEditing(editing, animated: true)
-        
-    }
-    
     func deleteButtonPressed(_ sender: TitleTableViewCell) {
         guard let indexPath = mainTableView.indexPath(for: sender) else {return}
         let room = RoomsFetchedResultsController.object(at: indexPath)
         SpaceController.delete(room: room)
+        mainTableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

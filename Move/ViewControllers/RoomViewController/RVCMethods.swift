@@ -12,14 +12,18 @@ extension RoomViewController{
     @objc func handleKeyboardShowNotification(notification: NSNotification){
         if let userInfo = notification.userInfo {
             let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-            inputStackViewBottomConstraint.constant = -keyboardFrame.height + 26
+            UIView.animate(withDuration: 0.5) {
+                self.inputStackViewBottomConstraint.constant = -keyboardFrame.height + 26
+            }
         }
     }
     
     @objc func handleKeyboardHideNotification(notification: NSNotification){
         if let userInfo = notification.userInfo {
             let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-            inputStackViewBottomConstraint.constant = keyboardFrame.height + 26
+            UIView.animate(withDuration: 0.5) {
+                self.inputStackViewBottomConstraint.constant = keyboardFrame.height + 26
+            }
         }
     }
     
@@ -32,7 +36,7 @@ extension RoomViewController{
     // MARK: - Button Actions
     
     @objc func activateAddView() {
-        //        self.nameTextField.becomeFirstResponder()
+        self.nameTextField.becomeFirstResponder()
         UIView.animate(withDuration: 0.3, animations: {
             self.addView.frame.size.height += 52;
             self.addButton.alpha = 0.0
