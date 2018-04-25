@@ -8,9 +8,6 @@
 
 import UIKit
 
-
-// MARK: - TableView Data Source
-
 extension SpacesViewController: UITableViewDelegate, UITableViewDataSource, TitleTableViewCellDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -51,6 +48,11 @@ extension SpacesViewController: UITableViewDelegate, UITableViewDataSource, Titl
         guard let indexPath = mainTableView.indexPath(for: sender) else {return}
         let space = SpacesFetchedResultsController.object(at: indexPath)
         SpaceController.delete(space: space)
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let destinationVC = RoomViewController()
+        destinationVC.space = SpacesFetchedResultsController.object(at: indexPath)
+        navigationController?.pushViewController(destinationVC, animated: true)
     }
     
 }

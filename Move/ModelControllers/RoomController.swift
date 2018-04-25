@@ -11,9 +11,28 @@ import Foundation
 class RoomController {
     
     //Update Room
+    static func update(room: Room, withName newName: String){
+        room.name = newName
+    }
     
-    //Create Box
+    //create Box
+    static func createBox(withName name: String, inRoom room: Room ){
+        let _ = Box(name: name, room: room)
+        saveData()
+    }
     
-    //Delete Box
+    //delete Box
+    static func delete(box: Box){
+        box.managedObjectContext?.delete(box)
+        
+        saveData()
+    }
 
+    private static func saveData(){
+        do {
+            try CoreDataStack.context.save()
+        } catch {
+            print("Error saving: \(error.localizedDescription)")
+        }
+    }
 }

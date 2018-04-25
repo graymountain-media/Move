@@ -41,7 +41,7 @@ class TitleTableViewCell: UITableViewCell {
         button.setImage(#imageLiteral(resourceName: "XIcon"), for: .normal)
         button.contentMode = UIViewContentMode.scaleAspectFill
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = secondaryColor
+        button.tintColor = .white
         button.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         self.deleteButton = button
     }
