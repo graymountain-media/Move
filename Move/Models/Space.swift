@@ -7,19 +7,21 @@
 //
 
 import Foundation
+import CoreData
 
-class Space: Equatable{
+extension Space{
     
-    var name: String
-    var rooms: [Room]
+//    var name: String
+//    var rooms: [Room]
     
-    init(name: String){
+    convenience init(name: String, context: NSManagedObjectContext = CoreDataStack.context){
+        self.init(context: context)
         self.name = name
         self.rooms = []
     }
     
-    static func == (lhs: Space, rhs: Space) -> Bool {
-        return (lhs.name == rhs.name && rhs.rooms == rhs.rooms)
-    }
+//    static func == (lhs: Space, rhs: Space) -> Bool {
+//        return (lhs.name == rhs.name && rhs.rooms == rhs.rooms)
+//    }
     
 }

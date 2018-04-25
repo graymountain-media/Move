@@ -7,18 +7,20 @@
 //
 
 import Foundation
+import CoreData
 
-class Item: Equatable {
+extension Item {
     
-    var name: String
-    var box: Box
+//    var name: String
+//    var box: Box
     
-    init(name: String, box: Box) {
+    convenience init(name: String, box: Box, context: NSManagedObjectContext = CoreDataStack.context) {
+        self.init(context: context)
         self.name = name
         self.box = box
     }
     
-    static func == (lhs: Item, rhs: Item) -> Bool {
-        return (lhs.name == rhs.name && lhs.box == rhs.box)
-    }
+//    static func == (lhs: Item, rhs: Item) -> Bool {
+//        return (lhs.name == rhs.name && lhs.box == rhs.box)
+//    }
 }

@@ -7,8 +7,18 @@
 //
 
 import UIKit
+import CoreData
 
 class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDelegate, UISearchResultsUpdating, TitleTableViewCellDelegate{
+    
+    let fetchedResultsController: NSFetchedResultsController<Space> = {
+        let request: NSFetchRequest<Space> = Space.fetchRequest()
+        
+         let nameSort = NSSortDescriptor(key: "name", ascending: false)
+         request.sortDescriptors = []
+        
+        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
+    }()
     
     // MARK: - Properties
     
@@ -111,6 +121,9 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         view.backgroundColor = mainColor
         self.navigationItem.rightBarButtonItem = rightButton
         
+        fetchedResultsController.delegate = self
+        try? fetchedResultsController.performFetch()
+        
         mainTableView.register(TitleTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         mainTableView.delegate = self
         mainTableView.dataSource = self
@@ -183,7 +196,7 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
     }
     
     func setupBody(){
-        if SpaceController.shared.spaces.count == 0 {
+        if (fetchedResultsController.sections?.count)! <= 0 {
             noEntitiesLabel.isHidden = false
         } else {
             noEntitiesLabel.isHidden = true

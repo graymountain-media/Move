@@ -54,7 +54,7 @@ extension SpacesViewController{
     @objc func submitAdd(){
         guard let name = nameTextField.text, !name.isEmpty else { return }
         
-        SpaceController.shared.createSpace(withName: name)
+        SpaceController.createSpace(withName: name)
         nameTextField.text = ""
         
         UIView.animate(withDuration: 0.2, animations: {
@@ -74,7 +74,7 @@ extension SpacesViewController{
         }
         nameTextField.resignFirstResponder()
         mainTableView.isHidden = false
-        mainTableView.insertRows(at: [IndexPath(item: (SpaceController.shared.spaces.count - 1), section: 0)], with: .automatic)
+//        mainTableView.insertRows(at: [IndexPath(item: (SpaceController.shared.spaces.count - 1), section: 0)], with: .automatic)
     }
     
     

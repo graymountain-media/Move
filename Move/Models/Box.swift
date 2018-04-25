@@ -7,21 +7,23 @@
 //
 
 import Foundation
+import CoreData
 
-class Box: Equatable {
+extension Box {
     
-    var name: String
+//    var name: String
 //    let QRID = String
-    var items: [Item]
-    var room: Room
+//    var items: [Item]
+//    var room: Room
     
-    init(name: String, room: Room){
+    convenience init(name: String, room: Room, context: NSManagedObjectContext = CoreDataStack.context){
+        self.init(context:context)
         self.name = name
         self.items = []
         self.room = room
     }
     
-    static func == (lhs: Box, rhs: Box) -> Bool {
-        return (lhs.name == rhs.name && lhs.items == rhs.items && lhs.room == rhs.room)
-    }
+//    static func == (lhs: Box, rhs: Box) -> Bool {
+//        return (lhs.name == rhs.name && lhs.items == rhs.items && lhs.room == rhs.room)
+//    }
 }

@@ -10,41 +10,45 @@ import Foundation
 
 class SpaceController {
     
-    static let shared = SpaceController()
-    var spaces: [Space] = []
+//    static let shared = SpaceController()
+//    var spaces: [Space] = []
     
     //create space
-    func createSpace(withName name: String){
-        let newSpace = Space(name: name)
-        spaces.append(newSpace)
+    static func createSpace(withName name: String){
+        let _ = Space(name: name)
+        saveData()
     }
     
     //update space
-    func update(space: Space, withName newName: String){
+    static func update(space: Space, withName newName: String){
         space.name = newName
     }
     
     //delete space
-    func delete(space: Space){
-        guard let index = spaces.index(of: space) else {
-            print("Error deleting space")
-            return
-        }
-        spaces.remove(at: index)
+    static func delete(space: Space){
+        space.managedObjectContext?.delete(space)
+        
+        saveData()
     }
     
     //create Room
-    func createRoom(withName name: String, inSpace space: Space ){
-        let newRoom = Room(name: name, space: space)
-        space.rooms.append(newRoom)
+    static func createRoom(withName name: String, inSpace space: Space ){
+        let _ = Room(name: name, space: space)
+        saveData()
     }
     
     //delete Room
-    func delete(room: Room, inSpace space: Space){
-        guard let index = space.rooms.index(of: room) else {
-            print("Error deleting room")
-            return
+    static func delete(room: Room){
+        room.managedObjectContext?.delete(room)
+        
+        saveData()
+    }
+    
+    private static func saveData(){
+        do {
+            try CoreDataStack.context.save()
+        } catch {
+            print("Error saving: \(error.localizedDescription)")
         }
-        space.rooms.remove(at: index)
     }
 }
