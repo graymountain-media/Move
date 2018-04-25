@@ -32,9 +32,8 @@ extension SpacesViewController{
     // MARK: - Button Actions
     
     @objc func activateAddView() {
-        print("add button pressed")
+//        self.nameTextField.becomeFirstResponder()
         UIView.animate(withDuration: 0.3, animations: {
-            self.nameTextField.becomeFirstResponder()
             self.addView.frame.size.height += 52;
             self.addButton.alpha = 0.0
             self.nameTextField.isHidden = false
@@ -74,7 +73,6 @@ extension SpacesViewController{
         }
         nameTextField.resignFirstResponder()
         mainTableView.isHidden = false
-//        mainTableView.insertRows(at: [IndexPath(item: (SpaceController.shared.spaces.count - 1), section: 0)], with: .automatic)
     }
     
     

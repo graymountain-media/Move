@@ -11,14 +11,14 @@ import UIKit
 
 // MARK: - TableView Data Source
 
-extension SpacesViewController: UITableViewDelegate, UITableViewDataSource {
+extension SpacesViewController: UITableViewDelegate, UITableViewDataSource, TitleTableViewCellDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController.sections?.count ?? 0
+        return SpacesFetchedResultsController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return SpacesFetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -26,7 +26,7 @@ extension SpacesViewController: UITableViewDelegate, UITableViewDataSource {
             print("Cell failed")
             return UITableViewCell()}
         
-        let room = fetchedResultsController.object(at: indexPath)
+        let room = SpacesFetchedResultsController.object(at: indexPath)
         cell.update(withTitle: room.name!)
         cell.delegate = self
         
@@ -35,13 +35,6 @@ extension SpacesViewController: UITableViewDelegate, UITableViewDataSource {
         cell.selectedBackgroundView = bgView
         
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete{
-            let spaceToDelete = fetchedResultsController.object(at: indexPath)
-            SpaceController.delete(space: spaceToDelete)
-        }
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -54,15 +47,11 @@ extension SpacesViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    func deleteButtonPressed() {
-        print("Delete processing")
-        guard let spaceIndex = mainTableView.indexPathForSelectedRow else {return}
-        let space = fetchedResultsController.object(at: spaceIndex)
+    func deleteButtonPressed(_ sender: TitleTableViewCell) {
+        guard let indexPath = mainTableView.indexPath(for: sender) else {return}
+        let space = SpacesFetchedResultsController.object(at: indexPath)
         SpaceController.delete(space: space)
-        mainTableView.deleteRows(at: [spaceIndex], with: .automatic)
     }
-    
-    
     
 }
 

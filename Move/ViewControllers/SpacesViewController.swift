@@ -9,13 +9,13 @@
 import UIKit
 import CoreData
 
-class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDelegate, UISearchResultsUpdating, TitleTableViewCellDelegate{
+class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDelegate{
     
-    let fetchedResultsController: NSFetchedResultsController<Space> = {
+    let SpacesFetchedResultsController: NSFetchedResultsController<Space> = {
         let request: NSFetchRequest<Space> = Space.fetchRequest()
         
-         let nameSort = NSSortDescriptor(key: "name", ascending: false)
-         request.sortDescriptors = []
+         let nameSort = NSSortDescriptor(key: "name", ascending: true)
+         request.sortDescriptors = [nameSort]
         
         return NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
     }()
@@ -24,6 +24,7 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
     
     let cellIdentifier = "RoomCell"
     var inputStackViewBottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    
     // Body
     
     let mainTableView: UITableView = {
@@ -94,7 +95,10 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
     let searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.barTintColor = mainColor
+        searchController.searchBar.tintColor = .white
         searchController.searchBar.layer.borderWidth = 0
+        searchController.searchBar.isTranslucent = false
+        searchController.searchBar.placeholder = "Search Boxes/Items"
         return searchController
     }()
     
@@ -116,13 +120,14 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         self.title = "Spaces"
         view.backgroundColor = mainColor
         self.navigationItem.rightBarButtonItem = rightButton
         
-        fetchedResultsController.delegate = self
-        try? fetchedResultsController.performFetch()
+        SpacesFetchedResultsController.delegate = self
+        try? SpacesFetchedResultsController.performFetch()
         
         mainTableView.register(TitleTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         mainTableView.delegate = self
@@ -130,8 +135,6 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         
         nameTextField.delegate = self
         searchBar.delegate = self
-        
-        
         
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation =  true
@@ -145,20 +148,11 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         view.addSubview(addView)
         view.addSubview(searchBar)
         
-        setupFooter()
+        setupAddView()
         setupBody()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardShowNotification), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardHideNotification), name: .UIKeyboardWillHide, object: nil)
-    }
-    
-    func setupFooter() {
-        
-//        searchBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-//        searchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-//        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        
-        setupAddView()
     }
     
     func setupAddView(){
@@ -183,7 +177,7 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         
         addView.addSubview(inputStackView)
         
-//        nameTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        nameTextField.frame.size.height = 40
         
         inputStackView.topAnchor.constraint(equalTo: addView.topAnchor, constant: 8).isActive = true
         inputStackViewBottomConstraint = inputStackView.bottomAnchor.constraint(equalTo: addView.bottomAnchor, constant: -8)
@@ -196,7 +190,7 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
     }
     
     func setupBody(){
-        if (fetchedResultsController.sections?.count)! <= 0 {
+        if (SpacesFetchedResultsController.sections?.count)! <= 0 {
             noEntitiesLabel.isHidden = false
         } else {
             noEntitiesLabel.isHidden = true
@@ -212,23 +206,7 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         noEntitiesLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         noEntitiesLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
-        //        view.bringSubview(toFront: noEntitiesLabel)
-        
-        
     }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchController.searchBar.resignFirstResponder()
-    }
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchText: searchController.searchBar.text!)
-    }
-    
-    func filterContentForSearchText(searchText: String, scope: String = "All") {
-        // do some stuff
-    }
-    
     
 }
 

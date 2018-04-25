@@ -9,7 +9,7 @@
 import UIKit
 
 protocol TitleTableViewCellDelegate: class {
-    func deleteButtonPressed()
+    func deleteButtonPressed(_ sender: TitleTableViewCell)
 }
 
 class TitleTableViewCell: UITableViewCell {
@@ -34,17 +34,21 @@ class TitleTableViewCell: UITableViewCell {
         return label
     }()
     
-    let deleteButton: UIButton = {
+    var deleteButton: UIButton!
+    
+    func setupDeleteButton() {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "XIcon"), for: .normal)
         button.contentMode = UIViewContentMode.scaleAspectFill
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = secondaryColor
         button.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
-        return button
-    }()
+        self.deleteButton = button
+    }
     
     private func setupViews(){
+        
+        setupDeleteButton()
         
         self.addSubview(containerView)
         containerView.addSubview(nameLabel)
@@ -68,8 +72,7 @@ class TitleTableViewCell: UITableViewCell {
     }
     
     @objc func deleteButtonPressed(){
-        print("Delete pressed")
-        delegate?.deleteButtonPressed()
+        delegate?.deleteButtonPressed(self)
     }
     
     func update(withTitle title: String){

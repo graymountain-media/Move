@@ -11,6 +11,7 @@
 		A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887AF2090D13B0026F971 /* CoreDataStack.swift */; };
 		A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A11887B12090D1660026F971 /* MoveDataModel.xcdatamodeld */; };
 		A11887B52090DAF40026F971 /* SVCFetchedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887B42090DAF40026F971 /* SVCFetchedResults.swift */; };
+		A11887B72090EC760026F971 /* SVCSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887B62090EC760026F971 /* SVCSearchBar.swift */; };
 		A120412E208E56390093E782 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412D208E56390093E782 /* Constants.swift */; };
 		A1204130208E72680093E782 /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412F208E72680093E782 /* Space.swift */; };
 		A1204132208E72BA0093E782 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204131208E72BA0093E782 /* Room.swift */; };
@@ -32,6 +33,7 @@
 		A11887AF2090D13B0026F971 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel.xcdatamodel; sourceTree = "<group>"; };
 		A11887B42090DAF40026F971 /* SVCFetchedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVCFetchedResults.swift; sourceTree = "<group>"; };
+		A11887B62090EC760026F971 /* SVCSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVCSearchBar.swift; sourceTree = "<group>"; };
 		A120412D208E56390093E782 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A120412F208E72680093E782 /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
 		A1204131208E72BA0093E782 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				A1EFE631208BBE42000C6E21 /* SpacesViewController.swift */,
+				A11887B62090EC760026F971 /* SVCSearchBar.swift */,
 				A11887B42090DAF40026F971 /* SVCFetchedResults.swift */,
 				A1015E89208FD2C000D299B1 /* SVCTableViewDataSource.swift */,
 				A1FB05B9208FBCE300079A39 /* SVCMethods.swift */,
@@ -217,6 +220,7 @@
 				A120413B208E79460093E782 /* SpaceController.swift in Sources */,
 				A120413D208E79890093E782 /* RoomController.swift in Sources */,
 				A11887B52090DAF40026F971 /* SVCFetchedResults.swift in Sources */,
+				A11887B72090EC760026F971 /* SVCSearchBar.swift in Sources */,
 				A1FB05BA208FBCE300079A39 /* SVCMethods.swift in Sources */,
 				A1204142208E84FA0093E782 /* TitleTableViewCell.swift in Sources */,
 				A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */,
