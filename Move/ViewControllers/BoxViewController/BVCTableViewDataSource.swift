@@ -24,7 +24,7 @@ extension BoxViewController: UITableViewDelegate, UITableViewDataSource, TitleTa
             return UITableViewCell()}
         
         let box = BoxesFetchedResultsController.object(at: indexPath)
-        cell.update(withTitle: box.name, image: #imageLiteral(resourceName: "BoxIcon"))
+        cell.update(withTitle: box.name!, image: #imageLiteral(resourceName: "BoxIcon"))
         cell.delegate = self
         
         let bgView = UIView()
@@ -39,6 +39,13 @@ extension BoxViewController: UITableViewDelegate, UITableViewDataSource, TitleTa
         let box = BoxesFetchedResultsController.object(at: indexPath)
         RoomController.delete(box: box)
         mainTableView.deselectRow(at: indexPath, animated: true)
+        
+        if BoxesFetchedResultsController.sections!.count == 0 {
+            UIView.animate(withDuration: 0.3) {
+                self.noEntitiesLabel.isHidden = false
+                self.noEntitiesLabel.alpha = 1.0
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -46,6 +53,9 @@ extension BoxViewController: UITableViewDelegate, UITableViewDataSource, TitleTa
         destinationVC.box = BoxesFetchedResultsController.object(at: indexPath)
         navigationController?.pushViewController(destinationVC, animated: true)
         mainTableView.deselectRow(at: indexPath, animated: true)
+        nameTextField.resignFirstResponder()
     }
+    
+    
 }
 

@@ -24,7 +24,7 @@ extension SpacesViewController: UITableViewDelegate, UITableViewDataSource, Titl
             return UITableViewCell()}
         
         let room = SpacesFetchedResultsController.object(at: indexPath)
-        cell.update(withTitle: room.name, image: #imageLiteral(resourceName: "HomeIcon"))
+        cell.update(withTitle: room.name!, image: #imageLiteral(resourceName: "HomeIcon"))
         cell.delegate = self
         
         let bgView = UIView()
@@ -48,13 +48,21 @@ extension SpacesViewController: UITableViewDelegate, UITableViewDataSource, Titl
         guard let indexPath = mainTableView.indexPath(for: sender) else {return}
         let space = SpacesFetchedResultsController.object(at: indexPath)
         SpaceController.delete(space: space)
+        
+        if SpacesFetchedResultsController.sections!.count == 0 {
+            UIView.animate(withDuration: 0.3) {
+                self.noEntitiesLabel.isHidden = false
+                self.noEntitiesLabel.alpha = 1.0
+            }
+        }
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destinationVC = RoomViewController()
         destinationVC.space = SpacesFetchedResultsController.object(at: indexPath)
         navigationController?.pushViewController(destinationVC, animated: true)
         mainTableView.deselectRow(at: indexPath, animated: true)
+        nameTextField.resignFirstResponder()
     }
     
 }

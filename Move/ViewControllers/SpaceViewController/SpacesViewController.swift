@@ -199,7 +199,6 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         noEntitiesLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
     }
-    
 }
 
 

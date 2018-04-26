@@ -24,7 +24,7 @@ extension ItemViewController: UITableViewDelegate, UITableViewDataSource, TitleT
             return UITableViewCell()}
         
         let item = ItemsFetchedResultsController.object(at: indexPath)
-        cell.update(withTitle: item.name, image: #imageLiteral(resourceName: "ItemIcon"))
+        cell.update(withTitle: item.name!, image: #imageLiteral(resourceName: "ItemIcon"))
         cell.delegate = self
         
         let bgView = UIView()
@@ -39,5 +39,14 @@ extension ItemViewController: UITableViewDelegate, UITableViewDataSource, TitleT
         let item = ItemsFetchedResultsController.object(at: indexPath)
         BoxContoller.delete(item: item)
         mainTableView.deselectRow(at: indexPath, animated: true)
+        
+        if ItemsFetchedResultsController.sections!.count == 0 {
+            UIView.animate(withDuration: 0.3) {
+                self.noEntitiesLabel.isHidden = false
+                self.noEntitiesLabel.alpha = 1.0
+            }
+        }
     }
+    
+    
 }

@@ -79,6 +79,10 @@ extension BoxViewController{
         mainTableView.isHidden = false
     }
     
-    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        submitAdd()
+        nameTextField.resignFirstResponder()
+        return true
+    }
 }
 

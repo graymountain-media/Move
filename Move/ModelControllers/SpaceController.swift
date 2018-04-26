@@ -10,8 +10,6 @@ import Foundation
 
 class SpaceController {
     
-//    static let shared = SpaceController()
-//    var spaces: [Space] = []
     
     //create space
     static func createSpace(withName name: String){
@@ -27,6 +25,7 @@ class SpaceController {
     //delete space
     static func delete(space: Space){
         space.managedObjectContext?.delete(space)
+        
         
         saveData()
     }
