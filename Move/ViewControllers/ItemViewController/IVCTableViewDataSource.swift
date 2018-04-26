@@ -1,21 +1,21 @@
 //
-//  RVCTableViewDataSource.swift
+//  IVCTableViewDataSource.swift
 //  Move
 //
-//  Created by Jake Gray on 4/25/18.
+//  Created by Jake Gray on 4/26/18.
 //  Copyright © 2018 Jake Gray. All rights reserved.
 //
 
 import UIKit
 
-extension RoomViewController: UITableViewDelegate, UITableViewDataSource, TitleTableViewCellDelegate {
+extension ItemViewController: UITableViewDelegate, UITableViewDataSource, TitleTableViewCellDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return RoomsFetchedResultsController.sections?.count ?? 0
+        return ItemsFetchedResultsController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return RoomsFetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return ItemsFetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -23,8 +23,8 @@ extension RoomViewController: UITableViewDelegate, UITableViewDataSource, TitleT
             print("Cell failed")
             return UITableViewCell()}
         
-        let room = RoomsFetchedResultsController.object(at: indexPath)
-        cell.update(withTitle: room.name, image: #imageLiteral(resourceName: "RoomIcon"))
+        let item = ItemsFetchedResultsController.object(at: indexPath)
+        cell.update(withTitle: item.name, image: #imageLiteral(resourceName: "ItemIcon"))
         cell.delegate = self
         
         let bgView = UIView()
@@ -36,16 +36,8 @@ extension RoomViewController: UITableViewDelegate, UITableViewDataSource, TitleT
     
     func deleteButtonPressed(_ sender: TitleTableViewCell) {
         guard let indexPath = mainTableView.indexPath(for: sender) else {return}
-        let room = RoomsFetchedResultsController.object(at: indexPath)
-        SpaceController.delete(room: room)
+        let item = ItemsFetchedResultsController.object(at: indexPath)
+        BoxContoller.delete(item: item)
         mainTableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let destinationVC = BoxViewController()
-        destinationVC.room = RoomsFetchedResultsController.object(at: indexPath)
-        navigationController?.pushViewController(destinationVC, animated: true)
-        mainTableView.deselectRow(at: indexPath, animated: true)
-    }
-    
 }

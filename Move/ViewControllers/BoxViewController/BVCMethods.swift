@@ -1,21 +1,20 @@
 //
-//  MVCMethods.swift
+//  BVCMethods.swift
 //  Move
 //
-//  Created by Jake Gray on 4/24/18.
+//  Created by Jake Gray on 4/26/18.
 //  Copyright © 2018 Jake Gray. All rights reserved.
 //
 
 import UIKit
 
-extension MoveViewController{
+extension BoxViewController{
     @objc func handleKeyboardShowNotification(notification: NSNotification){
         if let userInfo = notification.userInfo {
             let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
             UIView.animate(withDuration: 0.5) {
                 self.inputStackViewBottomConstraint.constant = -keyboardFrame.height + 26
             }
-            
         }
     }
     
@@ -56,9 +55,9 @@ extension MoveViewController{
     }
     
     @objc func submitAdd(){
-        guard let name = nameTextField.text, !name.isEmpty else { return }
+        guard let name = nameTextField.text, !name.isEmpty, let room = self.room else { return }
         
-        SpaceController.createSpace(withName: name)
+        RoomController.createBox(withName: name, inRoom: room)
         nameTextField.text = ""
         
         UIView.animate(withDuration: 0.2, animations: {

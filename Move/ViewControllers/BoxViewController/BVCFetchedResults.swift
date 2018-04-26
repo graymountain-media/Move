@@ -1,15 +1,15 @@
 //
-//  MVCFetchedResults.swift
+//  BVCFetchedResults.swift
 //  Move
 //
-//  Created by Jake Gray on 4/25/18.
+//  Created by Jake Gray on 4/26/18.
 //  Copyright © 2018 Jake Gray. All rights reserved.
 //
 
 import Foundation
 import CoreData
 
-extension MoveViewController: NSFetchedResultsControllerDelegate{
+extension BoxViewController: NSFetchedResultsControllerDelegate{
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>){
         mainTableView.beginUpdates()
@@ -44,4 +44,5 @@ extension MoveViewController: NSFetchedResultsControllerDelegate{
         }
     }
 }
+
 

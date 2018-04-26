@@ -1,30 +1,23 @@
 //
-//  MoveViewController.swift
+//  BoxViewController.swift
 //  Move
 //
-//  Created by Jake Gray on 4/21/18.
+//  Created by Jake Gray on 4/26/18.
 //  Copyright © 2018 Jake Gray. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class MoveViewController: UIViewController, UITextFieldDelegate, UISearchBarDelegate{
+class BoxViewController: UIViewController, UITextFieldDelegate, UISearchBarDelegate{
     
-    required let testVariable = ""
+    var room: Room?
     
-    let SpacesFetchedResultsController: NSFetchedResultsController<Space> = {
-        let request: NSFetchRequest<Space> = Space.fetchRequest()
-        
-         let nameSort = NSSortDescriptor(key: "name", ascending: true)
-         request.sortDescriptors = [nameSort]
-        
-        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
-    }()
+    var BoxesFetchedResultsController: NSFetchedResultsController<Box> = NSFetchedResultsController()
     
     // MARK: - Properties
     
-    let cellIdentifier = "SpaceCell"
+    let cellIdentifier = "boxCell"
     var inputStackViewBottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
     
     // Body
@@ -40,7 +33,7 @@ class MoveViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     
     let noEntitiesLabel: UILabel = {
         let label = UILabel()
-        label.text = "You do not have any spaces or homes set up."
+        label.text = "You do not have boxes set up in this room."
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.isHidden = true
         label.textAlignment = .center
@@ -53,7 +46,7 @@ class MoveViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     
     let addButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Add New Space or Home", for: .normal)
+        button.setTitle("Add New Box", for: .normal)
         button.setTitleColor(mainColor, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(activateAddView), for: .touchUpInside)
@@ -84,16 +77,6 @@ class MoveViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
         return textField
     }()
     
-    let searchBar : UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "Search for item or box name..."
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.barTintColor = mainColor
-        searchBar.layer.borderWidth = 0
-        searchBar.backgroundImage = UIImage()
-        return searchBar
-    }()
-    
     let searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.barTintColor = mainColor
@@ -115,7 +98,7 @@ class MoveViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     var rightButton: UIBarButtonItem = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "moreOptions"), for: .normal)
-        button.frame = CGRect(x: 0, y: 0, width: 8, height: 30)
+        button.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         button.contentMode = .scaleAspectFill
         let navButton = UIBarButtonItem(customView: button)
         navButton.tintColor = mainColor
@@ -128,12 +111,17 @@ class MoveViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        self.title = "Spaces"
+        
+        if let room = room {
+            self.title = room.name
+        }
         view.backgroundColor = mainColor
         self.navigationItem.rightBarButtonItem = rightButton
         
-        SpacesFetchedResultsController.delegate = self
-        try? SpacesFetchedResultsController.performFetch()
+        setupFetchedResultsController()
+        
+        BoxesFetchedResultsController.delegate = self
+        try? BoxesFetchedResultsController.performFetch()
         
         mainTableView.register(TitleTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         mainTableView.delegate = self
@@ -141,7 +129,6 @@ class MoveViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
         
         nameTextField.delegate = self
         
-        searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation =  true
         definesPresentationContext = true
         
@@ -151,13 +138,32 @@ class MoveViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
         view.addSubview(noEntitiesLabel)
         
         view.addSubview(addView)
-        view.addSubview(searchBar)
         
         setupAddView()
         setupBody()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardShowNotification), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardHideNotification), name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    func setupFetchedResultsController(){
+        
+        
+        let request: NSFetchRequest<Box> = Box.fetchRequest()
+        
+        var predicate = NSPredicate()
+        
+        if let room = self.room {
+            predicate = NSPredicate(format: "room == %@", room)
+        }
+        
+        request.predicate = predicate
+        
+        let nameSort = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [nameSort]
+        
+        BoxesFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
+        
     }
     
     func setupAddView(){
@@ -195,7 +201,7 @@ class MoveViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     }
     
     func setupBody(){
-        if (SpacesFetchedResultsController.sections?.count)! <= 0 {
+        if (BoxesFetchedResultsController.sections?.count)! <= 0 {
             noEntitiesLabel.isHidden = false
         } else {
             noEntitiesLabel.isHidden = true
@@ -214,6 +220,3 @@ class MoveViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     }
     
 }
-
-
-

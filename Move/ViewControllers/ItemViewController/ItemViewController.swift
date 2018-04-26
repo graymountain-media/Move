@@ -1,23 +1,23 @@
 //
-//  RoomViewController.swift
+//  ItemViewController.swift
 //  Move
 //
-//  Created by Jake Gray on 4/25/18.
+//  Created by Jake Gray on 4/26/18.
 //  Copyright © 2018 Jake Gray. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class RoomViewController: UIViewController, UITextFieldDelegate, UISearchBarDelegate{
+class ItemViewController: UIViewController, UITextFieldDelegate, UISearchBarDelegate{
     
-    var space: Space?
+    var box: Box?
     
-    var RoomsFetchedResultsController: NSFetchedResultsController<Room> = NSFetchedResultsController()
-
+    var ItemsFetchedResultsController: NSFetchedResultsController<Item> = NSFetchedResultsController()
+    
     // MARK: - Properties
     
-    let cellIdentifier = "RoomCell"
+    let cellIdentifier = "itemCell"
     var inputStackViewBottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
     
     // Body
@@ -33,7 +33,7 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     
     let noEntitiesLabel: UILabel = {
         let label = UILabel()
-        label.text = "You do not have rooms set up."
+        label.text = "You have not added any items to this box."
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.isHidden = true
         label.textAlignment = .center
@@ -46,7 +46,7 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     
     let addButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Add New Room", for: .normal)
+        button.setTitle("Add New Item", for: .normal)
         button.setTitleColor(mainColor, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(activateAddView), for: .touchUpInside)
@@ -109,23 +109,24 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
-       
+        
         super.viewDidLoad()
         
-        if let space = space {
-            self.title = space.name
+        if let box = box {
+            self.title = box.name
         }
         view.backgroundColor = mainColor
         self.navigationItem.rightBarButtonItem = rightButton
         
         setupFetchedResultsController()
         
-        RoomsFetchedResultsController.delegate = self
-        try? RoomsFetchedResultsController.performFetch()
+        ItemsFetchedResultsController.delegate = self
+        try? ItemsFetchedResultsController.performFetch()
         
         mainTableView.register(TitleTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         mainTableView.delegate = self
         mainTableView.dataSource = self
+        mainTableView.allowsSelection = false
         
         nameTextField.delegate = self
         
@@ -149,21 +150,21 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     func setupFetchedResultsController(){
         
         
-            let request: NSFetchRequest<Room> = Room.fetchRequest()
-            
-            var predicate = NSPredicate()
-            
-            if let space = self.space {
-                predicate = NSPredicate(format: "space == %@", space)
-            }
-            // In the predicate, you need to check to see if the room's space is the same as the one above
-            request.predicate = predicate
-            
-            let nameSort = NSSortDescriptor(key: "name", ascending: true)
-            request.sortDescriptors = [nameSort]
-            
-            RoomsFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
-       
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        
+        var predicate = NSPredicate()
+        
+        if let box = self.box {
+            predicate = NSPredicate(format: "box == %@", box)
+        }
+        
+        request.predicate = predicate
+        
+        let nameSort = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [nameSort]
+        
+        ItemsFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
+        
     }
     
     func setupAddView(){
@@ -201,7 +202,7 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     }
     
     func setupBody(){
-        if (RoomsFetchedResultsController.sections?.count)! <= 0 {
+        if (ItemsFetchedResultsController.sections?.count)! <= 0 {
             noEntitiesLabel.isHidden = false
         } else {
             noEntitiesLabel.isHidden = true
@@ -220,3 +221,4 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UISearchBarDele
     }
     
 }
+

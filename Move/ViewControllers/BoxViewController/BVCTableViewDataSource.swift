@@ -1,21 +1,21 @@
 //
-//  MVCTableViewDataSource.swift
+//  BVCTableViewDataSource.swift
 //  Move
 //
-//  Created by Jake Gray on 4/24/18.
+//  Created by Jake Gray on 4/26/18.
 //  Copyright © 2018 Jake Gray. All rights reserved.
 //
 
 import UIKit
 
-extension MoveViewController: UITableViewDelegate, UITableViewDataSource, TitleTableViewCellDelegate {
+extension BoxViewController: UITableViewDelegate, UITableViewDataSource, TitleTableViewCellDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return SpacesFetchedResultsController.sections?.count ?? 0
+        return BoxesFetchedResultsController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return SpacesFetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return BoxesFetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -23,8 +23,8 @@ extension MoveViewController: UITableViewDelegate, UITableViewDataSource, TitleT
             print("Cell failed")
             return UITableViewCell()}
         
-        let room = SpacesFetchedResultsController.object(at: indexPath)
-        cell.update(withTitle: room.name!)
+        let box = BoxesFetchedResultsController.object(at: indexPath)
+        cell.update(withTitle: box.name, image: #imageLiteral(resourceName: "BoxIcon"))
         cell.delegate = self
         
         let bgView = UIView()
@@ -34,27 +34,18 @@ extension MoveViewController: UITableViewDelegate, UITableViewDataSource, TitleT
         return cell
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        
-        super.setEditing(editing, animated: animated)
-        self.mainTableView.setEditing(editing, animated: true)
-        
-    }
-    
     func deleteButtonPressed(_ sender: TitleTableViewCell) {
         guard let indexPath = mainTableView.indexPath(for: sender) else {return}
-        let space = SpacesFetchedResultsController.object(at: indexPath)
-        SpaceController.delete(space: space)
-    }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let destinationVC = RoomViewController()
-        destinationVC.space = SpacesFetchedResultsController.object(at: indexPath)
-        navigationController?.pushViewController(destinationVC, animated: true)
+        let box = BoxesFetchedResultsController.object(at: indexPath)
+        RoomController.delete(box: box)
         mainTableView.deselectRow(at: indexPath, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let destinationVC = ItemViewController()
+        destinationVC.box = BoxesFetchedResultsController.object(at: indexPath)
+        navigationController?.pushViewController(destinationVC, animated: true)
+        mainTableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 

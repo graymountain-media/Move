@@ -82,16 +82,6 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         return textField
     }()
     
-    let searchBar : UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "Search for item or box name..."
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.barTintColor = mainColor
-        searchBar.layer.borderWidth = 0
-        searchBar.backgroundImage = UIImage()
-        return searchBar
-    }()
-    
     let searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.barTintColor = mainColor
@@ -149,7 +139,6 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         view.addSubview(noEntitiesLabel)
         
         view.addSubview(addView)
-        view.addSubview(searchBar)
         
         setupAddView()
         setupBody()

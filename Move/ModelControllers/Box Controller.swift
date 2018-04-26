@@ -11,12 +11,29 @@ import Foundation
 class BoxContoller {
     
     //Edit Box
+    static func update(box: Box, withName newName: String){
+        box.name = newName
+    }
     
-    //Create Item
+    //create Box
+    static func createItem(withName name: String, inBox box: Box ){
+        let _ = Item(name: name, box: box)
+        saveData()
+    }
     
-    //Edit Item
+    //delete Box
+    static func delete(item: Item){
+        item.managedObjectContext?.delete(item)
+        
+        saveData()
+    }
     
-    //Delete Item
-    
+    private static func saveData(){
+        do {
+            try CoreDataStack.context.save()
+        } catch {
+            print("Error saving: \(error.localizedDescription)")
+        }
+    }
     
 }
