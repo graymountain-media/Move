@@ -23,8 +23,8 @@ extension SpacesViewController: UITableViewDelegate, UITableViewDataSource, Titl
             print("Cell failed")
             return UITableViewCell()}
         
-        let room = SpacesFetchedResultsController.object(at: indexPath)
-        cell.update(withTitle: room.name!, image: #imageLiteral(resourceName: "HomeIcon"))
+        let space = SpacesFetchedResultsController.object(at: indexPath)
+        cell.update(withTitle: space.name!, image: #imageLiteral(resourceName: "HomeIcon"))
         cell.delegate = self
         
         let bgView = UIView()

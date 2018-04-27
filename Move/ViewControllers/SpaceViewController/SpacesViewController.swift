@@ -91,8 +91,8 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         searchController.searchBar.layer.borderWidth = 0
         searchController.searchBar.isTranslucent = false
         searchController.searchBar.placeholder = "Search Boxes/Items"
-        searchController.dimsBackgroundDuringPresentation =  false
-        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.dimsBackgroundDuringPresentation =  true
+        
         return searchController
     }()
     
@@ -135,6 +135,7 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         
         searchController.searchResultsUpdater = searchController.searchResultsController as? UISearchResultsUpdating
         definesPresentationContext = true
+        
         
         mainTableView.tableHeaderView = searchController.searchBar
         

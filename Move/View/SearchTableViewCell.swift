@@ -1,20 +1,14 @@
 //
-//  TitleTableViewCell.swift
+//  SearchTableViewCell.swift
 //  Move
 //
-//  Created by Jake Gray on 4/23/18.
+//  Created by Jake Gray on 4/27/18.
 //  Copyright © 2018 Jake Gray. All rights reserved.
 //
 
 import UIKit
 
-@objc protocol TitleTableViewCellDelegate: class {
-    func deleteButtonPressed(_ sender: TitleTableViewCell)
-}
-
-class TitleTableViewCell: UITableViewCell {
-    
-    weak var delegate: TitleTableViewCellDelegate?
+class SearchTableViewCell: UITableViewCell {
     
     let containerView: UIView = {
         let view = UIView()
@@ -41,26 +35,11 @@ class TitleTableViewCell: UITableViewCell {
         return label
     }()
     
-    var deleteButton: UIButton!
-    
-    func setupDeleteButton() {
-        let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "XIcon"), for: .normal)
-        button.contentMode = UIViewContentMode.scaleAspectFill
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = .white
-        button.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
-        self.deleteButton = button
-    }
-    
     private func setupViews(){
-        
-        setupDeleteButton()
         
         self.addSubview(containerView)
         containerView.addSubview(iconImageView)
         containerView.addSubview(nameLabel)
-        containerView.addSubview(deleteButton)
         
         iconImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
         iconImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
@@ -74,18 +53,8 @@ class TitleTableViewCell: UITableViewCell {
         
         nameLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 8).isActive = true
-        nameLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -8).isActive = true
-
+        nameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8).isActive = true
         
-        deleteButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-        deleteButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8).isActive = true
-        deleteButton.widthAnchor.constraint(equalToConstant: 38).isActive = true
-        deleteButton.heightAnchor.constraint(equalToConstant: 38).isActive = true
-
-    }
-    
-    @objc func deleteButtonPressed(){
-        delegate?.deleteButtonPressed(self)
     }
     
     func update(withTitle title: String, image: UIImage){
@@ -93,6 +62,5 @@ class TitleTableViewCell: UITableViewCell {
         nameLabel.text = title
         iconImageView.image = image
     }
-    
-
+   
 }
