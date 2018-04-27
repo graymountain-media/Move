@@ -39,7 +39,7 @@ extension SpacesViewController{
     @objc func activateAddView() {
         self.nameTextField.becomeFirstResponder()
         UIView.animate(withDuration: 0.3, animations: {
-            self.addView.frame.size.height += 52;
+            self.addView.frame.size.height += 36;
             self.addButton.alpha = 0.0
             self.nameTextField.isHidden = false
             self.submitButton.isHidden = false
@@ -68,7 +68,7 @@ extension SpacesViewController{
         }) { (complete) in
             if complete {
                 UIView.animate(withDuration: 0.5, animations: {
-                    self.addView.frame.size.height -= 52;
+                    self.addView.frame.size.height -= 36;
                     self.addButton.alpha = 1.0
                     self.nameTextField.isHidden = true
                     self.submitButton.isHidden = true

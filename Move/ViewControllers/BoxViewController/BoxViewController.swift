@@ -78,12 +78,15 @@ class BoxViewController: UIViewController, UITextFieldDelegate, UISearchBarDeleg
     }()
     
     let searchController: UISearchController = {
-        let searchController = UISearchController(searchResultsController: nil)
+        let resultsController = SearchTableViewController()
+        let searchController = UISearchController(searchResultsController: resultsController)
         searchController.searchBar.barTintColor = mainColor
         searchController.searchBar.tintColor = .white
         searchController.searchBar.layer.borderWidth = 0
         searchController.searchBar.isTranslucent = false
         searchController.searchBar.placeholder = "Search Boxes/Items"
+        searchController.dimsBackgroundDuringPresentation =  false
+        searchController.obscuresBackgroundDuringPresentation = true
         return searchController
     }()
     
@@ -129,7 +132,7 @@ class BoxViewController: UIViewController, UITextFieldDelegate, UISearchBarDeleg
         
         nameTextField.delegate = self
         
-        searchController.dimsBackgroundDuringPresentation =  true
+        searchController.searchResultsUpdater = searchController.searchResultsController as? UISearchResultsUpdating
         definesPresentationContext = true
         
         mainTableView.tableHeaderView = searchController.searchBar
@@ -168,7 +171,7 @@ class BoxViewController: UIViewController, UITextFieldDelegate, UISearchBarDeleg
     
     func setupAddView(){
         addView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        addView.frame.size.height = 44;
+        addView.frame.size.height = 60;
         addView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         addView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         

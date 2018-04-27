@@ -20,7 +20,6 @@
 		A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887AF2090D13B0026F971 /* CoreDataStack.swift */; };
 		A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A11887B12090D1660026F971 /* MoveDataModel.xcdatamodeld */; };
 		A11887B52090DAF40026F971 /* SVCFetchedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887B42090DAF40026F971 /* SVCFetchedResults.swift */; };
-		A11887B72090EC760026F971 /* SVCSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887B62090EC760026F971 /* SVCSearchBar.swift */; };
 		A11887BA2090F0D30026F971 /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887B92090F0D30026F971 /* RoomViewController.swift */; };
 		A11887BE2090F2CD0026F971 /* RVCFetchedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887BD2090F2CD0026F971 /* RVCFetchedResults.swift */; };
 		A11887C02090F2F30026F971 /* RVCTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887BF2090F2F30026F971 /* RVCTableViewDataSource.swift */; };
@@ -34,6 +33,7 @@
 		A120413D208E79890093E782 /* RoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413C208E79890093E782 /* RoomController.swift */; };
 		A120413F208E79BE0093E782 /* Box Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413E208E79BE0093E782 /* Box Controller.swift */; };
 		A1204142208E84FA0093E782 /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204141208E84FA0093E782 /* TitleTableViewCell.swift */; };
+		A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */; };
 		A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */; };
 		A1EFE632208BBE42000C6E21 /* SpacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EFE631208BBE42000C6E21 /* SpacesViewController.swift */; };
 		A1EFE637208BBE43000C6E21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EFE636208BBE43000C6E21 /* Assets.xcassets */; };
@@ -55,7 +55,6 @@
 		A11887AF2090D13B0026F971 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel.xcdatamodel; sourceTree = "<group>"; };
 		A11887B42090DAF40026F971 /* SVCFetchedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVCFetchedResults.swift; sourceTree = "<group>"; };
-		A11887B62090EC760026F971 /* SVCSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVCSearchBar.swift; sourceTree = "<group>"; };
 		A11887B92090F0D30026F971 /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 		A11887BD2090F2CD0026F971 /* RVCFetchedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVCFetchedResults.swift; sourceTree = "<group>"; };
 		A11887BF2090F2F30026F971 /* RVCTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVCTableViewDataSource.swift; sourceTree = "<group>"; };
@@ -69,6 +68,7 @@
 		A120413C208E79890093E782 /* RoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomController.swift; sourceTree = "<group>"; };
 		A120413E208E79BE0093E782 /* Box Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Box Controller.swift"; sourceTree = "<group>"; };
 		A1204141208E84FA0093E782 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
+		A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		A1EFE62C208BBE42000C6E21 /* Move.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Move.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1EFE631208BBE42000C6E21 /* SpacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesViewController.swift; sourceTree = "<group>"; };
@@ -124,7 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				A1EFE631208BBE42000C6E21 /* SpacesViewController.swift */,
-				A11887B62090EC760026F971 /* SVCSearchBar.swift */,
 				A11887B42090DAF40026F971 /* SVCFetchedResults.swift */,
 				A1015E89208FD2C000D299B1 /* SVCTableViewDataSource.swift */,
 				A1FB05B9208FBCE300079A39 /* SVCMethods.swift */,
@@ -162,6 +161,7 @@
 				A11887C320910E580026F971 /* RoomViewController */,
 				A10A9EA120923E1600EED622 /* BoxViewController */,
 				A10A9EAA20924E2800EED622 /* ItemViewController */,
+				A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -302,7 +302,6 @@
 				A120413D208E79890093E782 /* RoomController.swift in Sources */,
 				A11887B52090DAF40026F971 /* SVCFetchedResults.swift in Sources */,
 				A10A9E9620922DB100EED622 /* Namable.swift in Sources */,
-				A11887B72090EC760026F971 /* SVCSearchBar.swift in Sources */,
 				A10A9E9C20923CFD00EED622 /* BVCFetchedResults.swift in Sources */,
 				A1FB05BA208FBCE300079A39 /* SVCMethods.swift in Sources */,
 				A11887BE2090F2CD0026F971 /* RVCFetchedResults.swift in Sources */,
@@ -325,6 +324,7 @@
 				A120412E208E56390093E782 /* Constants.swift in Sources */,
 				A1204132208E72BA0093E782 /* Room.swift in Sources */,
 				A10A9EA320924B4800EED622 /* ItemViewController.swift in Sources */,
+				A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
