@@ -105,15 +105,22 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
     
     
     var rightButton: UIBarButtonItem = {
-        let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "moreOptions"), for: .normal)
-        button.frame = CGRect(x: 0, y: 0, width: 8, height: 30)
-        button.contentMode = .scaleAspectFill
-        let navButton = UIBarButtonItem(customView: button)
+        let navButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEntity))
         navButton.tintColor = mainColor
         return navButton
     }()
     
+    let circleAddButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "AddButton"), for: .normal)
+        button.tintColor = mainColor
+//        button.layer.borderWidth = 1.5
+//        button.layer.borderColor = secondaryColor.cgColor
+//        button.layer.cornerRadius = 35
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        return button
+    }()
     
     // MARK: - Life Cycle
     
@@ -142,6 +149,7 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         view.addSubview(mainTableView)
         view.addSubview(noEntitiesLabel)
         view.addSubview(addView)
+//        view.addSubview(circleAddButton)
         setupAddView()
         setupBody()
         
@@ -149,38 +157,42 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardHideNotification), name: .UIKeyboardWillHide, object: nil)
     }
     
+    @objc func addEntity(){
+        
+    }
+    
     func setupAddView(){
         addView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         addView.frame.size.height = 60;
         addView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         addView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        
+
         addView.addSubview(addButton)
-        
+
         addButton.bottomAnchor.constraint(equalTo: addView.bottomAnchor).isActive = true
         addButton.topAnchor.constraint(equalTo: addView.topAnchor).isActive = true
         addButton.leadingAnchor.constraint(equalTo: addView.leadingAnchor).isActive = true
         addButton.trailingAnchor.constraint(equalTo: addView.trailingAnchor).isActive = true
-        
+
         let inputStackView = UIStackView(arrangedSubviews: [nameTextField, submitButton])
         inputStackView.distribution = .fillEqually
         inputStackView.axis = .vertical
         inputStackView.spacing = 4
         inputStackView.backgroundColor = mainColor
         inputStackView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         addView.addSubview(inputStackView)
-        
+
         nameTextField.frame.size.height = 40
-        
+
         inputStackView.topAnchor.constraint(equalTo: addView.topAnchor, constant: 8).isActive = true
         inputStackViewBottomConstraint = inputStackView.bottomAnchor.constraint(equalTo: addView.bottomAnchor, constant: -8)
         inputStackViewBottomConstraint.isActive = true
         inputStackView.leadingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: 16).isActive = true
         inputStackView.trailingAnchor.constraint(equalTo: addButton.trailingAnchor, constant: -16).isActive = true
-        
+
         addView.bringSubview(toFront: addButton)
-        
+
     }
     
     func setupBody(){
@@ -191,7 +203,7 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         }
         
         mainTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        mainTableView.bottomAnchor.constraint(equalTo: addView.topAnchor).isActive = true
+        mainTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         mainTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         mainTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
@@ -200,6 +212,11 @@ class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDe
         noEntitiesLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         noEntitiesLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
+//        circleAddButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        circleAddButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4).isActive = true
+//        circleAddButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+//        circleAddButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
+
     }
 }
 

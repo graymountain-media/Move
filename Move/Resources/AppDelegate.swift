@@ -17,11 +17,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        let homeViewController = SpacesViewController()
+        let homeViewController = MainViewController()
         let navigationController = UINavigationController(rootViewController: homeViewController)
 
         navigationController.navigationBar.isTranslucent = false
-        window?.tintColor = mainColor
+        navigationController.navigationBar.barTintColor = mainColor
+        navigationController.navigationBar.tintColor = .white
+        navigationController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
         
         navigationController.navigationBar.backgroundColor = .white
         
