@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A11296AE20A0A4FB00F9737F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11296AD20A0A4FB00F9737F /* Extensions.swift */; };
+		A11488C920A0EC6000F60B92 /* RoomDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488C820A0EC6000F60B92 /* RoomDetailViewController.swift */; };
+		A11488CE20A0F14700F60B92 /* RenamePlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488CD20A0F14700F60B92 /* RenamePlaceViewController.swift */; };
+		A11488D020A1043E00F60B92 /* BoxesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488CF20A1043E00F60B92 /* BoxesViewController.swift */; };
 		A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887AF2090D13B0026F971 /* CoreDataStack.swift */; };
 		A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A11887B12090D1660026F971 /* MoveDataModel.xcdatamodeld */; };
 		A120412E208E56390093E782 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412D208E56390093E782 /* Constants.swift */; };
@@ -21,7 +24,7 @@
 		A1204142208E84FA0093E782 /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204141208E84FA0093E782 /* TitleTableViewCell.swift */; };
 		A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF722097D5C6005C2388 /* MainViewController.swift */; };
 		A145AF7520983B0E005C2388 /* PackedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */; };
-		A145AF7920990ECA005C2388 /* PlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7820990ECA005C2388 /* PlaceDetailViewController.swift */; };
+		A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */; };
 		A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */; };
 		A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */; };
 		A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */; };
@@ -33,6 +36,9 @@
 
 /* Begin PBXFileReference section */
 		A11296AD20A0A4FB00F9737F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		A11488C820A0EC6000F60B92 /* RoomDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDetailViewController.swift; sourceTree = "<group>"; };
+		A11488CD20A0F14700F60B92 /* RenamePlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenamePlaceViewController.swift; sourceTree = "<group>"; };
+		A11488CF20A1043E00F60B92 /* BoxesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxesViewController.swift; sourceTree = "<group>"; };
 		A11887AF2090D13B0026F971 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel.xcdatamodel; sourceTree = "<group>"; };
 		A120412D208E56390093E782 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -46,7 +52,7 @@
 		A1204141208E84FA0093E782 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
 		A145AF722097D5C6005C2388 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedTableViewCell.swift; sourceTree = "<group>"; };
-		A145AF7820990ECA005C2388 /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewController.swift; sourceTree = "<group>"; };
+		A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceViewController.swift; sourceTree = "<group>"; };
 		A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +84,25 @@
 			path = "Core Data";
 			sourceTree = "<group>";
 		};
+		A11488C720A0EC3300F60B92 /* Places */ = {
+			isa = PBXGroup;
+			children = (
+				A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */,
+				A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */,
+				A11488CD20A0F14700F60B92 /* RenamePlaceViewController.swift */,
+			);
+			path = Places;
+			sourceTree = "<group>";
+		};
+		A11488CA20A0EEA800F60B92 /* Rooms */ = {
+			isa = PBXGroup;
+			children = (
+				A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */,
+				A11488C820A0EC6000F60B92 /* RoomDetailViewController.swift */,
+			);
+			path = Rooms;
+			sourceTree = "<group>";
+		};
 		A120412B208E532B0093E782 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,10 +120,10 @@
 			isa = PBXGroup;
 			children = (
 				A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */,
-				A145AF7820990ECA005C2388 /* PlaceDetailViewController.swift */,
+				A11488C720A0EC3300F60B92 /* Places */,
+				A11488CA20A0EEA800F60B92 /* Rooms */,
 				A145AF722097D5C6005C2388 /* MainViewController.swift */,
-				A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */,
-				A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */,
+				A11488CF20A1043E00F60B92 /* BoxesViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -240,16 +265,19 @@
 				A1204142208E84FA0093E782 /* TitleTableViewCell.swift in Sources */,
 				A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */,
 				A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */,
+				A11488D020A1043E00F60B92 /* BoxesViewController.swift in Sources */,
 				A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */,
 				A1AA1ABD20A0E9D600E53C51 /* RoomViewController.swift in Sources */,
+				A11488C920A0EC6000F60B92 /* RoomDetailViewController.swift in Sources */,
 				A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */,
 				A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */,
 				A11296AE20A0A4FB00F9737F /* Extensions.swift in Sources */,
 				A1204130208E72680093E782 /* Place.swift in Sources */,
 				A1204134208E72D80093E782 /* Box.swift in Sources */,
 				A1204136208E72DE0093E782 /* Item.swift in Sources */,
-				A145AF7920990ECA005C2388 /* PlaceDetailViewController.swift in Sources */,
+				A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */,
 				A120412E208E56390093E782 /* Constants.swift in Sources */,
+				A11488CE20A0F14700F60B92 /* RenamePlaceViewController.swift in Sources */,
 				A1204132208E72BA0093E782 /* Room.swift in Sources */,
 				A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */,
 				A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */,
@@ -390,7 +418,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6K47ASRSPN;
-				INFOPLIST_FILE = "$(SRCROOT)/Move/Resources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Packed/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -398,7 +426,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Skybridge.Packed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -408,7 +436,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6K47ASRSPN;
-				INFOPLIST_FILE = "$(SRCROOT)/Move/Resources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Packed/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -416,7 +444,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Skybridge.Packed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -18,7 +18,7 @@ class PlaceController {
         saveData()
         
         if !isHome{
-            PlaceController.createRoom(withName: "Base Room", inPlace: newPlace)
+            PlaceController.createRoom(withName: newPlace.name!, inPlace: newPlace)
         }
     }
     

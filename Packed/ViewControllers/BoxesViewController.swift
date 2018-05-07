@@ -1,5 +1,5 @@
 //
-//  RoomViewController.swift
+//  BoxesViewController.swift
 //  Move
 //
 //  Created by Jake Gray on 5/7/18.
@@ -9,61 +9,79 @@
 import UIKit
 import CoreData
 
-class RoomViewController: MainViewController {
+class BoxViewController: MainViewController {
     
-    var place: Place?
+    var room: Room?
     
-    let RoomsFetchedResultsController: NSFetchedResultsController<Room> = {
-        let request: NSFetchRequest<Room> = Room.fetchRequest()
-        
-        let nameSort = NSSortDescriptor(key: "name", ascending: true)
-        request.sortDescriptors = [nameSort]
-        
-        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
-    }()
+    var BoxsFetchedResultsController: NSFetchedResultsController<Box> = NSFetchedResultsController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Rooms"
-        RoomsFetchedResultsController.delegate = self
+        self.title = "Boxs"
+        noDataLabel.text = "You don't have any Boxs yet."
+        instructionLabel.text = "Tap '+' to add a new Box."
         
-        try? RoomsFetchedResultsController.performFetch()
+        setupFetchedResultsController()
+        BoxsFetchedResultsController.delegate = self
+        
+        try? BoxsFetchedResultsController.performFetch()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //        try? RoomsFetchedResultsController.performFetch()
-        
-        if RoomsFetchedResultsController.fetchedObjects?.count != nil && (RoomsFetchedResultsController.fetchedObjects?.count)! > 0 {
+        if BoxsFetchedResultsController.fetchedObjects?.count != nil && (BoxsFetchedResultsController.fetchedObjects?.count)! > 0 {
             noDataLabel.isHidden = true
             instructionLabel.isHidden = true
         }
     }
     
+    private func setupFetchedResultsController(){
+        
+        
+        let request: NSFetchRequest<Box> = Box.fetchRequest()
+        
+        var predicate = NSPredicate()
+        
+        if let room = self.room {
+            predicate = NSPredicate(format: "room == %@", room)
+        }
+        request.predicate = predicate
+        
+        let nameSort = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [nameSort]
+        
+        BoxsFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
+        
+    }
+    
     @objc override func addButtonPressed() {
         super.addButtonPressed()
+        guard let room = room else {return}
         
-//        let newRoomViewController = RoomDetailViewController()
-//        navigationController?.pushViewController(newRoomViewController, animated: true)
+//        let boxDetailViewController = BoxDetailViewController()
+//        boxDetailViewController.room = room
+//
+//        navigationController?.pushViewController(boxDetailViewController, animated: true)
     }
     
     // MARK: - Cell Delegate
     
     override func cellOptionsButtonPressed(sender: UITableViewCell) {
         let indexPath = mainTableView.indexPath(for: sender)
-        let room = RoomsFetchedResultsController.object(at: indexPath!)
-        print("options pressed for \(room.name!)")
-        let actionSheet = UIAlertController(title: room.name, message: nil, preferredStyle: .actionSheet)
-        let updateAction = UIAlertAction(title: "Edit this Room", style: .default) { (_) in
-//            let roomDetailViewController = RoomDetailViewController()
-//            roomDetailViewController.room = room
-//            self.navigationController?.pushViewController(roomDetailViewController, animated: true)
+        let box = BoxsFetchedResultsController.object(at: indexPath!)
+        print("options pressed for \(box.name!)")
+        let actionSheet = UIAlertController(title: box.name, message: nil, preferredStyle: .actionSheet)
+        let updateAction = UIAlertAction(title: "Edit this Box", style: .default) { (_) in
+//            let boxDetailViewController = BoxDetailViewController()
+//            boxDetailViewController.box = box
+//            
+//            self.navigationController?.pushViewController(boxDetailViewController, animated: true)
         }
         actionSheet.addAction(updateAction)
-        let deleteAction = UIAlertAction(title: "Delete \(room.name!)", style: .destructive) { (_) in
-            PlaceController.delete(room: room)
+        let deleteAction = UIAlertAction(title: "Delete \(box.name!)", style: .destructive) { (_) in
+            RoomController.delete(box: box)
             
         }
         actionSheet.addAction(deleteAction)
@@ -77,25 +95,25 @@ class RoomViewController: MainViewController {
     // MARK: - TableView Data
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return RoomsFetchedResultsController.sections?.count ?? 0
+        return BoxsFetchedResultsController.sections?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return RoomsFetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return BoxsFetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
         
-        let room = RoomsFetchedResultsController.object(at: indexPath)
-        cell.setupCell(name: room.name!, image: #imageLiteral(resourceName: "RoomIcon"))
+        let box = BoxsFetchedResultsController.object(at: indexPath)
+        cell.setupCell(name: box.name!, image: #imageLiteral(resourceName: "BoxIcon"))
         cell.delegate = self
         
         return cell
     }
 }
 
-extension RoomViewController: NSFetchedResultsControllerDelegate{
+extension BoxViewController: NSFetchedResultsControllerDelegate{
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>){
         mainTableView.beginUpdates()

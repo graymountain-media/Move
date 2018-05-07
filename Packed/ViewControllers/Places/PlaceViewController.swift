@@ -25,6 +25,9 @@ class PlaceViewController: MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        noDataLabel.text = "You don't have any Places yet."
+        instructionLabel.text = "Tap '+' to add a new Place."
+        
         self.title = "Places"
         PlacesFetchedResultsController.delegate = self
 
@@ -46,7 +49,7 @@ class PlaceViewController: MainViewController {
         super.addButtonPressed()
         
         print("Add button pressed")
-        let newPlaceViewController = PlaceDetailViewController()
+        let newPlaceViewController = NewPlaceViewController()
         navigationController?.pushViewController(newPlaceViewController, animated: true)
     }
     
@@ -57,10 +60,10 @@ class PlaceViewController: MainViewController {
         let place = PlacesFetchedResultsController.object(at: indexPath!)
         print("options pressed for \(place.name!)")
         let actionSheet = UIAlertController(title: place.name, message: nil, preferredStyle: .actionSheet)
-        let updateAction = UIAlertAction(title: "Edit this Place", style: .default) { (_) in
-            let placeDetailViewController = PlaceDetailViewController()
-            placeDetailViewController.place = place
-            self.navigationController?.pushViewController(placeDetailViewController, animated: true)
+        let updateAction = UIAlertAction(title: "Rename this Place", style: .default) { (_) in
+            let renamePlaceViewController = RenamePlaceViewController()
+            renamePlaceViewController.place = place
+            self.navigationController?.pushViewController(renamePlaceViewController, animated: true)
         }
         actionSheet.addAction(updateAction)
         let deleteAction = UIAlertAction(title: "Delete \(place.name!)", style: .destructive) { (_) in
@@ -93,6 +96,19 @@ class PlaceViewController: MainViewController {
         cell.delegate = self
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let place = PlacesFetchedResultsController.object(at: indexPath)
+        if place.isHome{
+            let roomVC = RoomViewController()
+            roomVC.place = place
+            navigationController?.pushViewController(roomVC, animated: true)
+        } else {
+//            let boxsVc =
+            print("To storage locker boxes")
+        }
+        mainTableView.deselectRow(at: indexPath, animated: true)
     }
 }
 

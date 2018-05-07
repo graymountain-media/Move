@@ -8,18 +8,18 @@
 
 import UIKit
 
-class PlaceDetailViewController: UIViewController {
-    
-    var place: Place?
+class NewPlaceViewController: UIViewController {
     
     let nameTextField: UITextField = {
         let textField = UITextField()
-        textField.backgroundColor = textFieldColor
+        textField.backgroundColor = .white
         textField.placeholder = "Street Adress"
-        textField.layer.cornerRadius = 5
-        textField.clipsToBounds = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.setPadding()
+        let imageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 55, height: 45))
+        imageView.image = #imageLiteral(resourceName: "HomeIcon")
+        imageView.contentMode = .scaleAspectFit
+        textField.leftView = imageView
         return textField
     }()
     
@@ -29,14 +29,26 @@ class PlaceDetailViewController: UIViewController {
         control.insertSegment(withTitle: "Storage", at: 1, animated: true)
         control.selectedSegmentIndex = 0
         control.tintColor = mainColor
+        control.backgroundColor = .white
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
+    
+    let textInstructionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Please name your new place."
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        return label
+    }()
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
         view.backgroundColor = offWhite
+        self.title = "Add New Place"
         
         nameTextField.delegate = self
         
@@ -44,7 +56,10 @@ class PlaceDetailViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(cancelButtonPressed))
         
         view.addSubview(placeSegmentedControl)
+        placeSegmentedControl.addTarget(self, action: #selector(controlChanged), for: UIControlEvents.valueChanged)
+        
         view.addSubview(nameTextField)
+        view.addSubview(textInstructionLabel)
         
         setupView()
     }
@@ -52,14 +67,11 @@ class PlaceDetailViewController: UIViewController {
     @objc private func saveButtonPressed(){
         if let address = nameTextField.text, !address.isEmpty {
             let isHome = placeSegmentedControl.selectedSegmentIndex == 0 ? true : false
-            if let place = self.place{
-                PlaceController.update(place: place, withName: address, isHome: isHome)
-            } else {
-                PlaceController.createPlace(withName: address, isHome: isHome)
-            }
+            PlaceController.createPlace(withName: address, isHome: isHome)
+            
             navigationController?.popViewController(animated: true)
         } else {
-            let noAddressAlert = UIAlertController(title: "Missing Address", message: "Please input an address", preferredStyle: .alert)
+            let noAddressAlert = UIAlertController(title: "Missing Address", message: "Please input an address for your new place.", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
             noAddressAlert.addAction(okayAction)
             present(noAddressAlert, animated: true, completion: nil)
@@ -71,29 +83,36 @@ class PlaceDetailViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    @objc private func controlChanged(){
+        let icon = placeSegmentedControl.selectedSegmentIndex == 0 ? #imageLiteral(resourceName: "HomeIcon") : #imageLiteral(resourceName: "StorageIcon")
+        
+        let imageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 55, height: 45))
+        imageView.image = icon
+        imageView.contentMode = .scaleAspectFit
+        
+        nameTextField.leftView = imageView
+        
+    }
+    
     private func setupView(){
         placeSegmentedControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32).isActive = true
         placeSegmentedControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32).isActive = true
-        placeSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
+        placeSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
         placeSegmentedControl.heightAnchor.constraint(equalToConstant: 60).isActive = true
 
         
-        nameTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        nameTextField.topAnchor.constraint(equalTo: placeSegmentedControl.bottomAnchor, constant: 40).isActive = true
-        nameTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32).isActive = true
-        nameTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32).isActive = true
+        nameTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        nameTextField.topAnchor.constraint(equalTo: placeSegmentedControl.bottomAnchor, constant: 8).isActive = true
+        nameTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        nameTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
-        if let place = self.place {
-            nameTextField.text = place.name!
-            self.title = "Edit Place"
-            placeSegmentedControl.selectedSegmentIndex = place.isHome ? 0 : 1
-        } else {
-            self.title = "Add New Place"
-        }
+        textInstructionLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 4).isActive = true
+        textInstructionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        textInstructionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
 }
 
-extension PlaceDetailViewController: UITextFieldDelegate{
+extension NewPlaceViewController: UITextFieldDelegate{
     func textFieldDidEndEditing(_ textField: UITextField) {
         nameTextField.resignFirstResponder()
     }

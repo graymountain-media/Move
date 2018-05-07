@@ -26,7 +26,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let noDataLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = .white
+        label.backgroundColor = offWhite
         label.textAlignment = .center
         label.text = "You don't have any (type) yet."
         label.font = UIFont.boldSystemFont(ofSize: 22)
@@ -102,10 +102,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         view.bringSubview(toFront: noDataLabel)
         view.addSubview(instructionLabel)
 
-        noDataLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        noDataLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        noDataLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
-        noDataLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
+        noDataLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        noDataLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        noDataLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        noDataLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
         instructionLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 24).isActive = true
         instructionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
