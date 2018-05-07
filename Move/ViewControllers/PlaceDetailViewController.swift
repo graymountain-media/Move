@@ -8,7 +8,9 @@
 
 import UIKit
 
-class NewPlaceViewController: UIViewController {
+class PlaceDetailViewController: UIViewController {
+    
+    var place: Place?
     
     let nameTextField: UITextField = {
         let textField = UITextField()
@@ -31,24 +33,15 @@ class NewPlaceViewController: UIViewController {
         return control
     }()
     
-    let saveButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.save, target: self, action: #selector(saveButtonPressed))
-        return button
-    }()
-    
-    let cancelButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(cancelButtonPressed))
-        return button
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.title = "Places"
+    
         view.backgroundColor = offWhite
         
-        navigationItem.rightBarButtonItem = saveButton
-        navigationItem.leftBarButtonItem = cancelButton
+        nameTextField.delegate = self
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.save, target: self, action: #selector(saveButtonPressed))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(cancelButtonPressed))
         
         view.addSubview(placeSegmentedControl)
         view.addSubview(nameTextField)
@@ -57,8 +50,20 @@ class NewPlaceViewController: UIViewController {
     }
     
     @objc private func saveButtonPressed(){
-        if let address = nameTextField.text {
-            P
+        if let address = nameTextField.text, !address.isEmpty {
+            let isHome = placeSegmentedControl.selectedSegmentIndex == 0 ? true : false
+            if let place = self.place{
+                PlaceController.update(place: place, withName: address, isHome: isHome)
+            } else {
+                PlaceController.createPlace(withName: address, isHome: isHome)
+            }
+            navigationController?.popViewController(animated: true)
+        } else {
+            let noAddressAlert = UIAlertController(title: "Missing Address", message: "Please input an address", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
+            noAddressAlert.addAction(okayAction)
+            present(noAddressAlert, animated: true, completion: nil)
+            return
         }
     }
     
@@ -77,6 +82,25 @@ class NewPlaceViewController: UIViewController {
         nameTextField.topAnchor.constraint(equalTo: placeSegmentedControl.bottomAnchor, constant: 40).isActive = true
         nameTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32).isActive = true
         nameTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32).isActive = true
+        
+        if let place = self.place {
+            nameTextField.text = place.name!
+            self.title = "Edit Place"
+            placeSegmentedControl.selectedSegmentIndex = place.isHome ? 0 : 1
+        } else {
+            self.title = "Add New Place"
+        }
+    }
+}
 
+extension PlaceDetailViewController: UITextFieldDelegate{
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        nameTextField.resignFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        saveButtonPressed()
+        nameTextField.resignFirstResponder()
+        return true
     }
 }

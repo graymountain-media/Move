@@ -46,8 +46,8 @@ extension SpacesViewController: UITableViewDelegate, UITableViewDataSource, Titl
     
     func deleteButtonPressed(_ sender: TitleTableViewCell) {
         guard let indexPath = mainTableView.indexPath(for: sender) else {return}
-        let space = SpacesFetchedResultsController.object(at: indexPath)
-        PlaceController.delete(space: space)
+        let place = SpacesFetchedResultsController.object(at: indexPath)
+        PlaceController.delete(place: place)
         
         if SpacesFetchedResultsController.sections!.count == 0 {
             UIView.animate(withDuration: 0.3) {

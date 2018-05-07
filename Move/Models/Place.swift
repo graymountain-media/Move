@@ -14,11 +14,11 @@ extension Place{
 //    var name: String
 //    var rooms: [Room]
     
-    convenience init(name: String, image: UIImage, context: NSManagedObjectContext = CoreDataStack.context){
+    convenience init(name: String, isHome: Bool, context: NSManagedObjectContext = CoreDataStack.context){
         self.init(context: context)
         self.name = name
-        self.image = UIImagePNGRepresentation(image) as Data?
         self.rooms = []
+        self.isHome = isHome
     }
     
 //    static func == (lhs: Space, rhs: Space) -> Bool {

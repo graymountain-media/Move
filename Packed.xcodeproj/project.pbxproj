@@ -35,10 +35,10 @@
 		A1204142208E84FA0093E782 /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204141208E84FA0093E782 /* TitleTableViewCell.swift */; };
 		A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF722097D5C6005C2388 /* MainViewController.swift */; };
 		A145AF7520983B0E005C2388 /* PackedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */; };
-		A145AF7720985501005C2388 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7620985501005C2388 /* TestViewController.swift */; };
-		A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */; };
+		A145AF7920990ECA005C2388 /* PlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7820990ECA005C2388 /* PlaceDetailViewController.swift */; };
 		A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */; };
 		A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */; };
+		A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */; };
 		A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */; };
 		A1EFE632208BBE42000C6E21 /* SpacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EFE631208BBE42000C6E21 /* SpacesViewController.swift */; };
 		A1EFE637208BBE43000C6E21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EFE636208BBE43000C6E21 /* Assets.xcassets */; };
@@ -75,10 +75,10 @@
 		A1204141208E84FA0093E782 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
 		A145AF722097D5C6005C2388 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedTableViewCell.swift; sourceTree = "<group>"; };
-		A145AF7620985501005C2388 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
-		A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceViewController.swift; sourceTree = "<group>"; };
+		A145AF7820990ECA005C2388 /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewController.swift; sourceTree = "<group>"; };
 		A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
 		A1EFE62C208BBE42000C6E21 /* Move.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Move.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1EFE631208BBE42000C6E21 /* SpacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesViewController.swift; sourceTree = "<group>"; };
@@ -173,9 +173,9 @@
 				A10A9EA120923E1600EED622 /* BoxViewController */,
 				A10A9EAA20924E2800EED622 /* ItemViewController */,
 				A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */,
+				A145AF7820990ECA005C2388 /* PlaceDetailViewController.swift */,
 				A145AF722097D5C6005C2388 /* MainViewController.swift */,
-				A145AF7620985501005C2388 /* TestViewController.swift */,
-				A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */,
+				A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -312,7 +312,6 @@
 			files = (
 				A120413F208E79BE0093E782 /* Box Controller.swift in Sources */,
 				A11887C22090F4600026F971 /* RVCMethods.swift in Sources */,
-				A145AF7720985501005C2388 /* TestViewController.swift in Sources */,
 				A120413B208E79460093E782 /* PlaceController.swift in Sources */,
 				A10A9EA920924D0500EED622 /* IVCMethods.swift in Sources */,
 				A120413D208E79890093E782 /* RoomController.swift in Sources */,
@@ -322,6 +321,7 @@
 				A1FB05BA208FBCE300079A39 /* SVCMethods.swift in Sources */,
 				A11887BE2090F2CD0026F971 /* RVCFetchedResults.swift in Sources */,
 				A1204142208E84FA0093E782 /* TitleTableViewCell.swift in Sources */,
+				A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */,
 				A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */,
 				A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */,
 				A1EFE632208BBE42000C6E21 /* SpacesViewController.swift in Sources */,
@@ -337,7 +337,7 @@
 				A10A9E9A20923CA300EED622 /* BoxViewController.swift in Sources */,
 				A10A9EA720924BFE00EED622 /* IVCTableViewDataSource.swift in Sources */,
 				A1204136208E72DE0093E782 /* Item.swift in Sources */,
-				A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */,
+				A145AF7920990ECA005C2388 /* PlaceDetailViewController.swift in Sources */,
 				A11887C02090F2F30026F971 /* RVCTableViewDataSource.swift in Sources */,
 				A11887BA2090F0D30026F971 /* RoomViewController.swift in Sources */,
 				A120412E208E56390093E782 /* Constants.swift in Sources */,

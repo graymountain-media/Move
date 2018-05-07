@@ -33,7 +33,6 @@ class PackedTableViewCell: UITableViewCell {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "moreOptions"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(optionsButtonPressed), for: .touchUpInside)
         button.tintColor = .lightGray
         return button
     }()
@@ -77,6 +76,8 @@ class PackedTableViewCell: UITableViewCell {
         separator.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         separator.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
         separator.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        
+        optionsButton.addTarget(self, action: #selector(optionsButtonPressed), for: .touchUpInside)
     }
     
     func setupCell(name: String, image: UIImage){

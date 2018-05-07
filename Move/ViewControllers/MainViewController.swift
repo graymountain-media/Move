@@ -10,19 +10,10 @@ import UIKit
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PackedTableViewCellDelegate {
     
-    func setDummyData(){
-        let home1 = Place(name: "MyHome", image: #imageLiteral(resourceName: "HomeIcon"))
-        let home2 = Place(name: "MyOtherHome", image: #imageLiteral(resourceName: "HomeIcon"))
-        let storage = Place(name: "MyUnit", image: #imageLiteral(resourceName: "StorageIcon"))
-        
-        let array = [home1,home2,storage]
-        data = array
-    }
+    
    
     // MARK: - Properties
     let cellIdentifier = "mainCell"
-    
-    var data: [Place] = []
     
     let mainTableView: UITableView = {
         let tableView = UITableView()
@@ -33,21 +24,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return tableView
     }()
     
-    let leftNavButton: UIBarButtonItem = {
-        let navButton = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(optionsButtonPressed))
-        return navButton
-    }()
-    
-    let rightNavButton: UIBarButtonItem = {
-        let navButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
-        return navButton
-    }()
-    
     let noDataLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .white
         label.textAlignment = .center
-        label.text = "You don't have any Places yet."
+        label.text = "You don't have any (type) yet."
         label.font = UIFont.boldSystemFont(ofSize: 22)
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -57,7 +38,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     let instructionLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = "Tap '+' to add a new Place."
+        label.text = "Tap '+' to add a new (type)."
         label.font = label.font.withSize(16)
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -84,17 +65,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setDummyData()
         
-        if data.count != 0 {
-            noDataLabel.isHidden = true
-            instructionLabel.isHidden = true
-        }
-        
-        self.title = "Places"
+        self.title = "(title)"
         view.backgroundColor = offWhite
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(optionsButtonPressed))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
 
         mainTableView.register(PackedTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
@@ -145,10 +119,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    @objc private func addButtonPressed() {
-        print("Add button pressed")
-        let newPlaceViewController = NewPlaceViewController()
-        navigationController?.pushViewController(newPlaceViewController, animated: true)
+    @objc func addButtonPressed() {
     }
     
     func cellOptionsButtonPressed(sender: UITableViewCell) {
@@ -158,15 +129,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - TableView DataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
-        
-        let item = data[indexPath.row]
-        let image = UIImage(data: item.image!)
-        cell.setupCell(name: item.name!, image: image!)
         
         return cell
     }

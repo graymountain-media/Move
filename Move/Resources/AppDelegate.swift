@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        let homeViewController = MainViewController()
+        let homeViewController = PlaceViewController()
         let navigationController = UINavigationController(rootViewController: homeViewController)
 
         navigationController.navigationBar.isTranslucent = false

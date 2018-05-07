@@ -12,20 +12,26 @@ class PlaceController {
     
     
     //create place
-    static func createPlace(withName name: String, image: UIImage){
-        let _ = Place(name: name, image: image)
+    static func createPlace(withName name: String, isHome: Bool){
+        let newPlace = Place(name: name, isHome: isHome)
+        
         saveData()
+        
+        if !isHome{
+            PlaceController.createRoom(withName: "Base Room", inPlace: newPlace)
+        }
     }
     
     //update place
-    static func update(place: Place, withName newName: String){
+    static func update(place: Place, withName newName: String, isHome newIsHome: Bool){
         place.name = newName
+        place.isHome = newIsHome
+        saveData()
     }
     
     //delete place
     static func delete(place: Place){
         place.managedObjectContext?.delete(place)
-        
         
         saveData()
     }

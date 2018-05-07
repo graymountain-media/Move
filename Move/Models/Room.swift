@@ -15,11 +15,11 @@ extension Room {
 //    var boxes: [Box]
 //    var space: Space
     
-    convenience init(name: String, space: Place, context: NSManagedObjectContext = CoreDataStack.context){
+    convenience init(name: String, place: Place, context: NSManagedObjectContext = CoreDataStack.context){
         self.init(context:context)
         self.name = name
         self.boxes = []
-        self.space = space
+        self.place = place
     }
     
 //    static func == (lhs: Room, rhs: Room) -> Bool {

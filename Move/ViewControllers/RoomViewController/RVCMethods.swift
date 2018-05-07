@@ -57,7 +57,7 @@ extension RoomViewController{
     @objc func submitAdd(){
         guard let name = nameTextField.text, !name.isEmpty, let space = self.space else { return }
         
-        PlaceController.createRoom(withName: name, inSpace: space)
+        PlaceController.createRoom(withName: name, inPlace: space)
         nameTextField.text = ""
         
         UIView.animate(withDuration: 0.2, animations: {
