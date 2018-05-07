@@ -1,27 +1,27 @@
 //
-//  RenameBoxViewController.swift
+//  ItemDetailViewController.swift
 //  Move
 //
 //  Created by Jake Gray on 5/7/18.
 //  Copyright © 2018 Jake Gray. All rights reserved.
 //
-
 import UIKit
 
-class RenameBoxViewController: UIViewController {
+class ItemDetailViewController: UIViewController {
     
     var box: Box?
+    var item: Item?
     
     let nameTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .white
-        textField.placeholder = "Box Name"
+        textField.placeholder = "Item Name"
         textField.layer.cornerRadius = 5
         textField.clipsToBounds = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.setPadding()
         let imageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 55, height: 45))
-        imageView.image = #imageLiteral(resourceName: "BoxIcon")
+        imageView.image = #imageLiteral(resourceName: "ItemIcon")
         imageView.contentMode = .scaleAspectFit
         textField.leftView = imageView
         return textField
@@ -29,7 +29,7 @@ class RenameBoxViewController: UIViewController {
     
     let textInstructionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Please rename your box."
+        label.text = ""
         label.font = UIFont.systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -54,12 +54,18 @@ class RenameBoxViewController: UIViewController {
     }
     
     @objc private func saveButtonPressed(){
-        guard let box = self.box else {return}
+        
         if let name = nameTextField.text, !name.isEmpty {
-            BoxController.update(box: box, withName: name)
-            navigationController?.popViewController(animated: true)
+            if let item = self.item {
+                BoxController.update(item: item, withName: name)
+                navigationController?.popViewController(animated: true)
+            } else {
+                guard let box = box else {return}
+                BoxController.createItem(withName: name, inBox: box)
+                navigationController?.popViewController(animated: true)
+            }
         } else {
-            let noAddressAlert = UIAlertController(title: "Missing Name", message: "Please input an name for your box.", preferredStyle: .alert)
+            let noAddressAlert = UIAlertController(title: "Missing Name", message: "Please input an name for your new item.", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
             noAddressAlert.addAction(okayAction)
             present(noAddressAlert, animated: true, completion: nil)
@@ -82,12 +88,18 @@ class RenameBoxViewController: UIViewController {
         textInstructionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         textInstructionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
-        self.title = "Rename"
-           
+        if let item = self.item {
+            nameTextField.text = item.name!
+            self.title = "Rename Item"
+            textInstructionLabel.text = "Please rename your item."
+        } else {
+            self.title = "Add New Item"
+            textInstructionLabel.text = "Please name your item."
+        }
     }
 }
 
-extension RenameBoxViewController: UITextFieldDelegate{
+extension ItemDetailViewController: UITextFieldDelegate{
     func textFieldDidEndEditing(_ textField: UITextField) {
         nameTextField.resignFirstResponder()
     }
@@ -98,3 +110,4 @@ extension RenameBoxViewController: UITextFieldDelegate{
         return true
     }
 }
+

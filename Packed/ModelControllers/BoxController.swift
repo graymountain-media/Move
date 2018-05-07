@@ -1,5 +1,5 @@
 //
-//  Box Controller.swift
+//  BoxController.swift
 //  Move
 //
 //  Created by Jake Gray on 4/23/18.
@@ -8,20 +8,24 @@
 
 import Foundation
 
-class BoxContoller {
+class BoxController {
     
     //Edit Box
     static func update(box: Box, withName newName: String){
         box.name = newName
     }
     
-    //create Box
+    //create Item
     static func createItem(withName name: String, inBox box: Box ){
         let _ = Item(name: name, box: box)
         saveData()
     }
+    //Update Item
+    static func update(item: Item, withName newName: String){
+        item.name = newName
+    }
     
-    //delete Box
+    //delete Item
     static func delete(item: Item){
         item.managedObjectContext?.delete(item)
         

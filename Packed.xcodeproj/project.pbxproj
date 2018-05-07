@@ -13,6 +13,7 @@
 		A11488D020A1043E00F60B92 /* BoxesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488CF20A1043E00F60B92 /* BoxesViewController.swift */; };
 		A11488D220A10E6600F60B92 /* RenameBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488D120A10E6600F60B92 /* RenameBoxViewController.swift */; };
 		A11488D520A11A8F00F60B92 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488D420A11A8F00F60B92 /* ItemViewController.swift */; };
+		A11488D720A11BA100F60B92 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488D620A11BA100F60B92 /* ItemDetailViewController.swift */; };
 		A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887AF2090D13B0026F971 /* CoreDataStack.swift */; };
 		A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A11887B12090D1660026F971 /* MoveDataModel.xcdatamodeld */; };
 		A120412E208E56390093E782 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412D208E56390093E782 /* Constants.swift */; };
@@ -22,7 +23,7 @@
 		A1204136208E72DE0093E782 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204135208E72DE0093E782 /* Item.swift */; };
 		A120413B208E79460093E782 /* PlaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413A208E79460093E782 /* PlaceController.swift */; };
 		A120413D208E79890093E782 /* RoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413C208E79890093E782 /* RoomController.swift */; };
-		A120413F208E79BE0093E782 /* Box Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413E208E79BE0093E782 /* Box Controller.swift */; };
+		A120413F208E79BE0093E782 /* BoxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413E208E79BE0093E782 /* BoxController.swift */; };
 		A1204142208E84FA0093E782 /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204141208E84FA0093E782 /* TitleTableViewCell.swift */; };
 		A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF722097D5C6005C2388 /* MainViewController.swift */; };
 		A145AF7520983B0E005C2388 /* PackedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */; };
@@ -43,6 +44,7 @@
 		A11488CF20A1043E00F60B92 /* BoxesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxesViewController.swift; sourceTree = "<group>"; };
 		A11488D120A10E6600F60B92 /* RenameBoxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameBoxViewController.swift; sourceTree = "<group>"; };
 		A11488D420A11A8F00F60B92 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
+		A11488D620A11BA100F60B92 /* ItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
 		A11887AF2090D13B0026F971 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel.xcdatamodel; sourceTree = "<group>"; };
 		A120412D208E56390093E782 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -52,7 +54,7 @@
 		A1204135208E72DE0093E782 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		A120413A208E79460093E782 /* PlaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceController.swift; sourceTree = "<group>"; };
 		A120413C208E79890093E782 /* RoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomController.swift; sourceTree = "<group>"; };
-		A120413E208E79BE0093E782 /* Box Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Box Controller.swift"; sourceTree = "<group>"; };
+		A120413E208E79BE0093E782 /* BoxController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxController.swift; sourceTree = "<group>"; };
 		A1204141208E84FA0093E782 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
 		A145AF722097D5C6005C2388 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedTableViewCell.swift; sourceTree = "<group>"; };
@@ -116,6 +118,15 @@
 			path = Boxes;
 			sourceTree = "<group>";
 		};
+		A11488DA20A11E4100F60B92 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				A11488D420A11A8F00F60B92 /* ItemViewController.swift */,
+				A11488D620A11BA100F60B92 /* ItemDetailViewController.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
 		A120412B208E532B0093E782 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,7 +147,7 @@
 				A11488C720A0EC3300F60B92 /* Places */,
 				A11488CA20A0EEA800F60B92 /* Rooms */,
 				A11488D320A1100D00F60B92 /* Boxes */,
-				A11488D420A11A8F00F60B92 /* ItemViewController.swift */,
+				A11488DA20A11E4100F60B92 /* Items */,
 				A145AF722097D5C6005C2388 /* MainViewController.swift */,
 			);
 			path = ViewControllers;
@@ -158,7 +169,7 @@
 			children = (
 				A120413A208E79460093E782 /* PlaceController.swift */,
 				A120413C208E79890093E782 /* RoomController.swift */,
-				A120413E208E79BE0093E782 /* Box Controller.swift */,
+				A120413E208E79BE0093E782 /* BoxController.swift */,
 			);
 			path = ModelControllers;
 			sourceTree = "<group>";
@@ -273,7 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A11488D220A10E6600F60B92 /* RenameBoxViewController.swift in Sources */,
-				A120413F208E79BE0093E782 /* Box Controller.swift in Sources */,
+				A120413F208E79BE0093E782 /* BoxController.swift in Sources */,
 				A120413B208E79460093E782 /* PlaceController.swift in Sources */,
 				A120413D208E79890093E782 /* RoomController.swift in Sources */,
 				A145AF7520983B0E005C2388 /* PackedTableViewCell.swift in Sources */,
@@ -282,6 +293,7 @@
 				A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */,
 				A11488D020A1043E00F60B92 /* BoxesViewController.swift in Sources */,
 				A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */,
+				A11488D720A11BA100F60B92 /* ItemDetailViewController.swift in Sources */,
 				A1AA1ABD20A0E9D600E53C51 /* RoomViewController.swift in Sources */,
 				A11488C920A0EC6000F60B92 /* RoomDetailViewController.swift in Sources */,
 				A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */,
