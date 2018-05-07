@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol  PackedTableViewCellDelegate: class{
+    func cellOptionsButtonPressed(sender: UITableViewCell)
+}
+
 class PackedTableViewCell: UITableViewCell {
+    
+    weak var delegate: PackedTableViewCellDelegate?
 
     let iconImageView: UIImageView = {
         let imageView = UIImageView()
@@ -35,16 +41,18 @@ class PackedTableViewCell: UITableViewCell {
     let separator: UIView = {
         let view = UIView()
         view.layer.borderWidth = 1
-        view.layer.borderColor = searchBarColor.cgColor
+        view.layer.borderColor = textFieldColor.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     @objc private func optionsButtonPressed() {
-        print("options Pressed")
+        delegate?.cellOptionsButtonPressed(sender: self)
     }
     
     private func setupViews(){
+        self.backgroundColor = .white
+        
         self.addSubview(iconImageView)
         self.addSubview(nameLabel)
         self.addSubview(optionsButton)
@@ -66,7 +74,7 @@ class PackedTableViewCell: UITableViewCell {
         nameLabel.trailingAnchor.constraint(equalTo: optionsButton.leadingAnchor, constant: -4).isActive = true
         
         separator.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        separator.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -1).isActive = true
+        separator.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         separator.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
         separator.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
     }

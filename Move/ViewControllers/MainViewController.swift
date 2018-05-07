@@ -8,8 +8,9 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PackedTableViewCellDelegate {
+   
+    // MARK: - Properties
     let cellIdentifier = "mainCell"
     
     let data = ["home 1", "home2"]
@@ -19,6 +20,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.rowHeight = 50
         tableView.separatorStyle = .none
+        tableView.backgroundColor = offWhite
         return tableView
     }()
     
@@ -60,25 +62,28 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchController.searchBar.tintColor = mainColor
         searchController.searchBar.isTranslucent = false
         searchController.searchBar.placeholder = "Search Boxes/Items"
+        searchController.searchBar.layer.borderWidth = 0
         searchController.dimsBackgroundDuringPresentation =  true
         
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = searchBarColor
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = textFieldColor
         
         return searchController
     }()
+    
+    // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if data.count != 0 {
             noDataLabel.isHidden = true
             instructionLabel.isHidden = true
         }
         
         self.title = "Places"
+        view.backgroundColor = offWhite
         
-        navigationItem.leftBarButtonItem = leftNavButton
-        navigationItem.rightBarButtonItem = rightNavButton
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(optionsButtonPressed))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
 
         mainTableView.register(PackedTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         mainTableView.dataSource = self
@@ -91,9 +96,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupLabels()
     }
     
+    // MARK: - View Setup
+    
     private func setupTableView(){
         view.addSubview(mainTableView)
-        
+
         mainTableView.tableHeaderView = searchController.searchBar
         
         mainTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -127,8 +134,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc private func addButtonPressed() {
+        print("Add button pressed")
+        let newPlaceViewController = NewPlaceViewController()
+        navigationController?.pushViewController(newPlaceViewController, animated: true)
+    }
+    
+    func cellOptionsButtonPressed(sender: UITableViewCell) {
         
     }
+    
+    // MARK: - TableView DataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
