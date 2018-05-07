@@ -105,8 +105,10 @@ class PlaceViewController: MainViewController {
             roomVC.place = place
             navigationController?.pushViewController(roomVC, animated: true)
         } else {
-//            let boxsVc =
-            print("To storage locker boxes")
+            let boxesVC = BoxViewController()
+            let rooms = place.rooms?.compactMap({$0 as? Room})
+            boxesVC.room = rooms?.first
+            navigationController?.pushViewController(boxesVC, animated: true)
         }
         mainTableView.deselectRow(at: indexPath, animated: true)
     }

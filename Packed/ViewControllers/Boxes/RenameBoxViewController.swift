@@ -1,5 +1,5 @@
 //
-//  RoomDetailViewController.swift
+//  RenameBoxViewController.swift
 //  Move
 //
 //  Created by Jake Gray on 5/7/18.
@@ -8,21 +8,20 @@
 
 import UIKit
 
-class RoomDetailViewController: UIViewController {
+class RenameBoxViewController: UIViewController {
     
-    var place: Place?
-    var room: Room?
+    var box: Box?
     
     let nameTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .white
-        textField.placeholder = "Room Name"
+        textField.placeholder = "Box Name"
         textField.layer.cornerRadius = 5
         textField.clipsToBounds = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.setPadding()
         let imageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 55, height: 45))
-        imageView.image = #imageLiteral(resourceName: "RoomIcon")
+        imageView.image = #imageLiteral(resourceName: "BoxIcon")
         imageView.contentMode = .scaleAspectFit
         textField.leftView = imageView
         return textField
@@ -30,7 +29,7 @@ class RoomDetailViewController: UIViewController {
     
     let textInstructionLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
+        label.text = "Please rename your box."
         label.font = UIFont.systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -55,18 +54,12 @@ class RoomDetailViewController: UIViewController {
     }
     
     @objc private func saveButtonPressed(){
-        
+        guard let box = self.box else {return}
         if let name = nameTextField.text, !name.isEmpty {
-            if let room = self.room {
-                RoomController.update(room: room, withName: name)
-                navigationController?.popViewController(animated: true)
-            } else {
-                guard let place = place else {return}
-                PlaceController.createRoom(withName: name, inPlace: place)
-                navigationController?.popViewController(animated: true)
-            }
+            BoxContoller.update(box: box, withName: name)
+            navigationController?.popViewController(animated: true)
         } else {
-            let noAddressAlert = UIAlertController(title: "Missing Name", message: "Please input an name for your new room.", preferredStyle: .alert)
+            let noAddressAlert = UIAlertController(title: "Missing Name", message: "Please input an name for your box.", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
             noAddressAlert.addAction(okayAction)
             present(noAddressAlert, animated: true, completion: nil)
@@ -89,18 +82,12 @@ class RoomDetailViewController: UIViewController {
         textInstructionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         textInstructionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
-        if let room = self.room {
-            nameTextField.text = room.name!
-            self.title = "Rename Room"
-            textInstructionLabel.text = "Please rename your room."
-        } else {
-            self.title = "Add New Room"
-            textInstructionLabel.text = "Please name your room."
-        }
+        self.title = "Rename"
+           
     }
 }
 
-extension RoomDetailViewController: UITextFieldDelegate{
+extension RenameBoxViewController: UITextFieldDelegate{
     func textFieldDidEndEditing(_ textField: UITextField) {
         nameTextField.resignFirstResponder()
     }

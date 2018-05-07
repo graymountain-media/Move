@@ -111,6 +111,15 @@ class RoomViewController: MainViewController {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let room = RoomsFetchedResultsController.object(at: indexPath)
+        let boxesVC = BoxViewController()
+        boxesVC.room = room
+        navigationController?.pushViewController(boxesVC, animated: true)
+        
+        mainTableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 
 extension RoomViewController: NSFetchedResultsControllerDelegate{

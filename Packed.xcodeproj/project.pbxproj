@@ -11,6 +11,8 @@
 		A11488C920A0EC6000F60B92 /* RoomDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488C820A0EC6000F60B92 /* RoomDetailViewController.swift */; };
 		A11488CE20A0F14700F60B92 /* RenamePlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488CD20A0F14700F60B92 /* RenamePlaceViewController.swift */; };
 		A11488D020A1043E00F60B92 /* BoxesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488CF20A1043E00F60B92 /* BoxesViewController.swift */; };
+		A11488D220A10E6600F60B92 /* RenameBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488D120A10E6600F60B92 /* RenameBoxViewController.swift */; };
+		A11488D520A11A8F00F60B92 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488D420A11A8F00F60B92 /* ItemViewController.swift */; };
 		A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887AF2090D13B0026F971 /* CoreDataStack.swift */; };
 		A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A11887B12090D1660026F971 /* MoveDataModel.xcdatamodeld */; };
 		A120412E208E56390093E782 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412D208E56390093E782 /* Constants.swift */; };
@@ -39,6 +41,8 @@
 		A11488C820A0EC6000F60B92 /* RoomDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDetailViewController.swift; sourceTree = "<group>"; };
 		A11488CD20A0F14700F60B92 /* RenamePlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenamePlaceViewController.swift; sourceTree = "<group>"; };
 		A11488CF20A1043E00F60B92 /* BoxesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxesViewController.swift; sourceTree = "<group>"; };
+		A11488D120A10E6600F60B92 /* RenameBoxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameBoxViewController.swift; sourceTree = "<group>"; };
+		A11488D420A11A8F00F60B92 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		A11887AF2090D13B0026F971 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel.xcdatamodel; sourceTree = "<group>"; };
 		A120412D208E56390093E782 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -103,6 +107,15 @@
 			path = Rooms;
 			sourceTree = "<group>";
 		};
+		A11488D320A1100D00F60B92 /* Boxes */ = {
+			isa = PBXGroup;
+			children = (
+				A11488CF20A1043E00F60B92 /* BoxesViewController.swift */,
+				A11488D120A10E6600F60B92 /* RenameBoxViewController.swift */,
+			);
+			path = Boxes;
+			sourceTree = "<group>";
+		};
 		A120412B208E532B0093E782 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,8 +135,9 @@
 				A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */,
 				A11488C720A0EC3300F60B92 /* Places */,
 				A11488CA20A0EEA800F60B92 /* Rooms */,
+				A11488D320A1100D00F60B92 /* Boxes */,
+				A11488D420A11A8F00F60B92 /* ItemViewController.swift */,
 				A145AF722097D5C6005C2388 /* MainViewController.swift */,
-				A11488CF20A1043E00F60B92 /* BoxesViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -258,6 +272,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A11488D220A10E6600F60B92 /* RenameBoxViewController.swift in Sources */,
 				A120413F208E79BE0093E782 /* Box Controller.swift in Sources */,
 				A120413B208E79460093E782 /* PlaceController.swift in Sources */,
 				A120413D208E79890093E782 /* RoomController.swift in Sources */,
@@ -279,6 +294,7 @@
 				A120412E208E56390093E782 /* Constants.swift in Sources */,
 				A11488CE20A0F14700F60B92 /* RenamePlaceViewController.swift in Sources */,
 				A1204132208E72BA0093E782 /* Room.swift in Sources */,
+				A11488D520A11A8F00F60B92 /* ItemViewController.swift in Sources */,
 				A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */,
 				A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */,
 			);

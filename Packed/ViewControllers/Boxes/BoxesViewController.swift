@@ -18,8 +18,11 @@ class BoxViewController: MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Boxs"
-        noDataLabel.text = "You don't have any Boxs yet."
+        guard let room = room else { return }
+        
+        self.title = room.name
+        
+        noDataLabel.text = "You don't have any Boxes yet."
         instructionLabel.text = "Tap '+' to add a new Box."
         
         setupFetchedResultsController()
@@ -59,11 +62,16 @@ class BoxViewController: MainViewController {
     @objc override func addButtonPressed() {
         super.addButtonPressed()
         guard let room = room else {return}
+        room.boxCount += 1
         
-//        let boxDetailViewController = BoxDetailViewController()
-//        boxDetailViewController.room = room
-//
-//        navigationController?.pushViewController(boxDetailViewController, animated: true)
+        UIView.animate(withDuration: 0.2, animations: {
+            self.noDataLabel.alpha = 0.0
+            self.instructionLabel.alpha = 0.0
+        }) { (_) in
+            self.noDataLabel.isHidden = true
+            self.instructionLabel.isHidden = true
+            RoomController.createBox(withName: "\(room.name!) Box \(room.boxCount)", inRoom: room)
+        }
     }
     
     // MARK: - Cell Delegate
@@ -73,11 +81,11 @@ class BoxViewController: MainViewController {
         let box = BoxsFetchedResultsController.object(at: indexPath!)
         print("options pressed for \(box.name!)")
         let actionSheet = UIAlertController(title: box.name, message: nil, preferredStyle: .actionSheet)
-        let updateAction = UIAlertAction(title: "Edit this Box", style: .default) { (_) in
-//            let boxDetailViewController = BoxDetailViewController()
-//            boxDetailViewController.box = box
-//            
-//            self.navigationController?.pushViewController(boxDetailViewController, animated: true)
+        let updateAction = UIAlertAction(title: "Rename this Box", style: .default) { (_) in
+            let renameBoxViewController = RenameBoxViewController()
+            renameBoxViewController.box = box
+
+            self.navigationController?.pushViewController(renameBoxViewController, animated: true)
         }
         actionSheet.addAction(updateAction)
         let deleteAction = UIAlertAction(title: "Delete \(box.name!)", style: .destructive) { (_) in

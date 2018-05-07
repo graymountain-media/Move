@@ -20,6 +20,7 @@ extension Room {
         self.name = name
         self.boxes = []
         self.place = place
+        self.boxCount = 0
     }
     
 //    static func == (lhs: Room, rhs: Room) -> Bool {
