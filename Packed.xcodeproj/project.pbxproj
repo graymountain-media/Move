@@ -7,23 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A1015E8A208FD2C000D299B1 /* SVCTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1015E89208FD2C000D299B1 /* SVCTableViewDataSource.swift */; };
-		A10A9E9A20923CA300EED622 /* BoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10A9E9920923CA300EED622 /* BoxViewController.swift */; };
-		A10A9E9C20923CFD00EED622 /* BVCFetchedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10A9E9B20923CFD00EED622 /* BVCFetchedResults.swift */; };
-		A10A9E9E20923D1700EED622 /* BVCTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10A9E9D20923D1700EED622 /* BVCTableViewDataSource.swift */; };
-		A10A9EA020923D2A00EED622 /* BVCMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10A9E9F20923D2A00EED622 /* BVCMethods.swift */; };
-		A10A9EA320924B4800EED622 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10A9EA220924B4800EED622 /* ItemViewController.swift */; };
-		A10A9EA520924BC100EED622 /* IVCFetchedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10A9EA420924BC100EED622 /* IVCFetchedResults.swift */; };
-		A10A9EA720924BFE00EED622 /* IVCTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10A9EA620924BFE00EED622 /* IVCTableViewDataSource.swift */; };
-		A10A9EA920924D0500EED622 /* IVCMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10A9EA820924D0500EED622 /* IVCMethods.swift */; };
 		A11296AE20A0A4FB00F9737F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11296AD20A0A4FB00F9737F /* Extensions.swift */; };
 		A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887AF2090D13B0026F971 /* CoreDataStack.swift */; };
 		A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A11887B12090D1660026F971 /* MoveDataModel.xcdatamodeld */; };
-		A11887B52090DAF40026F971 /* SVCFetchedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887B42090DAF40026F971 /* SVCFetchedResults.swift */; };
-		A11887BA2090F0D30026F971 /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887B92090F0D30026F971 /* RoomViewController.swift */; };
-		A11887BE2090F2CD0026F971 /* RVCFetchedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887BD2090F2CD0026F971 /* RVCFetchedResults.swift */; };
-		A11887C02090F2F30026F971 /* RVCTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887BF2090F2F30026F971 /* RVCTableViewDataSource.swift */; };
-		A11887C22090F4600026F971 /* RVCMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887C12090F4600026F971 /* RVCMethods.swift */; };
 		A120412E208E56390093E782 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412D208E56390093E782 /* Constants.swift */; };
 		A1204130208E72680093E782 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412F208E72680093E782 /* Place.swift */; };
 		A1204132208E72BA0093E782 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204131208E72BA0093E782 /* Room.swift */; };
@@ -39,31 +25,16 @@
 		A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */; };
 		A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */; };
 		A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */; };
+		A1AA1ABD20A0E9D600E53C51 /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */; };
 		A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */; };
-		A1EFE632208BBE42000C6E21 /* SpacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EFE631208BBE42000C6E21 /* SpacesViewController.swift */; };
 		A1EFE637208BBE43000C6E21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EFE636208BBE43000C6E21 /* Assets.xcassets */; };
 		A1EFE63A208BBE43000C6E21 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1EFE638208BBE43000C6E21 /* LaunchScreen.storyboard */; };
-		A1FB05BA208FBCE300079A39 /* SVCMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FB05B9208FBCE300079A39 /* SVCMethods.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A1015E89208FD2C000D299B1 /* SVCTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVCTableViewDataSource.swift; sourceTree = "<group>"; };
-		A10A9E9920923CA300EED622 /* BoxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxViewController.swift; sourceTree = "<group>"; };
-		A10A9E9B20923CFD00EED622 /* BVCFetchedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BVCFetchedResults.swift; sourceTree = "<group>"; };
-		A10A9E9D20923D1700EED622 /* BVCTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BVCTableViewDataSource.swift; sourceTree = "<group>"; };
-		A10A9E9F20923D2A00EED622 /* BVCMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BVCMethods.swift; sourceTree = "<group>"; };
-		A10A9EA220924B4800EED622 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
-		A10A9EA420924BC100EED622 /* IVCFetchedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVCFetchedResults.swift; sourceTree = "<group>"; };
-		A10A9EA620924BFE00EED622 /* IVCTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVCTableViewDataSource.swift; sourceTree = "<group>"; };
-		A10A9EA820924D0500EED622 /* IVCMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVCMethods.swift; sourceTree = "<group>"; };
 		A11296AD20A0A4FB00F9737F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A11887AF2090D13B0026F971 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel.xcdatamodel; sourceTree = "<group>"; };
-		A11887B42090DAF40026F971 /* SVCFetchedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVCFetchedResults.swift; sourceTree = "<group>"; };
-		A11887B92090F0D30026F971 /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
-		A11887BD2090F2CD0026F971 /* RVCFetchedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVCFetchedResults.swift; sourceTree = "<group>"; };
-		A11887BF2090F2F30026F971 /* RVCTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVCTableViewDataSource.swift; sourceTree = "<group>"; };
-		A11887C12090F4600026F971 /* RVCMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVCMethods.swift; sourceTree = "<group>"; };
 		A120412D208E56390093E782 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A120412F208E72680093E782 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		A1204131208E72BA0093E782 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
@@ -79,13 +50,12 @@
 		A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
+		A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 		A1EFE62C208BBE42000C6E21 /* Move.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Move.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A1EFE631208BBE42000C6E21 /* SpacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesViewController.swift; sourceTree = "<group>"; };
 		A1EFE636208BBE43000C6E21 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1EFE639208BBE43000C6E21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1EFE63B208BBE43000C6E21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A1FB05B9208FBCE300079A39 /* SVCMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVCMethods.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,50 +78,6 @@
 			path = "Core Data";
 			sourceTree = "<group>";
 		};
-		A10A9EA120923E1600EED622 /* BoxViewController */ = {
-			isa = PBXGroup;
-			children = (
-				A10A9E9920923CA300EED622 /* BoxViewController.swift */,
-				A10A9E9B20923CFD00EED622 /* BVCFetchedResults.swift */,
-				A10A9E9D20923D1700EED622 /* BVCTableViewDataSource.swift */,
-				A10A9E9F20923D2A00EED622 /* BVCMethods.swift */,
-			);
-			path = BoxViewController;
-			sourceTree = "<group>";
-		};
-		A10A9EAA20924E2800EED622 /* ItemViewController */ = {
-			isa = PBXGroup;
-			children = (
-				A10A9EA220924B4800EED622 /* ItemViewController.swift */,
-				A10A9EA420924BC100EED622 /* IVCFetchedResults.swift */,
-				A10A9EA620924BFE00EED622 /* IVCTableViewDataSource.swift */,
-				A10A9EA820924D0500EED622 /* IVCMethods.swift */,
-			);
-			path = ItemViewController;
-			sourceTree = "<group>";
-		};
-		A11887B82090F0A20026F971 /* SpaceViewController */ = {
-			isa = PBXGroup;
-			children = (
-				A1EFE631208BBE42000C6E21 /* SpacesViewController.swift */,
-				A11887B42090DAF40026F971 /* SVCFetchedResults.swift */,
-				A1015E89208FD2C000D299B1 /* SVCTableViewDataSource.swift */,
-				A1FB05B9208FBCE300079A39 /* SVCMethods.swift */,
-			);
-			path = SpaceViewController;
-			sourceTree = "<group>";
-		};
-		A11887C320910E580026F971 /* RoomViewController */ = {
-			isa = PBXGroup;
-			children = (
-				A11887B92090F0D30026F971 /* RoomViewController.swift */,
-				A11887BD2090F2CD0026F971 /* RVCFetchedResults.swift */,
-				A11887BF2090F2F30026F971 /* RVCTableViewDataSource.swift */,
-				A11887C12090F4600026F971 /* RVCMethods.swift */,
-			);
-			path = RoomViewController;
-			sourceTree = "<group>";
-		};
 		A120412B208E532B0093E782 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,14 +94,11 @@
 		A120412C208E53360093E782 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				A11887B82090F0A20026F971 /* SpaceViewController */,
-				A11887C320910E580026F971 /* RoomViewController */,
-				A10A9EA120923E1600EED622 /* BoxViewController */,
-				A10A9EAA20924E2800EED622 /* ItemViewController */,
 				A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */,
 				A145AF7820990ECA005C2388 /* PlaceDetailViewController.swift */,
 				A145AF722097D5C6005C2388 /* MainViewController.swift */,
 				A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */,
+				A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -214,7 +137,7 @@
 		A1EFE623208BBE42000C6E21 = {
 			isa = PBXGroup;
 			children = (
-				A1EFE62E208BBE42000C6E21 /* Move */,
+				A1EFE62E208BBE42000C6E21 /* Packed */,
 				A1EFE62D208BBE42000C6E21 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -227,7 +150,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A1EFE62E208BBE42000C6E21 /* Move */ = {
+		A1EFE62E208BBE42000C6E21 /* Packed */ = {
 			isa = PBXGroup;
 			children = (
 				A1E9E5FC208F7DE600971DA7 /* View */,
@@ -237,7 +160,7 @@
 				A120412B208E532B0093E782 /* Resources */,
 				A10A9E922092236C00EED622 /* Core Data */,
 			);
-			path = Move;
+			path = Packed;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,38 +234,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				A120413F208E79BE0093E782 /* Box Controller.swift in Sources */,
-				A11887C22090F4600026F971 /* RVCMethods.swift in Sources */,
 				A120413B208E79460093E782 /* PlaceController.swift in Sources */,
-				A10A9EA920924D0500EED622 /* IVCMethods.swift in Sources */,
 				A120413D208E79890093E782 /* RoomController.swift in Sources */,
-				A11887B52090DAF40026F971 /* SVCFetchedResults.swift in Sources */,
 				A145AF7520983B0E005C2388 /* PackedTableViewCell.swift in Sources */,
-				A10A9E9C20923CFD00EED622 /* BVCFetchedResults.swift in Sources */,
-				A1FB05BA208FBCE300079A39 /* SVCMethods.swift in Sources */,
-				A11887BE2090F2CD0026F971 /* RVCFetchedResults.swift in Sources */,
 				A1204142208E84FA0093E782 /* TitleTableViewCell.swift in Sources */,
 				A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */,
 				A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */,
 				A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */,
-				A1EFE632208BBE42000C6E21 /* SpacesViewController.swift in Sources */,
-				A10A9EA520924BC100EED622 /* IVCFetchedResults.swift in Sources */,
+				A1AA1ABD20A0E9D600E53C51 /* RoomViewController.swift in Sources */,
 				A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */,
 				A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */,
 				A11296AE20A0A4FB00F9737F /* Extensions.swift in Sources */,
 				A1204130208E72680093E782 /* Place.swift in Sources */,
-				A10A9EA020923D2A00EED622 /* BVCMethods.swift in Sources */,
-				A1015E8A208FD2C000D299B1 /* SVCTableViewDataSource.swift in Sources */,
-				A10A9E9E20923D1700EED622 /* BVCTableViewDataSource.swift in Sources */,
 				A1204134208E72D80093E782 /* Box.swift in Sources */,
-				A10A9E9A20923CA300EED622 /* BoxViewController.swift in Sources */,
-				A10A9EA720924BFE00EED622 /* IVCTableViewDataSource.swift in Sources */,
 				A1204136208E72DE0093E782 /* Item.swift in Sources */,
 				A145AF7920990ECA005C2388 /* PlaceDetailViewController.swift in Sources */,
-				A11887C02090F2F30026F971 /* RVCTableViewDataSource.swift in Sources */,
-				A11887BA2090F0D30026F971 /* RoomViewController.swift in Sources */,
 				A120412E208E56390093E782 /* Constants.swift in Sources */,
 				A1204132208E72BA0093E782 /* Room.swift in Sources */,
-				A10A9EA320924B4800EED622 /* ItemViewController.swift in Sources */,
 				A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */,
 				A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */,
 			);
