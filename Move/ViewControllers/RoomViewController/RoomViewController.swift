@@ -11,7 +11,7 @@ import CoreData
 
 class RoomViewController: UIViewController, UITextFieldDelegate, UISearchBarDelegate{
     
-    var space: Space?
+    var space: Place?
     
     var RoomsFetchedResultsController: NSFetchedResultsController<Room> = NSFetchedResultsController()
 

@@ -37,7 +37,7 @@ class NewPlaceViewController: UIViewController {
     }()
     
     let cancelButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(saveButtonPressed))
+        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(cancelButtonPressed))
         return button
     }()
     
@@ -57,7 +57,13 @@ class NewPlaceViewController: UIViewController {
     }
     
     @objc private func saveButtonPressed(){
-        
+        if let address = nameTextField.text {
+            P
+        }
+    }
+    
+    @objc private func cancelButtonPressed(){
+        navigationController?.popViewController(animated: true)
     }
     
     private func setupView(){

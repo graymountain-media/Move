@@ -58,7 +58,7 @@ extension SpacesViewController{
     @objc func submitAdd(){
         guard let name = nameTextField.text, !name.isEmpty else { return }
         
-        SpaceController.createSpace(withName: name)
+//        PlaceController.createSpace(withName: name, image: )
         nameTextField.text = ""
         
         UIView.animate(withDuration: 0.2, animations: {

@@ -37,7 +37,7 @@ extension RoomViewController: UITableViewDelegate, UITableViewDataSource, TitleT
     func deleteButtonPressed(_ sender: TitleTableViewCell) {
         guard let indexPath = mainTableView.indexPath(for: sender) else {return}
         let room = RoomsFetchedResultsController.object(at: indexPath)
-        SpaceController.delete(room: room)
+        PlaceController.delete(room: room)
         mainTableView.deselectRow(at: indexPath, animated: true)
         
         if RoomsFetchedResultsController.sections!.count == 0 {

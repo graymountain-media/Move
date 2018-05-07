@@ -9,11 +9,20 @@
 import UIKit
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PackedTableViewCellDelegate {
+    
+    func setDummyData(){
+        let home1 = Place(name: "MyHome", image: #imageLiteral(resourceName: "HomeIcon"))
+        let home2 = Place(name: "MyOtherHome", image: #imageLiteral(resourceName: "HomeIcon"))
+        let storage = Place(name: "MyUnit", image: #imageLiteral(resourceName: "StorageIcon"))
+        
+        let array = [home1,home2,storage]
+        data = array
+    }
    
     // MARK: - Properties
     let cellIdentifier = "mainCell"
     
-    let data = ["home 1", "home2"]
+    var data: [Place] = []
     
     let mainTableView: UITableView = {
         let tableView = UITableView()
@@ -74,6 +83,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setDummyData()
+        
         if data.count != 0 {
             noDataLabel.isHidden = true
             instructionLabel.isHidden = true
@@ -153,7 +165,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
         
         let item = data[indexPath.row]
-        cell.setupCell(name: item, image: #imageLiteral(resourceName: "HomeIcon"))
+        let image = UIImage(data: item.image!)
+        cell.setupCell(name: item.name!, image: image!)
         
         return cell
     }

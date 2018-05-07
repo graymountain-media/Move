@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17E199" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17E202" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Box" representedClassName="Box" syncable="YES" codeGenerationType="class">
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Item" inverseName="box" inverseEntity="Item" syncable="YES"/>
@@ -9,19 +9,20 @@
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="box" maxCount="1" deletionRule="Nullify" destinationEntity="Box" inverseName="items" inverseEntity="Box" syncable="YES"/>
     </entity>
+    <entity name="Place" representedClassName="Place" syncable="YES" codeGenerationType="class">
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="rooms" toMany="YES" deletionRule="Cascade" destinationEntity="Room" inverseName="space" inverseEntity="Room" syncable="YES"/>
+    </entity>
     <entity name="Room" representedClassName="Room" syncable="YES" codeGenerationType="class">
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="boxes" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Box" inverseName="room" inverseEntity="Box" syncable="YES"/>
-        <relationship name="space" maxCount="1" deletionRule="Nullify" destinationEntity="Space" inverseName="rooms" inverseEntity="Space" syncable="YES"/>
-    </entity>
-    <entity name="Space" representedClassName="Space" syncable="YES" codeGenerationType="class">
-        <attribute name="name" attributeType="String" syncable="YES"/>
-        <relationship name="rooms" toMany="YES" deletionRule="Cascade" destinationEntity="Room" inverseName="space" inverseEntity="Room" syncable="YES"/>
+        <relationship name="space" maxCount="1" deletionRule="Nullify" destinationEntity="Place" inverseName="rooms" inverseEntity="Place" syncable="YES"/>
     </entity>
     <elements>
         <element name="Box" positionX="-189" positionY="-99" width="128" height="88"/>
         <element name="Item" positionX="-36" positionY="9" width="128" height="75"/>
         <element name="Room" positionX="-362" positionY="-234" width="128" height="88"/>
-        <element name="Space" positionX="-576" positionY="-270" width="128" height="73"/>
+        <element name="Place" positionX="-576" positionY="-270" width="128" height="90"/>
     </elements>
 </model>

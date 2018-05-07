@@ -1,22 +1,23 @@
 //
-//  Space.swift
+//  Place.swift
 //  Move
 //
 //  Created by Jake Gray on 4/23/18.
 //  Copyright © 2018 Jake Gray. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CoreData
 
-extension Space{
+extension Place{
     
 //    var name: String
 //    var rooms: [Room]
     
-    convenience init(name: String, context: NSManagedObjectContext = CoreDataStack.context){
+    convenience init(name: String, image: UIImage, context: NSManagedObjectContext = CoreDataStack.context){
         self.init(context: context)
         self.name = name
+        self.image = UIImagePNGRepresentation(image) as Data?
         self.rooms = []
     }
     

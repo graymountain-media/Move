@@ -11,8 +11,8 @@ import CoreData
 
 class SpacesViewController: UIViewController, UITextFieldDelegate, UISearchBarDelegate{
     
-    let SpacesFetchedResultsController: NSFetchedResultsController<Space> = {
-        let request: NSFetchRequest<Space> = Space.fetchRequest()
+    let SpacesFetchedResultsController: NSFetchedResultsController<Place> = {
+        let request: NSFetchRequest<Place> = Place.fetchRequest()
         
          let nameSort = NSSortDescriptor(key: "name", ascending: true)
          request.sortDescriptors = [nameSort]

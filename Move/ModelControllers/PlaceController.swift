@@ -1,38 +1,38 @@
 //
-//  SpaceController.swift
+//  PlaceController.swift
 //  Move
 //
 //  Created by Jake Gray on 4/23/18.
 //  Copyright © 2018 Jake Gray. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-class SpaceController {
+class PlaceController {
     
     
-    //create space
-    static func createSpace(withName name: String){
-        let _ = Space(name: name)
+    //create place
+    static func createPlace(withName name: String, image: UIImage){
+        let _ = Place(name: name, image: image)
         saveData()
     }
     
-    //update space
-    static func update(space: Space, withName newName: String){
-        space.name = newName
+    //update place
+    static func update(place: Place, withName newName: String){
+        place.name = newName
     }
     
-    //delete space
-    static func delete(space: Space){
-        space.managedObjectContext?.delete(space)
+    //delete place
+    static func delete(place: Place){
+        place.managedObjectContext?.delete(place)
         
         
         saveData()
     }
     
     //create Room
-    static func createRoom(withName name: String, inSpace space: Space ){
-        let newRoom = Room(name: name, space: space)
+    static func createRoom(withName name: String, inPlace place: Place ){
+        let newRoom = Room(name: name, place: place)
         print(newRoom)
         saveData()
     }
