@@ -21,6 +21,7 @@ extension Box {
         self.name = name
         self.items = []
         self.room = room
+        self.isFragile = false
     }
     
 //    static func == (lhs: Box, rhs: Box) -> Bool {

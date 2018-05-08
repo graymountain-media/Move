@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17E202" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Box" representedClassName="Box" syncable="YES" codeGenerationType="class">
+        <attribute name="isFragile" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Item" inverseName="box" inverseEntity="Item" syncable="YES"/>
         <relationship name="room" maxCount="1" deletionRule="Nullify" destinationEntity="Room" inverseName="boxes" inverseEntity="Room" syncable="YES"/>
     </entity>
     <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
+        <attribute name="isFragile" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="box" maxCount="1" deletionRule="Nullify" destinationEntity="Box" inverseName="items" inverseEntity="Box" syncable="YES"/>
     </entity>
@@ -21,8 +23,8 @@
         <relationship name="place" maxCount="1" deletionRule="Nullify" destinationEntity="Place" inverseName="rooms" inverseEntity="Place" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Box" positionX="-189" positionY="-99" width="128" height="88"/>
-        <element name="Item" positionX="-36" positionY="9" width="128" height="75"/>
+        <element name="Box" positionX="-189" positionY="-99" width="128" height="105"/>
+        <element name="Item" positionX="-36" positionY="9" width="128" height="90"/>
         <element name="Place" positionX="-576" positionY="-270" width="128" height="90"/>
         <element name="Room" positionX="-362" positionY="-234" width="128" height="105"/>
     </elements>

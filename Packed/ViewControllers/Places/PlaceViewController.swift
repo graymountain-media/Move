@@ -64,12 +64,7 @@ class PlaceViewController: MainViewController {
         let place = PlacesFetchedResultsController.object(at: indexPath!)
         print("options pressed for \(place.name!)")
         let actionSheet = UIAlertController(title: place.name, message: nil, preferredStyle: .actionSheet)
-        let updateAction = UIAlertAction(title: "Rename this Place", style: .default) { (_) in
-            let renamePlaceViewController = RenamePlaceViewController()
-            renamePlaceViewController.place = place
-            self.navigationController?.pushViewController(renamePlaceViewController, animated: true)
-        }
-        actionSheet.addAction(updateAction)
+       
         let deleteAction = UIAlertAction(title: "Delete \(place.name!)", style: .destructive) { (_) in
             PlaceController.delete(place: place)
             
@@ -83,7 +78,15 @@ class PlaceViewController: MainViewController {
                 }, completion: nil)
             }
         }
+        
         actionSheet.addAction(deleteAction)
+        
+        let updateAction = UIAlertAction(title: "Rename this Place", style: .default) { (_) in
+            let renamePlaceViewController = RenamePlaceViewController()
+            renamePlaceViewController.place = place
+            self.navigationController?.pushViewController(renamePlaceViewController, animated: true)
+        }
+        actionSheet.addAction(updateAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         actionSheet.addAction(cancelAction)
@@ -108,7 +111,7 @@ class PlaceViewController: MainViewController {
         let image = item.isHome ? #imageLiteral(resourceName: "HomeIcon") : #imageLiteral(resourceName: "StorageIcon")
         cell.setupCell(name: item.name!, image: image)
         cell.delegate = self
-        
+
         return cell
     }
     

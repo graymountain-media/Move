@@ -87,13 +87,7 @@ class BoxViewController: MainViewController {
         let box = BoxesFetchedResultsController.object(at: indexPath!)
         print("options pressed for \(box.name!)")
         let actionSheet = UIAlertController(title: box.name, message: nil, preferredStyle: .actionSheet)
-        let updateAction = UIAlertAction(title: "Rename this Box", style: .default) { (_) in
-            let renameBoxViewController = RenameBoxViewController()
-            renameBoxViewController.box = box
-
-            self.navigationController?.pushViewController(renameBoxViewController, animated: true)
-        }
-        actionSheet.addAction(updateAction)
+        
         let deleteAction = UIAlertAction(title: "Delete \(box.name!)", style: .destructive) { (_) in
             RoomController.delete(box: box)
             
@@ -109,6 +103,14 @@ class BoxViewController: MainViewController {
             }
         }
         actionSheet.addAction(deleteAction)
+        
+        let updateAction = UIAlertAction(title: "Rename this Box", style: .default) { (_) in
+            let renameBoxViewController = RenameBoxViewController()
+            renameBoxViewController.box = box
+            
+            self.navigationController?.pushViewController(renameBoxViewController, animated: true)
+        }
+        actionSheet.addAction(updateAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         actionSheet.addAction(cancelAction)

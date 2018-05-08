@@ -32,6 +32,7 @@ class PackedTableViewCell: UITableViewCell {
     let optionsButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "moreOptions"), for: .normal)
+        button.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .lightGray
         return button
@@ -49,7 +50,7 @@ class PackedTableViewCell: UITableViewCell {
         delegate?.cellOptionsButtonPressed(sender: self)
     }
     
-    private func setupViews(){
+    func setupViews(){
         self.backgroundColor = .white
         
         self.addSubview(iconImageView)

@@ -8,9 +8,10 @@
 import UIKit
 
 class ItemDetailViewController: UIViewController {
-    
+  
     var box: Box?
     var item: Item?
+    
     
     let nameTextField: UITextField = {
         let textField = UITextField()
@@ -36,6 +37,81 @@ class ItemDetailViewController: UIViewController {
         return label
     }()
     
+    let boxLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Box:"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.textAlignment = .left
+        return label
+    }()
+    
+    let boxNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = label.font.withSize(18)
+        label.textAlignment = .right
+        return label
+    }()
+    
+    let fragileLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Fragile:"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.textAlignment = .left
+        return label
+    }()
+    
+    let fragileSwitch: UISwitch = {
+        let mySwitch = UISwitch()
+        mySwitch.isOn = false
+        mySwitch.tintColor = mainColor
+        mySwitch.onTintColor = mainColor
+        mySwitch.translatesAutoresizingMaskIntoConstraints = false
+        return mySwitch
+    }()
+    
+    let separator: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = textFieldColor.cgColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let optionsTableView: UITableView = {
+        let tableView = UITableView(frame: CGRect.zero, style: .grouped)
+        tableView.rowHeight = 50
+        tableView.backgroundColor = offWhite
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.isScrollEnabled = false
+        return tableView
+    }()
+    let boxInfoCell: UITableViewCell = {
+        let cell = UITableViewCell()
+        cell.backgroundColor = .white
+        cell.frame.size.height = 50
+        return cell
+    }()
+    
+    let fragileOptionCell: UITableViewCell = {
+        let cell = UITableViewCell()
+        cell.backgroundColor = .white
+        cell.frame.size.height = 50
+        return cell
+    }()
+    
+    let deleteButton: UIButton = {
+        let button = UIButton(type: UIButtonType.roundedRect)
+        button.backgroundColor = .red
+        button.setTitle("Delete This Item", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 5
+        button.clipsToBounds = true
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,12 +120,11 @@ class ItemDetailViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         
         nameTextField.delegate = self
+        optionsTableView.delegate = self
+        optionsTableView.dataSource = self
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.save, target: self, action: #selector(saveButtonPressed))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(cancelButtonPressed))
-        
-        view.addSubview(nameTextField)
-        view.addSubview(textInstructionLabel)
         
         setupView()
         nameTextField.becomeFirstResponder()
@@ -81,6 +156,11 @@ class ItemDetailViewController: UIViewController {
     
     private func setupView(){
         
+        view.addSubview(nameTextField)
+        view.addSubview(textInstructionLabel)
+        view.addSubview(optionsTableView)
+        view.addSubview(deleteButton)
+        
         nameTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         nameTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -90,14 +170,55 @@ class ItemDetailViewController: UIViewController {
         textInstructionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         textInstructionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
+        
+        optionsTableView.topAnchor.constraint(equalTo: textInstructionLabel.bottomAnchor, constant: 32).isActive = true
+        optionsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        optionsTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        optionsTableView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        deleteButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        deleteButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
+        deleteButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
+        deleteButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+
+        
+        setupCells()
+
+        
         if let item = self.item {
             nameTextField.text = item.name!
-            self.title = "Rename Item"
-            textInstructionLabel.text = "Please rename your item."
+            self.title = "Item Details"
+            deleteButton.isHidden = false
         } else {
             self.title = "Add New Item"
-            textInstructionLabel.text = "Please name your item."
+            deleteButton.isHidden = true
         }
+        textInstructionLabel.text = "Please name your item."
+        boxNameLabel.text = box?.name
+    }
+    
+    func setupCells() {
+        boxInfoCell.addSubview(boxLabel)
+        boxInfoCell.addSubview(boxNameLabel)
+        
+        boxLabel.centerYAnchor.constraint(equalTo: boxInfoCell.centerYAnchor).isActive = true
+        boxLabel.leadingAnchor.constraint(equalTo: boxInfoCell.leadingAnchor, constant: 8).isActive = true
+        boxLabel.trailingAnchor.constraint(equalTo: boxInfoCell.trailingAnchor, constant: -32).isActive = true
+        
+        boxNameLabel.centerYAnchor.constraint(equalTo: boxInfoCell.centerYAnchor).isActive = true
+        boxNameLabel.leadingAnchor.constraint(equalTo: boxInfoCell.leadingAnchor, constant: 32).isActive = true
+        boxNameLabel.trailingAnchor.constraint(equalTo: boxInfoCell.trailingAnchor, constant: -8).isActive = true
+        
+        fragileOptionCell.addSubview(fragileLabel)
+        fragileOptionCell.addSubview(fragileSwitch)
+        
+        fragileLabel.centerYAnchor.constraint(equalTo: fragileOptionCell.centerYAnchor).isActive = true
+        fragileLabel.leadingAnchor.constraint(equalTo: fragileOptionCell.leadingAnchor, constant: 8).isActive = true
+        fragileLabel.trailingAnchor.constraint(equalTo: fragileSwitch.leadingAnchor).isActive = true
+        
+        fragileSwitch.centerYAnchor.constraint(equalTo: fragileOptionCell.centerYAnchor).isActive = true
+        fragileSwitch.trailingAnchor.constraint(equalTo: fragileOptionCell.trailingAnchor, constant: -8).isActive = true
+
     }
 }
 
@@ -111,5 +232,26 @@ extension ItemDetailViewController: UITextFieldDelegate{
         nameTextField.resignFirstResponder()
         return true
     }
+}
+
+extension ItemDetailViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch (indexPath.row){
+            case 0:
+                return self.boxInfoCell
+            default:
+                return self.fragileOptionCell
+        }
+    }
+    
+    
 }
 

@@ -30,6 +30,7 @@
 		A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */; };
 		A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */; };
 		A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */; };
+		A1A9987420A231060039662E /* PackedItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A9987320A231060039662E /* PackedItemTableViewCell.swift */; };
 		A1AA1ABD20A0E9D600E53C51 /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */; };
 		A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */; };
 		A1EFE637208BBE43000C6E21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EFE636208BBE43000C6E21 /* Assets.xcassets */; };
@@ -60,6 +61,7 @@
 		A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
+		A1A9987320A231060039662E /* PackedItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedItemTableViewCell.swift; sourceTree = "<group>"; };
 		A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 		A1EFE62C208BBE42000C6E21 /* Move.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Move.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -132,8 +134,8 @@
 				A120412D208E56390093E782 /* Constants.swift */,
 				A11296AD20A0A4FB00F9737F /* Extensions.swift */,
 				A1EFE636208BBE43000C6E21 /* Assets.xcassets */,
-				A1EFE638208BBE43000C6E21 /* LaunchScreen.storyboard */,
 				A1EFE63B208BBE43000C6E21 /* Info.plist */,
+				A1EFE638208BBE43000C6E21 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -177,6 +179,7 @@
 			children = (
 				A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */,
 				A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */,
+				A1A9987320A231060039662E /* PackedItemTableViewCell.swift */,
 			);
 			path = "Custom TVCells";
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				A11488C920A0EC6000F60B92 /* RoomDetailViewController.swift in Sources */,
 				A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */,
 				A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */,
+				A1A9987420A231060039662E /* PackedItemTableViewCell.swift in Sources */,
 				A11296AE20A0A4FB00F9737F /* Extensions.swift in Sources */,
 				A1204130208E72680093E782 /* Place.swift in Sources */,
 				A1204134208E72D80093E782 /* Box.swift in Sources */,

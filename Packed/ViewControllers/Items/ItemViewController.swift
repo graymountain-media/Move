@@ -31,6 +31,8 @@ class ItemViewController: MainViewController {
         ItemsFetchedResultsController.delegate = self
         
         try? ItemsFetchedResultsController.performFetch()
+        
+        mainTableView.register(PackedItemTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -119,11 +121,12 @@ class ItemViewController: MainViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
+        guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedItemTableViewCell else {return PackedItemTableViewCell()}
         
         let item = ItemsFetchedResultsController.object(at: indexPath)
         cell.setupCell(name: item.name!, image: #imageLiteral(resourceName: "ItemIcon"))
         cell.delegate = self
+        cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         
         return cell
     }

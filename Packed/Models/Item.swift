@@ -18,6 +18,7 @@ extension Item {
         self.init(context: context)
         self.name = name
         self.box = box
+        self.isFragile = false
     }
     
 //    static func == (lhs: Item, rhs: Item) -> Bool {

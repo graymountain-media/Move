@@ -80,13 +80,7 @@ class RoomViewController: MainViewController {
         let room = RoomsFetchedResultsController.object(at: indexPath!)
         print("options pressed for \(room.name!)")
         let actionSheet = UIAlertController(title: room.name, message: nil, preferredStyle: .actionSheet)
-        let updateAction = UIAlertAction(title: "Rename this Room", style: .default) { (_) in
-            let roomDetailViewController = RoomDetailViewController()
-            roomDetailViewController.room = room
-            
-            self.navigationController?.pushViewController(roomDetailViewController, animated: true)
-        }
-        actionSheet.addAction(updateAction)
+        
         let deleteAction = UIAlertAction(title: "Delete \(room.name!)", style: .destructive) { (_) in
             PlaceController.delete(room: room)
             
@@ -101,6 +95,14 @@ class RoomViewController: MainViewController {
             }
         }
         actionSheet.addAction(deleteAction)
+        
+        let updateAction = UIAlertAction(title: "Rename this Room", style: .default) { (_) in
+            let roomDetailViewController = RoomDetailViewController()
+            roomDetailViewController.room = room
+            
+            self.navigationController?.pushViewController(roomDetailViewController, animated: true)
+        }
+        actionSheet.addAction(updateAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         actionSheet.addAction(cancelAction)
