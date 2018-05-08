@@ -23,15 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let homeViewController = PlaceViewController()
         let navigationController = UINavigationController(rootViewController: homeViewController)
 
-        navigationController.navigationBar.isTranslucent = false
-        navigationController.navigationBar.barTintColor = mainColor
-        navigationController.navigationBar.tintColor = .white
-        navigationController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
-        
-        navigationController.navigationBar.backgroundColor = .white
+        navigationController.setupBar()
         
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
+        self.window?.backgroundColor = offWhite
         
         
         

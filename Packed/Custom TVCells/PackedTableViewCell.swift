@@ -37,6 +37,13 @@ class PackedTableViewCell: UITableViewCell {
         button.tintColor = .lightGray
         return button
     }()
+    let fragileIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "FragileIcon")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isHidden = true
+        return imageView
+    }()
     
     let separator: UIView = {
         let view = UIView()
@@ -56,6 +63,7 @@ class PackedTableViewCell: UITableViewCell {
         self.addSubview(iconImageView)
         self.addSubview(nameLabel)
         self.addSubview(optionsButton)
+        self.addSubview(fragileIconImageView)
         self.addSubview(separator)
         
         iconImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
@@ -67,6 +75,11 @@ class PackedTableViewCell: UITableViewCell {
         optionsButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 4).isActive = true
         optionsButton.bottomAnchor.constraint(equalTo: separator.topAnchor, constant: -4).isActive = true
         optionsButton.widthAnchor.constraint(equalTo: optionsButton.heightAnchor).isActive = true
+        
+        fragileIconImageView.trailingAnchor.constraint(equalTo: optionsButton.leadingAnchor, constant: 4).isActive = true
+        fragileIconImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 4).isActive = true
+        fragileIconImageView.bottomAnchor.constraint(equalTo: separator.topAnchor, constant: -4).isActive = true
+        fragileIconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor).isActive = true
         
         nameLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 8).isActive = true
         nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 4).isActive = true
@@ -81,10 +94,13 @@ class PackedTableViewCell: UITableViewCell {
         optionsButton.addTarget(self, action: #selector(optionsButtonPressed), for: .touchUpInside)
     }
     
-    func setupCell(name: String, image: UIImage){
+    func setupCell(name: String, image: UIImage, isFragile: Bool){
         setupViews()
         
         nameLabel.text = name
         iconImageView.image = image
+        if isFragile {
+            fragileIconImageView.isHidden = false
+        }
     }
 }

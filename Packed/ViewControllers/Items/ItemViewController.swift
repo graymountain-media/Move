@@ -25,7 +25,6 @@ class ItemViewController: MainViewController {
         
         noDataLabel.text = "You don't have any Items yet."
         instructionLabel.text = "Tap '+' to add a new Item."
-        mainTableView.allowsSelection = false
         
         setupFetchedResultsController()
         ItemsFetchedResultsController.delegate = self
@@ -37,12 +36,17 @@ class ItemViewController: MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print("Count: \(ItemsFetchedResultsController.fetchedObjects?.count)")
         if ItemsFetchedResultsController.fetchedObjects?.count != nil && (ItemsFetchedResultsController.fetchedObjects?.count)! > 0 {
             noDataLabel.isHidden = true
             noDataLabel.alpha = 0.0
             instructionLabel.isHidden = true
             instructionLabel.alpha = 0.0
+        }else {
+            noDataLabel.isHidden = false
+            noDataLabel.alpha = 1.0
+            instructionLabel.isHidden = false
+            instructionLabel.alpha = 1.0
         }
     }
     
@@ -74,40 +78,10 @@ class ItemViewController: MainViewController {
         let itemDetailViewController = ItemDetailViewController()
         itemDetailViewController.box = box
         
-        navigationController?.pushViewController(itemDetailViewController, animated: true)
-    }
-    
-    // MARK: - Cell Delegate
-    
-    override func cellOptionsButtonPressed(sender: UITableViewCell) {
-        let indexPath = mainTableView.indexPath(for: sender)
-        let item = ItemsFetchedResultsController.object(at: indexPath!)
-        print("options pressed for \(item.name!)")
-        let actionSheet = UIAlertController(title: item.name, message: nil, preferredStyle: .actionSheet)
-        let updateAction = UIAlertAction(title: "Rename this Item", style: .default) { (_) in
-            let itemDetailViewController = ItemDetailViewController()
-            itemDetailViewController.item = item
-            
-            self.navigationController?.pushViewController(itemDetailViewController, animated: true)
-        }
-        actionSheet.addAction(updateAction)
-        let deleteAction = UIAlertAction(title: "Delete \(item.name!)", style: .destructive) { (_) in
-            BoxController.delete(item: item)
-            if (self.ItemsFetchedResultsController.fetchedObjects?.count)! <= 0 {
-                self.noDataLabel.isHidden = false
-                self.instructionLabel.isHidden = false
-                UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
-                    self.noDataLabel.alpha = 1
-                    self.instructionLabel.alpha = 1
-                }, completion: nil)
-            }
-        }
-        actionSheet.addAction(deleteAction)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        actionSheet.addAction(cancelAction)
-        
-        present(actionSheet, animated: true, completion: nil)
+        let navController = UINavigationController(rootViewController: itemDetailViewController)
+        navController.setupBar()
+        navController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        self.present(navController, animated: true, completion: nil)
     }
     
     // MARK: - TableView Data
@@ -124,11 +98,21 @@ class ItemViewController: MainViewController {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedItemTableViewCell else {return PackedItemTableViewCell()}
         
         let item = ItemsFetchedResultsController.object(at: indexPath)
-        cell.setupCell(name: item.name!, image: #imageLiteral(resourceName: "ItemIcon"))
-        cell.delegate = self
+        cell.setupCell(name: item.name!, image: #imageLiteral(resourceName: "ItemIcon"), isFragile: item.isFragile)
         cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let box = self.box else {return}
+        let item = ItemsFetchedResultsController.object(at: indexPath)
+        let itemDetailVC = ItemDetailViewController()
+        itemDetailVC.item = item
+        itemDetailVC.box = box
+        navigationController?.pushViewController(itemDetailVC, animated: true)
+        
+        mainTableView.deselectRow(at: indexPath, animated: true)
     }
 }
 

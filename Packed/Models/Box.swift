@@ -11,11 +11,6 @@ import CoreData
 
 extension Box {
     
-//    var name: String
-//    let QRID = String
-//    var items: [Item]
-//    var room: Room
-    
     convenience init(name: String, room: Room, context: NSManagedObjectContext = CoreDataStack.context){
         self.init(context:context)
         self.name = name
@@ -24,7 +19,4 @@ extension Box {
         self.isFragile = false
     }
     
-//    static func == (lhs: Box, rhs: Box) -> Bool {
-//        return (lhs.name == rhs.name && lhs.items == rhs.items && lhs.room == rhs.room)
-//    }
 }

@@ -26,6 +26,7 @@ class PlaceViewController: MainViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.largeTitleDisplayMode = .always
         
         noDataLabel.text = "You don't have any Places yet."
         instructionLabel.text = "Tap '+' to add a new Place."
@@ -54,7 +55,11 @@ class PlaceViewController: MainViewController {
         
         print("Add button pressed")
         let newPlaceViewController = NewPlaceViewController()
-        navigationController?.pushViewController(newPlaceViewController, animated: true)
+        
+        let navController = UINavigationController(rootViewController: newPlaceViewController)
+        navController.setupBar()
+        navController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        present(navController, animated: true, completion: nil)
     }
     
     // MARK: - Cell Delegate
@@ -84,7 +89,10 @@ class PlaceViewController: MainViewController {
         let updateAction = UIAlertAction(title: "Rename this Place", style: .default) { (_) in
             let renamePlaceViewController = RenamePlaceViewController()
             renamePlaceViewController.place = place
-            self.navigationController?.pushViewController(renamePlaceViewController, animated: true)
+            let navController = UINavigationController(rootViewController: renamePlaceViewController)
+            navController.setupBar()
+            navController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+            self.present(navController, animated: true, completion: nil)
         }
         actionSheet.addAction(updateAction)
         
@@ -109,7 +117,7 @@ class PlaceViewController: MainViewController {
         
         let item = PlacesFetchedResultsController.object(at: indexPath)
         let image = item.isHome ? #imageLiteral(resourceName: "HomeIcon") : #imageLiteral(resourceName: "StorageIcon")
-        cell.setupCell(name: item.name!, image: image)
+        cell.setupCell(name: item.name!, image: image, isFragile: false)
         cell.delegate = self
 
         return cell

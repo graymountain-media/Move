@@ -74,7 +74,7 @@ class NewPlaceViewController: UIViewController {
             let isHome = placeSegmentedControl.selectedSegmentIndex == 0 ? true : false
             PlaceController.createPlace(withName: address, isHome: isHome)
             
-            navigationController?.popViewController(animated: true)
+            dismiss(animated: true, completion: nil)
         } else {
             let noAddressAlert = UIAlertController(title: "Missing Address", message: "Please input an address for your new place.", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
@@ -85,7 +85,7 @@ class NewPlaceViewController: UIViewController {
     }
     
     @objc private func cancelButtonPressed(){
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func controlChanged(){

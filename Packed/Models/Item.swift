@@ -14,11 +14,11 @@ extension Item {
 //    var name: String
 //    var box: Box
     
-    convenience init(name: String, box: Box, context: NSManagedObjectContext = CoreDataStack.context) {
+    convenience init(name: String, box: Box, isFragile: Bool = false, context: NSManagedObjectContext = CoreDataStack.context) {
         self.init(context: context)
         self.name = name
         self.box = box
-        self.isFragile = false
+        self.isFragile = isFragile
     }
     
 //    static func == (lhs: Item, rhs: Item) -> Bool {

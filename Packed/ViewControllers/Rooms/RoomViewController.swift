@@ -69,8 +69,10 @@ class RoomViewController: MainViewController {
         
         let roomDetailViewController = RoomDetailViewController()
         roomDetailViewController.place = place
-        
-        navigationController?.pushViewController(roomDetailViewController, animated: true)
+        let navController = UINavigationController(rootViewController: roomDetailViewController)
+        navController.setupBar()
+        navController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        self.present(navController, animated: true, completion: nil)
     }
     
     // MARK: - Cell Delegate
@@ -100,7 +102,10 @@ class RoomViewController: MainViewController {
             let roomDetailViewController = RoomDetailViewController()
             roomDetailViewController.room = room
             
-            self.navigationController?.pushViewController(roomDetailViewController, animated: true)
+            let navController = UINavigationController(rootViewController: roomDetailViewController)
+            navController.setupBar()
+            navController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+            self.present(navController, animated: true, completion: nil)
         }
         actionSheet.addAction(updateAction)
         
@@ -124,7 +129,7 @@ class RoomViewController: MainViewController {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
         
         let room = RoomsFetchedResultsController.object(at: indexPath)
-        cell.setupCell(name: room.name!, image: #imageLiteral(resourceName: "RoomIcon"))
+        cell.setupCell(name: room.name!, image: #imageLiteral(resourceName: "RoomIcon"), isFragile: false)
         cell.delegate = self
         
         return cell

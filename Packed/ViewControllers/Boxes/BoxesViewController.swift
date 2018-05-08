@@ -108,7 +108,10 @@ class BoxViewController: MainViewController {
             let renameBoxViewController = RenameBoxViewController()
             renameBoxViewController.box = box
             
-            self.navigationController?.pushViewController(renameBoxViewController, animated: true)
+            let navController = UINavigationController(rootViewController: renameBoxViewController)
+            navController.setupBar()
+            navController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+            self.present(navController, animated: true, completion: nil)
         }
         actionSheet.addAction(updateAction)
         
@@ -132,7 +135,7 @@ class BoxViewController: MainViewController {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
         
         let box = BoxesFetchedResultsController.object(at: indexPath)
-        cell.setupCell(name: box.name!, image: #imageLiteral(resourceName: "BoxIcon"))
+        cell.setupCell(name: box.name!, image: #imageLiteral(resourceName: "BoxIcon"), isFragile: box.isFragile)
         cell.delegate = self
         
         return cell

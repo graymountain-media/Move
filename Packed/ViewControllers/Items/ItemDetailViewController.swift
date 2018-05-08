@@ -113,33 +113,37 @@ class ItemDetailViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = offWhite
-        navigationItem.largeTitleDisplayMode = .never
+//        navigationItem.largeTitleDisplayMode = .never
         
         nameTextField.delegate = self
         optionsTableView.delegate = self
         optionsTableView.dataSource = self
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.save, target: self, action: #selector(saveButtonPressed))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(cancelButtonPressed))
+        
         
         setupView()
-        nameTextField.becomeFirstResponder()
     }
+    
+    // MARK: - Button Actions
     
     @objc private func saveButtonPressed(){
         
         if let name = nameTextField.text, !name.isEmpty {
             if let item = self.item {
-                BoxController.update(item: item, withName: name)
+                print(fragileSwitch.isOn)
+                BoxController.update(item: item, withName: name, isFragile: fragileSwitch.isOn)
                 navigationController?.popViewController(animated: true)
             } else {
                 guard let box = box else {return}
-                BoxController.createItem(withName: name, inBox: box)
-                navigationController?.popViewController(animated: true)
+                BoxController.createItem(withName: name, inBox: box, isFragile: fragileSwitch.isOn)
+                dismiss(animated: true, completion: nil)
             }
         } else {
             let noAddressAlert = UIAlertController(title: "Missing Name", message: "Please input an name for your new item.", preferredStyle: .alert)
@@ -151,8 +155,25 @@ class ItemDetailViewController: UIViewController {
     }
     
     @objc private func cancelButtonPressed(){
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
+    
+    @objc private func deleteButtonPressed(){
+        let alert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (_) in
+            BoxController.delete(item: self.item!)
+            self.navigationController?.popViewController(animated: true)
+        }
+        alert.addAction(deleteAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - View Setup
     
     private func setupView(){
         
@@ -180,6 +201,7 @@ class ItemDetailViewController: UIViewController {
         deleteButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         deleteButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
         deleteButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        deleteButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
 
         
         setupCells()
@@ -187,11 +209,14 @@ class ItemDetailViewController: UIViewController {
         
         if let item = self.item {
             nameTextField.text = item.name!
+            fragileSwitch.isOn = item.isFragile
             self.title = "Item Details"
             deleteButton.isHidden = false
         } else {
             self.title = "Add New Item"
             deleteButton.isHidden = true
+            nameTextField.becomeFirstResponder()
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(cancelButtonPressed))
         }
         textInstructionLabel.text = "Please name your item."
         boxNameLabel.text = box?.name

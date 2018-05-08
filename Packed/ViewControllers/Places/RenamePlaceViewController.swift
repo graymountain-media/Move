@@ -53,7 +53,7 @@ class RenamePlaceViewController: UIViewController {
     @objc private func saveButtonPressed(){
         if let address = nameTextField.text, !address.isEmpty, let place = self.place {
             PlaceController.update(place: place, withName: address, isHome: place.isHome)
-            navigationController?.popViewController(animated: true)
+            dismiss(animated: true, completion: nil)
         } else {
             let noAddressAlert = UIAlertController(title: "Missing Address", message: "Please input an address for your place.", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
@@ -64,7 +64,7 @@ class RenamePlaceViewController: UIViewController {
     }
     
     @objc private func cancelButtonPressed(){
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     private func setupView(){
@@ -83,6 +83,7 @@ class RenamePlaceViewController: UIViewController {
             imageView.image = place.isHome ? #imageLiteral(resourceName: "HomeIcon") : #imageLiteral(resourceName: "StorageIcon")
             imageView.contentMode = .scaleAspectFit
             nameTextField.leftView = imageView
+            nameTextField.text = place.name
         }
     }
 }

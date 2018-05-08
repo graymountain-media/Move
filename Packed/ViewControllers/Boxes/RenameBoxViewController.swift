@@ -62,7 +62,7 @@ class RenameBoxViewController: UIViewController {
         guard let box = self.box else {return}
         if let name = nameTextField.text, !name.isEmpty {
             BoxController.update(box: box, withName: name)
-            navigationController?.popViewController(animated: true)
+            dismiss(animated: true, completion: nil)
         } else {
             let noAddressAlert = UIAlertController(title: "Missing Name", message: "Please input an name for your box.", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
@@ -73,7 +73,7 @@ class RenameBoxViewController: UIViewController {
     }
     
     @objc private func cancelButtonPressed(){
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     private func setupView(){

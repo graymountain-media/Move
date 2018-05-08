@@ -17,3 +17,15 @@ extension UITextField{
         self.leftViewMode = .always
     }
 }
+
+extension UINavigationController {
+    
+    func setupBar() {
+        self.navigationBar.isTranslucent = false
+        self.navigationBar.barTintColor = mainColor
+        self.navigationBar.tintColor = .white
+        self.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
+        
+        self.navigationBar.backgroundColor = .white
+    }
+}
