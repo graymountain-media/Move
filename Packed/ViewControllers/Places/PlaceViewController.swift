@@ -44,7 +44,6 @@ class PlaceViewController: MainViewController {
             noDataLabel.alpha = 0.0
             instructionLabel.isHidden = true
             instructionLabel.alpha = 0.0
-            searchController.searchBar.isUserInteractionEnabled = true
         }
     }
     
@@ -77,7 +76,7 @@ class PlaceViewController: MainViewController {
             if (self.PlacesFetchedResultsController.fetchedObjects?.count)! <= 0 {
                 self.noDataLabel.isHidden = false
                 self.instructionLabel.isHidden = false
-                self.searchController.searchBar.isUserInteractionEnabled = false
+                
                 UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
                     self.noDataLabel.alpha = 1
                     self.instructionLabel.alpha = 1

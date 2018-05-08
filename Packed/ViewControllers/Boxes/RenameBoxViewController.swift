@@ -40,6 +40,10 @@ class RenameBoxViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        guard let box = box else {return}
+        nameTextField.text = box.name
+        navigationItem.largeTitleDisplayMode = .never
+        
         view.backgroundColor = offWhite
         
         nameTextField.delegate = self
@@ -51,6 +55,7 @@ class RenameBoxViewController: UIViewController {
         view.addSubview(textInstructionLabel)
         
         setupView()
+        nameTextField.becomeFirstResponder()
     }
     
     @objc private func saveButtonPressed(){

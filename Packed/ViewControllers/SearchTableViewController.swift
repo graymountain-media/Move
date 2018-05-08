@@ -18,6 +18,7 @@ class SearchTableViewController: UIViewController, UISearchResultsUpdating, UITa
     
     let searchTableView: UITableView = {
         let tableView = UITableView()
+        tableView.rowHeight = 50
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -25,7 +26,7 @@ class SearchTableViewController: UIViewController, UISearchResultsUpdating, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = mainColor
+        view.backgroundColor = .white
         
         searchTableView.delegate = self
         searchTableView.dataSource = self
@@ -38,7 +39,7 @@ class SearchTableViewController: UIViewController, UISearchResultsUpdating, UITa
     }
     
     private func setupTable(){
-        searchTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        searchTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         searchTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         searchTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         searchTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
@@ -59,60 +60,37 @@ class SearchTableViewController: UIViewController, UISearchResultsUpdating, UITa
             return "Boxes"
         }
     }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let itemHeader = UIView()
-        itemHeader.backgroundColor = secondaryColor
-        itemHeader.layer.borderWidth = 1
-        itemHeader.layer.borderColor = mainColor.cgColor
-        let itemHeaderLabel = UILabel()
-        itemHeaderLabel.text = "Items"
-        itemHeaderLabel.textColor = mainColor
-        itemHeaderLabel.font = UIFont.boldSystemFont(ofSize: 22)
-        itemHeaderLabel.translatesAutoresizingMaskIntoConstraints = false
-        itemHeader.addSubview(itemHeaderLabel)
-        itemHeaderLabel.centerYAnchor.constraint(equalTo: itemHeader.centerYAnchor).isActive = true
-        itemHeaderLabel.leadingAnchor.constraint(equalTo: itemHeader.leadingAnchor, constant: 16).isActive = true
-        
-        let boxHeader = UIView()
-        boxHeader.backgroundColor = secondaryColor
-        boxHeader.layer.borderWidth = 1
-        boxHeader.layer.borderColor = mainColor.cgColor
-        let boxHeaderLabel = UILabel()
-        boxHeaderLabel.text = "Boxes"
-        boxHeaderLabel.textColor = mainColor
-        boxHeaderLabel.font = UIFont.boldSystemFont(ofSize: 22)
-        boxHeaderLabel.translatesAutoresizingMaskIntoConstraints = false
-        boxHeader.addSubview(boxHeaderLabel)
-        boxHeaderLabel.centerYAnchor.constraint(equalTo: boxHeader.centerYAnchor).isActive = true
-        boxHeaderLabel.leadingAnchor.constraint(equalTo: boxHeader.leadingAnchor, constant: 16).isActive = true
-        
-        if section == 0 {
-            return itemHeader
-        } else {
-            return boxHeader
-        }
-    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         if section == 0 {
-            return filteredItems.count
+            return filteredItems.count == 0 ? 1 : filteredItems.count
         } else {
-            return filteredBoxes.count
+            return filteredBoxes.count == 0 ? 1 : filteredBoxes.count
         }
     }
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? SearchTableViewCell else {return SearchTableViewCell()}
+        
+        print("FilteredItems: \(filteredItems.count)")
+        print("FilteredBoxes: \(filteredBoxes.count)")
 
         if indexPath.section == 0 {
-            let item = filteredItems[indexPath.row]
-            cell.update(withTitle: item.name!, image: #imageLiteral(resourceName: "ItemIcon"))
+            if filteredItems.count > 0 {
+                let item = filteredItems[indexPath.row]
+                cell.setupCell(box: nil, item: item)
+            } else {
+                cell.setNoResults(icon: #imageLiteral(resourceName: "ItemIcon"))
+                print("No Items")
+            }
         } else {
-            let box = filteredBoxes[indexPath.row]
-            cell.update(withTitle: box.name!, image: #imageLiteral(resourceName: "BoxIcon"))
+            if filteredBoxes.count > 0 {
+                let box = filteredBoxes[indexPath.row]
+                cell.setupCell(box: box, item: nil)
+            } else {
+                cell.setNoResults(icon: #imageLiteral(resourceName: "BoxIcon"))
+            }
         }
         
 

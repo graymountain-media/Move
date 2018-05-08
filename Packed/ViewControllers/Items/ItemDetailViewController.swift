@@ -41,6 +41,7 @@ class ItemDetailViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = offWhite
+        navigationItem.largeTitleDisplayMode = .never
         
         nameTextField.delegate = self
         
@@ -51,6 +52,7 @@ class ItemDetailViewController: UIViewController {
         view.addSubview(textInstructionLabel)
         
         setupView()
+        nameTextField.becomeFirstResponder()
     }
     
     @objc private func saveButtonPressed(){

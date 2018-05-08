@@ -24,7 +24,6 @@
 		A120413B208E79460093E782 /* PlaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413A208E79460093E782 /* PlaceController.swift */; };
 		A120413D208E79890093E782 /* RoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413C208E79890093E782 /* RoomController.swift */; };
 		A120413F208E79BE0093E782 /* BoxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413E208E79BE0093E782 /* BoxController.swift */; };
-		A1204142208E84FA0093E782 /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204141208E84FA0093E782 /* TitleTableViewCell.swift */; };
 		A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF722097D5C6005C2388 /* MainViewController.swift */; };
 		A145AF7520983B0E005C2388 /* PackedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */; };
 		A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */; };
@@ -55,7 +54,6 @@
 		A120413A208E79460093E782 /* PlaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceController.swift; sourceTree = "<group>"; };
 		A120413C208E79890093E782 /* RoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomController.swift; sourceTree = "<group>"; };
 		A120413E208E79BE0093E782 /* BoxController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxController.swift; sourceTree = "<group>"; };
-		A1204141208E84FA0093E782 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
 		A145AF722097D5C6005C2388 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedTableViewCell.swift; sourceTree = "<group>"; };
 		A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceViewController.swift; sourceTree = "<group>"; };
@@ -174,14 +172,13 @@
 			path = ModelControllers;
 			sourceTree = "<group>";
 		};
-		A1E9E5FC208F7DE600971DA7 /* View */ = {
+		A1E9E5FC208F7DE600971DA7 /* Custom TVCells */ = {
 			isa = PBXGroup;
 			children = (
-				A1204141208E84FA0093E782 /* TitleTableViewCell.swift */,
 				A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */,
 				A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */,
 			);
-			path = View;
+			path = "Custom TVCells";
 			sourceTree = "<group>";
 		};
 		A1EFE623208BBE42000C6E21 = {
@@ -203,7 +200,7 @@
 		A1EFE62E208BBE42000C6E21 /* Packed */ = {
 			isa = PBXGroup;
 			children = (
-				A1E9E5FC208F7DE600971DA7 /* View */,
+				A1E9E5FC208F7DE600971DA7 /* Custom TVCells */,
 				A120412C208E53360093E782 /* ViewControllers */,
 				A1204137208E74680093E782 /* Models */,
 				A1204140208E7F230093E782 /* ModelControllers */,
@@ -288,7 +285,6 @@
 				A120413B208E79460093E782 /* PlaceController.swift in Sources */,
 				A120413D208E79890093E782 /* RoomController.swift in Sources */,
 				A145AF7520983B0E005C2388 /* PackedTableViewCell.swift in Sources */,
-				A1204142208E84FA0093E782 /* TitleTableViewCell.swift in Sources */,
 				A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */,
 				A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */,
 				A11488D020A1043E00F60B92 /* BoxesViewController.swift in Sources */,

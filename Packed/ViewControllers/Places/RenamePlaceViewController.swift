@@ -14,7 +14,7 @@ class RenamePlaceViewController: UIViewController {
     let nameTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .white
-        textField.placeholder = "Street Adress"
+        textField.placeholder = "123 Hampton Ave"
         textField.layer.cornerRadius = 5
         textField.clipsToBounds = true
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -24,7 +24,7 @@ class RenamePlaceViewController: UIViewController {
     
     let textInstructionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Please enter the new address of your place."
+        label.text = "Please rename your place."
         label.font = UIFont.systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -36,6 +36,7 @@ class RenamePlaceViewController: UIViewController {
         
         view.backgroundColor = offWhite
         self.title = "Rename"
+        navigationItem.largeTitleDisplayMode = .never
         
         nameTextField.delegate = self
         
@@ -46,6 +47,7 @@ class RenamePlaceViewController: UIViewController {
         view.addSubview(textInstructionLabel)
         
         setupView()
+        nameTextField.becomeFirstResponder()
     }
     
     @objc private func saveButtonPressed(){

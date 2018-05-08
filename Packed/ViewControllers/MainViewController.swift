@@ -9,8 +9,6 @@
 import UIKit
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PackedTableViewCellDelegate {
-    
-    
    
     // MARK: - Properties
     let cellIdentifier = "mainCell"
@@ -49,14 +47,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let resultsController = SearchTableViewController()
         let searchController = UISearchController(searchResultsController: resultsController)
         searchController.searchBar.barTintColor = .white
-        searchController.searchBar.tintColor = mainColor
-        searchController.searchBar.isTranslucent = false
+        searchController.searchBar.tintColor = .white
+        searchController.searchBar.isTranslucent = true
         searchController.searchBar.placeholder = "Search Boxes/Items"
         searchController.searchBar.layer.borderWidth = 0
         searchController.dimsBackgroundDuringPresentation =  true
-        searchController.searchBar.isUserInteractionEnabled = false
         
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = textFieldColor
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .white
         
         return searchController
     }()
@@ -71,24 +68,32 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         view.backgroundColor = offWhite
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
 
         mainTableView.register(PackedTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         mainTableView.dataSource = self
         mainTableView.delegate = self
         
         searchController.searchResultsUpdater = searchController.searchResultsController as? UISearchResultsUpdating
-        definesPresentationContext = true
         
+        setupSearchBar()
         setupTableView()
         setupLabels()
     }
     
     // MARK: - View Setup
     
+    private func setupSearchBar() {
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = true
+        
+        navigationItem.searchController?.searchBar.barStyle = UIBarStyle.blackTranslucent
+    }
+    
     private func setupTableView(){
         view.addSubview(mainTableView)
-
-        mainTableView.tableHeaderView = searchController.searchBar
         
         mainTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         mainTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true

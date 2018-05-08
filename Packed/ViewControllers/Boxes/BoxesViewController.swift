@@ -41,7 +41,6 @@ class BoxViewController: MainViewController {
             noDataLabel.alpha = 0.0
             instructionLabel.isHidden = true
             instructionLabel.alpha = 0.0
-            searchController.searchBar.isUserInteractionEnabled = true
         }
     }
     
@@ -101,7 +100,6 @@ class BoxViewController: MainViewController {
             if (self.BoxesFetchedResultsController.fetchedObjects?.count)! <= 0 {
                 self.noDataLabel.isHidden = false
                 self.instructionLabel.isHidden = false
-                self.searchController.searchBar.isUserInteractionEnabled = false
                 self.room?.boxCount = 0
                 
                 UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
