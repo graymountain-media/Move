@@ -15,6 +15,8 @@ class RoomViewController: MainViewController {
     
     var RoomsFetchedResultsController: NSFetchedResultsController<Room> = NSFetchedResultsController()
     
+    // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,9 +35,14 @@ class RoomViewController: MainViewController {
         
         if RoomsFetchedResultsController.fetchedObjects?.count != nil && (RoomsFetchedResultsController.fetchedObjects?.count)! > 0 {
             noDataLabel.isHidden = true
+            noDataLabel.alpha = 0.0
             instructionLabel.isHidden = true
+            instructionLabel.alpha = 0.0
+            searchController.searchBar.isUserInteractionEnabled = true
         }
     }
+    
+    // MARK: - View Setup
     
     private func setupFetchedResultsController(){
         
@@ -83,6 +90,15 @@ class RoomViewController: MainViewController {
         let deleteAction = UIAlertAction(title: "Delete \(room.name!)", style: .destructive) { (_) in
             PlaceController.delete(room: room)
             
+            if (self.RoomsFetchedResultsController.fetchedObjects?.count)! <= 0 {
+                self.noDataLabel.isHidden = false
+                self.instructionLabel.isHidden = false
+                self.searchController.searchBar.isUserInteractionEnabled = false
+                UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
+                    self.noDataLabel.alpha = 1
+                    self.instructionLabel.alpha = 1
+                }, completion: nil)
+            }
         }
         actionSheet.addAction(deleteAction)
         

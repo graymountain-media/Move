@@ -15,12 +15,17 @@ class ItemViewController: MainViewController {
     
     var ItemsFetchedResultsController: NSFetchedResultsController<Item> = NSFetchedResultsController()
     
+    // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Items"
+        guard let box = self.box else {return}
+        self.title = box.name
+        
         noDataLabel.text = "You don't have any Items yet."
         instructionLabel.text = "Tap '+' to add a new Item."
+        mainTableView.allowsSelection = false
         
         setupFetchedResultsController()
         ItemsFetchedResultsController.delegate = self
@@ -33,9 +38,14 @@ class ItemViewController: MainViewController {
         
         if ItemsFetchedResultsController.fetchedObjects?.count != nil && (ItemsFetchedResultsController.fetchedObjects?.count)! > 0 {
             noDataLabel.isHidden = true
+            noDataLabel.alpha = 0.0
             instructionLabel.isHidden = true
+            instructionLabel.alpha = 0.0
+            searchController.searchBar.isUserInteractionEnabled = true
         }
     }
+    
+    // MARK: - View Setup
     
     private func setupFetchedResultsController(){
         
@@ -82,7 +92,15 @@ class ItemViewController: MainViewController {
         actionSheet.addAction(updateAction)
         let deleteAction = UIAlertAction(title: "Delete \(item.name!)", style: .destructive) { (_) in
             BoxController.delete(item: item)
-            
+            if (self.ItemsFetchedResultsController.fetchedObjects?.count)! <= 0 {
+                self.noDataLabel.isHidden = false
+                self.instructionLabel.isHidden = false
+                self.searchController.searchBar.isUserInteractionEnabled = false
+                UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
+                    self.noDataLabel.alpha = 1
+                    self.instructionLabel.alpha = 1
+                }, completion: nil)
+            }
         }
         actionSheet.addAction(deleteAction)
         

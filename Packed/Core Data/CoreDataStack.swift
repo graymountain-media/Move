@@ -11,7 +11,7 @@ import CoreData
 class CoreDataStack {
     
     static let container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "MoveDataModel")
+        let container = NSPersistentContainer(name: "PackedDataModel")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error {
                 fatalError("Error loaing from CoreData: \(error.localizedDescription)")

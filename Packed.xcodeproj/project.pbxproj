@@ -15,7 +15,7 @@
 		A11488D520A11A8F00F60B92 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488D420A11A8F00F60B92 /* ItemViewController.swift */; };
 		A11488D720A11BA100F60B92 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488D620A11BA100F60B92 /* ItemDetailViewController.swift */; };
 		A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887AF2090D13B0026F971 /* CoreDataStack.swift */; };
-		A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A11887B12090D1660026F971 /* MoveDataModel.xcdatamodeld */; };
+		A11887B32090D1660026F971 /* PackedDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A11887B12090D1660026F971 /* PackedDataModel.xcdatamodeld */; };
 		A120412E208E56390093E782 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412D208E56390093E782 /* Constants.swift */; };
 		A1204130208E72680093E782 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412F208E72680093E782 /* Place.swift */; };
 		A1204132208E72BA0093E782 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204131208E72BA0093E782 /* Room.swift */; };
@@ -85,7 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				A11887AF2090D13B0026F971 /* CoreDataStack.swift */,
-				A11887B12090D1660026F971 /* MoveDataModel.xcdatamodeld */,
+				A11887B12090D1660026F971 /* PackedDataModel.xcdatamodeld */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -292,7 +292,7 @@
 				A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */,
 				A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */,
 				A11488D020A1043E00F60B92 /* BoxesViewController.swift in Sources */,
-				A11887B32090D1660026F971 /* MoveDataModel.xcdatamodeld in Sources */,
+				A11887B32090D1660026F971 /* PackedDataModel.xcdatamodeld in Sources */,
 				A11488D720A11BA100F60B92 /* ItemDetailViewController.swift in Sources */,
 				A1AA1ABD20A0E9D600E53C51 /* RoomViewController.swift in Sources */,
 				A11488C920A0EC6000F60B92 /* RoomDetailViewController.swift in Sources */,
@@ -500,13 +500,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		A11887B12090D1660026F971 /* MoveDataModel.xcdatamodeld */ = {
+		A11887B12090D1660026F971 /* PackedDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */,
 			);
 			currentVersion = A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */;
-			path = MoveDataModel.xcdatamodeld;
+			path = PackedDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

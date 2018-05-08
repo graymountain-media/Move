@@ -22,6 +22,8 @@ class PlaceViewController: MainViewController {
         return NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
     }()
     
+    // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,13 +39,16 @@ class PlaceViewController: MainViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        try? PlacesFetchedResultsController.performFetch()
-        
         if PlacesFetchedResultsController.fetchedObjects?.count != nil && (PlacesFetchedResultsController.fetchedObjects?.count)! > 0 {
             noDataLabel.isHidden = true
+            noDataLabel.alpha = 0.0
             instructionLabel.isHidden = true
+            instructionLabel.alpha = 0.0
+            searchController.searchBar.isUserInteractionEnabled = true
         }
     }
+    
+    // MARK: - View Setup
     
     @objc override func addButtonPressed() {
         super.addButtonPressed()
@@ -68,6 +73,16 @@ class PlaceViewController: MainViewController {
         actionSheet.addAction(updateAction)
         let deleteAction = UIAlertAction(title: "Delete \(place.name!)", style: .destructive) { (_) in
             PlaceController.delete(place: place)
+            
+            if (self.PlacesFetchedResultsController.fetchedObjects?.count)! <= 0 {
+                self.noDataLabel.isHidden = false
+                self.instructionLabel.isHidden = false
+                self.searchController.searchBar.isUserInteractionEnabled = false
+                UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
+                    self.noDataLabel.alpha = 1
+                    self.instructionLabel.alpha = 1
+                }, completion: nil)
+            }
         }
         actionSheet.addAction(deleteAction)
         

@@ -54,6 +54,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchController.searchBar.placeholder = "Search Boxes/Items"
         searchController.searchBar.layer.borderWidth = 0
         searchController.dimsBackgroundDuringPresentation =  true
+        searchController.searchBar.isUserInteractionEnabled = false
         
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = textFieldColor
         
