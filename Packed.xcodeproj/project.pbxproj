@@ -63,7 +63,7 @@
 		A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
 		A1A9987320A231060039662E /* PackedItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedItemTableViewCell.swift; sourceTree = "<group>"; };
 		A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
-		A1EFE62C208BBE42000C6E21 /* Move.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Move.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1EFE62C208BBE42000C6E21 /* Packed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Packed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1EFE636208BBE43000C6E21 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1EFE639208BBE43000C6E21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -195,7 +195,7 @@
 		A1EFE62D208BBE42000C6E21 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A1EFE62C208BBE42000C6E21 /* Move.app */,
+				A1EFE62C208BBE42000C6E21 /* Packed.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -216,9 +216,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A1EFE62B208BBE42000C6E21 /* Move */ = {
+		A1EFE62B208BBE42000C6E21 /* Packed */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A1EFE63E208BBE43000C6E21 /* Build configuration list for PBXNativeTarget "Move" */;
+			buildConfigurationList = A1EFE63E208BBE43000C6E21 /* Build configuration list for PBXNativeTarget "Packed" */;
 			buildPhases = (
 				A1EFE628208BBE42000C6E21 /* Sources */,
 				A1EFE629208BBE42000C6E21 /* Frameworks */,
@@ -228,9 +228,9 @@
 			);
 			dependencies = (
 			);
-			name = Move;
+			name = Packed;
 			productName = Move;
-			productReference = A1EFE62C208BBE42000C6E21 /* Move.app */;
+			productReference = A1EFE62C208BBE42000C6E21 /* Packed.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -261,7 +261,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A1EFE62B208BBE42000C6E21 /* Move */,
+				A1EFE62B208BBE42000C6E21 /* Packed */,
 			);
 		};
 /* End PBXProject section */
@@ -488,7 +488,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A1EFE63E208BBE43000C6E21 /* Build configuration list for PBXNativeTarget "Move" */ = {
+		A1EFE63E208BBE43000C6E21 /* Build configuration list for PBXNativeTarget "Packed" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A1EFE63F208BBE43000C6E21 /* Debug */,
