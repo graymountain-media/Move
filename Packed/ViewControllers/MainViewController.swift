@@ -43,26 +43,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return label
     }()
     
-    let searchController: UISearchController = {
-        let resultsController = SearchTableViewController()
-        let searchController = UISearchController(searchResultsController: resultsController)
-        searchController.searchBar.barTintColor = .white
-        searchController.searchBar.tintColor = .white
-        searchController.searchBar.isTranslucent = true
-        searchController.searchBar.placeholder = "Search Boxes/Items"
-        searchController.searchBar.layer.borderWidth = 0
-        searchController.dimsBackgroundDuringPresentation =  true
-        
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .white
-        
-        return searchController
-    }()
+    let resultsController = SearchTableViewController()
+    var searchController = UISearchController()
     
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         self.title = "(title)"
         view.backgroundColor = offWhite
@@ -74,15 +61,39 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         mainTableView.register(PackedTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         mainTableView.dataSource = self
         mainTableView.delegate = self
+        resultsController.delegate = self
         
+        setupSearchController()
         searchController.searchResultsUpdater = searchController.searchResultsController as? UISearchResultsUpdating
         
-        setupSearchBar()
         setupTableView()
         setupLabels()
+        updateView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        updateView()
+    }
+    
+    // MARK: - Methods
+    
+    func updateView(){
+        
     }
     
     // MARK: - View Setup
+    
+    private func setupSearchController(){
+        searchController = UISearchController(searchResultsController: resultsController)
+        searchController.searchBar.barTintColor = .white
+        searchController.searchBar.tintColor = .white
+        searchController.searchBar.isTranslucent = true
+        searchController.searchBar.placeholder = "Search Boxes/Items"
+        searchController.searchBar.layer.borderWidth = 0
+        searchController.dimsBackgroundDuringPresentation = true
+        
+        setupSearchBar()
+    }
     
     private func setupSearchBar() {
         navigationItem.searchController = searchController
@@ -143,4 +154,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         return cell
     }
+ 
 }
+
+extension MainViewController: SearchTableViewControllerDelegate {
+    func present(view: UIViewController) {
+        navigationController?.pushViewController(view, animated: true)
+        searchController.isActive = false
+    }
+    
+    
+}
+

@@ -73,7 +73,7 @@ class NewPlaceViewController: UIViewController {
         if let address = nameTextField.text, !address.isEmpty {
             let isHome = placeSegmentedControl.selectedSegmentIndex == 0 ? true : false
             PlaceController.createPlace(withName: address, isHome: isHome)
-            
+            nameTextField.resignFirstResponder()
             dismiss(animated: true, completion: nil)
         } else {
             let noAddressAlert = UIAlertController(title: "Missing Address", message: "Please input an address for your new place.", preferredStyle: .alert)
@@ -85,6 +85,7 @@ class NewPlaceViewController: UIViewController {
     }
     
     @objc private func cancelButtonPressed(){
+        nameTextField.resignFirstResponder()
         dismiss(animated: true, completion: nil)
     }
     

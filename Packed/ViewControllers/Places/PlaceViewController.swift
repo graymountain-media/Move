@@ -37,23 +37,11 @@ class PlaceViewController: MainViewController {
         try? PlacesFetchedResultsController.performFetch()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if PlacesFetchedResultsController.fetchedObjects?.count != nil && (PlacesFetchedResultsController.fetchedObjects?.count)! > 0 {
-            noDataLabel.isHidden = true
-            noDataLabel.alpha = 0.0
-            instructionLabel.isHidden = true
-            instructionLabel.alpha = 0.0
-        }
-    }
-    
     // MARK: - View Setup
     
     @objc override func addButtonPressed() {
         super.addButtonPressed()
         
-        print("Add button pressed")
         let newPlaceViewController = NewPlaceViewController()
         
         let navController = UINavigationController(rootViewController: newPlaceViewController)
@@ -67,21 +55,13 @@ class PlaceViewController: MainViewController {
     override func cellOptionsButtonPressed(sender: UITableViewCell) {
         let indexPath = mainTableView.indexPath(for: sender)
         let place = PlacesFetchedResultsController.object(at: indexPath!)
-        print("options pressed for \(place.name!)")
+        
         let actionSheet = UIAlertController(title: place.name, message: nil, preferredStyle: .actionSheet)
        
         let deleteAction = UIAlertAction(title: "Delete \(place.name!)", style: .destructive) { (_) in
             PlaceController.delete(place: place)
             
-            if (self.PlacesFetchedResultsController.fetchedObjects?.count)! <= 0 {
-                self.noDataLabel.isHidden = false
-                self.instructionLabel.isHidden = false
-                
-                UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
-                    self.noDataLabel.alpha = 1
-                    self.instructionLabel.alpha = 1
-                }, completion: nil)
-            }
+            self.updateView()
         }
         
         actionSheet.addAction(deleteAction)
@@ -100,6 +80,27 @@ class PlaceViewController: MainViewController {
         actionSheet.addAction(cancelAction)
         
         present(actionSheet, animated: true, completion: nil)
+    }
+    
+    // MARK: - Methods
+    
+    override func updateView(){
+        
+        if PlacesFetchedResultsController.fetchedObjects?.count != nil && (PlacesFetchedResultsController.fetchedObjects?.count)! > 0 {
+            noDataLabel.isHidden = true
+            noDataLabel.alpha = 0.0
+            instructionLabel.isHidden = true
+            instructionLabel.alpha = 0.0
+            
+        } else {
+            self.noDataLabel.isHidden = false
+            self.instructionLabel.isHidden = false
+            
+            UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
+                self.noDataLabel.alpha = 1
+                self.instructionLabel.alpha = 1
+            }, completion: nil)
+        }
     }
     
     // MARK: - TableView Data
@@ -137,6 +138,14 @@ class PlaceViewController: MainViewController {
         }
         mainTableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let place = PlacesFetchedResultsController.object(at: indexPath)
+            PlaceController.delete(place: place)
+            updateView()
+        }
+    }
 }
 
 extension PlaceViewController: NSFetchedResultsControllerDelegate{
@@ -170,7 +179,7 @@ extension PlaceViewController: NSFetchedResultsControllerDelegate{
         case .insert:
             mainTableView.insertSections(indexSet, with: .automatic)
         default:
-            print("Can't edit sections like that")
+            fatalError("Can't edit sections like that")
         }
     }
 }

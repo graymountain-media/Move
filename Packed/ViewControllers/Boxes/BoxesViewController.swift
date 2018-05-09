@@ -22,7 +22,7 @@ class BoxViewController: MainViewController {
         
         guard let room = room else { return }
         
-        self.title = room.name
+        self.title = "\(room.name!) Boxes"
         
         noDataLabel.text = "You don't have any Boxes yet."
         instructionLabel.text = "Tap '+' to add a new Box."
@@ -31,17 +31,6 @@ class BoxViewController: MainViewController {
         BoxesFetchedResultsController.delegate = self
         
         try? BoxesFetchedResultsController.performFetch()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if BoxesFetchedResultsController.fetchedObjects?.count != nil && (BoxesFetchedResultsController.fetchedObjects?.count)! > 0 {
-            noDataLabel.isHidden = true
-            noDataLabel.alpha = 0.0
-            instructionLabel.isHidden = true
-            instructionLabel.alpha = 0.0
-        }
     }
     
     // MARK: - View Setup
@@ -85,22 +74,13 @@ class BoxViewController: MainViewController {
     override func cellOptionsButtonPressed(sender: UITableViewCell) {
         let indexPath = mainTableView.indexPath(for: sender)
         let box = BoxesFetchedResultsController.object(at: indexPath!)
-        print("options pressed for \(box.name!)")
+        
         let actionSheet = UIAlertController(title: box.name, message: nil, preferredStyle: .actionSheet)
         
         let deleteAction = UIAlertAction(title: "Delete \(box.name!)", style: .destructive) { (_) in
             RoomController.delete(box: box)
-            
-            if (self.BoxesFetchedResultsController.fetchedObjects?.count)! <= 0 {
-                self.noDataLabel.isHidden = false
-                self.instructionLabel.isHidden = false
-                self.room?.boxCount = 0
-                
-                UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
-                    self.noDataLabel.alpha = 1
-                    self.instructionLabel.alpha = 1
-                }, completion: nil)
-            }
+    
+            self.updateView()
         }
         actionSheet.addAction(deleteAction)
         
@@ -119,6 +99,27 @@ class BoxViewController: MainViewController {
         actionSheet.addAction(cancelAction)
         
         present(actionSheet, animated: true, completion: nil)
+    }
+    
+    // MARK: - Methods
+    
+    override func updateView(){
+        
+        if BoxesFetchedResultsController.fetchedObjects?.count != nil && (BoxesFetchedResultsController.fetchedObjects?.count)! > 0 {
+            noDataLabel.isHidden = true
+            noDataLabel.alpha = 0.0
+            instructionLabel.isHidden = true
+            instructionLabel.alpha = 0.0
+            
+        } else {
+            self.noDataLabel.isHidden = false
+            self.instructionLabel.isHidden = false
+            
+            UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
+                self.noDataLabel.alpha = 1
+                self.instructionLabel.alpha = 1
+            }, completion: nil)
+        }
     }
     
     // MARK: - TableView Data
@@ -149,7 +150,16 @@ class BoxViewController: MainViewController {
         
         mainTableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let box = BoxesFetchedResultsController.object(at: indexPath)
+            RoomController.delete(box: box)
+            updateView()
+        }
+    }
 }
+
 
 extension BoxViewController: NSFetchedResultsControllerDelegate{
     
@@ -182,7 +192,7 @@ extension BoxViewController: NSFetchedResultsControllerDelegate{
         case .insert:
             mainTableView.insertSections(indexSet, with: .automatic)
         default:
-            print("Can't edit sections like that")
+            fatalError("Can't edit sections like that")
         }
     }
 }

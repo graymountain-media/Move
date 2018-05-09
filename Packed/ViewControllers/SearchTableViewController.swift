@@ -9,8 +9,14 @@
 import UIKit
 import CoreData
 
+protocol SearchTableViewControllerDelegate: class {
+    func present(view: UIViewController)
+}
+
 class SearchTableViewController: UIViewController, UISearchResultsUpdating, UITableViewDelegate, UITableViewDataSource {
 
+    weak var delegate: SearchTableViewControllerDelegate?
+    
     // MARK: - Properties
     let cellIdentifier = "searchCell"
     var filteredItems: [Item] = []
@@ -73,8 +79,7 @@ class SearchTableViewController: UIViewController, UISearchResultsUpdating, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? SearchTableViewCell else {return SearchTableViewCell()}
         
-        print("FilteredItems: \(filteredItems.count)")
-        print("FilteredBoxes: \(filteredBoxes.count)")
+        
 
         if indexPath.section == 0 {
             if filteredItems.count > 0 {
@@ -82,7 +87,6 @@ class SearchTableViewController: UIViewController, UISearchResultsUpdating, UITa
                 cell.setupCell(box: nil, item: item)
             } else {
                 cell.setNoResults(icon: #imageLiteral(resourceName: "ItemIcon"))
-                print("No Items")
             }
         } else {
             if filteredBoxes.count > 0 {
@@ -95,6 +99,35 @@ class SearchTableViewController: UIViewController, UISearchResultsUpdating, UITa
         
 
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch indexPath.section{
+        case 0 :
+            if filteredItems.count > 0 {
+                let item = filteredItems[indexPath.row]
+                
+                let itemDetailVC = ItemDetailViewController()
+                itemDetailVC.item = item
+                itemDetailVC.box = item.box!
+                delegate?.present(view: itemDetailVC)
+            } else {
+                tableView.deselectRow(at: indexPath, animated: true)
+            }
+        case 1 :
+            if filteredBoxes.count > 0 {
+                let box = filteredBoxes[indexPath.row]
+                
+                let itemVC = ItemViewController()
+                itemVC.box = box
+                delegate?.present(view: itemVC)
+            } else {
+                tableView.deselectRow(at: indexPath, animated: true)
+            }
+        default:
+            fatalError("Invalid Cell")
+        }
     }
     
     func updateSearchResults(for searchController: UISearchController) {

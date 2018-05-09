@@ -137,12 +137,13 @@ class ItemDetailViewController: UIViewController {
         
         if let name = nameTextField.text, !name.isEmpty {
             if let item = self.item {
-                print(fragileSwitch.isOn)
                 BoxController.update(item: item, withName: name, isFragile: fragileSwitch.isOn)
+                nameTextField.resignFirstResponder()
                 navigationController?.popViewController(animated: true)
             } else {
                 guard let box = box else {return}
                 BoxController.createItem(withName: name, inBox: box, isFragile: fragileSwitch.isOn)
+                nameTextField.resignFirstResponder()
                 dismiss(animated: true, completion: nil)
             }
         } else {
@@ -155,6 +156,7 @@ class ItemDetailViewController: UIViewController {
     }
     
     @objc private func cancelButtonPressed(){
+        nameTextField.resignFirstResponder()
         dismiss(animated: true, completion: nil)
     }
     

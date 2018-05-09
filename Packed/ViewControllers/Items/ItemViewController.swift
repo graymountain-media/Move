@@ -34,22 +34,6 @@ class ItemViewController: MainViewController {
         mainTableView.register(PackedItemTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("Count: \(ItemsFetchedResultsController.fetchedObjects?.count)")
-        if ItemsFetchedResultsController.fetchedObjects?.count != nil && (ItemsFetchedResultsController.fetchedObjects?.count)! > 0 {
-            noDataLabel.isHidden = true
-            noDataLabel.alpha = 0.0
-            instructionLabel.isHidden = true
-            instructionLabel.alpha = 0.0
-        }else {
-            noDataLabel.isHidden = false
-            noDataLabel.alpha = 1.0
-            instructionLabel.isHidden = false
-            instructionLabel.alpha = 1.0
-        }
-    }
-    
     // MARK: - View Setup
     
     private func setupFetchedResultsController(){
@@ -84,6 +68,27 @@ class ItemViewController: MainViewController {
         self.present(navController, animated: true, completion: nil)
     }
     
+    // MARK: - Methods
+    
+    override func updateView(){
+        
+        if ItemsFetchedResultsController.fetchedObjects?.count != nil && (ItemsFetchedResultsController.fetchedObjects?.count)! > 0 {
+            noDataLabel.isHidden = true
+            noDataLabel.alpha = 0.0
+            instructionLabel.isHidden = true
+            instructionLabel.alpha = 0.0
+            
+        } else {
+            self.noDataLabel.isHidden = false
+            self.instructionLabel.isHidden = false
+            
+            UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
+                self.noDataLabel.alpha = 1
+                self.instructionLabel.alpha = 1
+            }, completion: nil)
+        }
+    }
+    
     // MARK: - TableView Data
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -113,6 +118,14 @@ class ItemViewController: MainViewController {
         navigationController?.pushViewController(itemDetailVC, animated: true)
         
         mainTableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let item = ItemsFetchedResultsController.object(at: indexPath)
+            BoxController.delete(item: item)
+            updateView()
+        }
     }
 }
 
@@ -147,7 +160,7 @@ extension ItemViewController: NSFetchedResultsControllerDelegate{
         case .insert:
             mainTableView.insertSections(indexSet, with: .automatic)
         default:
-            print("Can't edit sections like that")
+            fatalError("Can't edit sections like that")
         }
     }
 }

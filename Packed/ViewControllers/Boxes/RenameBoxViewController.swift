@@ -62,6 +62,7 @@ class RenameBoxViewController: UIViewController {
         guard let box = self.box else {return}
         if let name = nameTextField.text, !name.isEmpty {
             BoxController.update(box: box, withName: name)
+            nameTextField.resignFirstResponder()
             dismiss(animated: true, completion: nil)
         } else {
             let noAddressAlert = UIAlertController(title: "Missing Name", message: "Please input an name for your box.", preferredStyle: .alert)
@@ -73,6 +74,7 @@ class RenameBoxViewController: UIViewController {
     }
     
     @objc private func cancelButtonPressed(){
+        nameTextField.resignFirstResponder()
         dismiss(animated: true, completion: nil)
     }
     

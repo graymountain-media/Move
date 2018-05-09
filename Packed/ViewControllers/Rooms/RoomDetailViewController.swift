@@ -61,12 +61,12 @@ class RoomDetailViewController: UIViewController {
         if let name = nameTextField.text, !name.isEmpty {
             if let room = self.room {
                 RoomController.update(room: room, withName: name)
-                dismiss(animated: true, completion: nil)
             } else {
                 guard let place = place else {return}
                 PlaceController.createRoom(withName: name, inPlace: place)
-                dismiss(animated: true, completion: nil)
             }
+            nameTextField.resignFirstResponder()
+            dismiss(animated: true, completion: nil)
         } else {
             let noAddressAlert = UIAlertController(title: "Missing Name", message: "Please input an name for your new room.", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
@@ -77,6 +77,7 @@ class RoomDetailViewController: UIViewController {
     }
     
     @objc private func cancelButtonPressed(){
+        nameTextField.resignFirstResponder()
         dismiss(animated: true, completion: nil)
     }
     

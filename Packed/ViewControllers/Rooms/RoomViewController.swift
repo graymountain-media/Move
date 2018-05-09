@@ -20,7 +20,9 @@ class RoomViewController: MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Rooms"
+        guard let place = place else {return}
+        self.title = place.name
+        
         noDataLabel.text = "You don't have any Rooms yet."
         instructionLabel.text = "Tap '+' to add a new Room."
         
@@ -28,18 +30,6 @@ class RoomViewController: MainViewController {
         RoomsFetchedResultsController.delegate = self
         
         try? RoomsFetchedResultsController.performFetch()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if RoomsFetchedResultsController.fetchedObjects?.count != nil && (RoomsFetchedResultsController.fetchedObjects?.count)! > 0 {
-            noDataLabel.isHidden = true
-            noDataLabel.alpha = 0.0
-            instructionLabel.isHidden = true
-            instructionLabel.alpha = 0.0
-            
-        }
     }
     
     // MARK: - View Setup
@@ -80,21 +70,13 @@ class RoomViewController: MainViewController {
     override func cellOptionsButtonPressed(sender: UITableViewCell) {
         let indexPath = mainTableView.indexPath(for: sender)
         let room = RoomsFetchedResultsController.object(at: indexPath!)
-        print("options pressed for \(room.name!)")
+        
         let actionSheet = UIAlertController(title: room.name, message: nil, preferredStyle: .actionSheet)
         
         let deleteAction = UIAlertAction(title: "Delete \(room.name!)", style: .destructive) { (_) in
             PlaceController.delete(room: room)
             
-            if (self.RoomsFetchedResultsController.fetchedObjects?.count)! <= 0 {
-                self.noDataLabel.isHidden = false
-                self.instructionLabel.isHidden = false
-                
-                UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
-                    self.noDataLabel.alpha = 1
-                    self.instructionLabel.alpha = 1
-                }, completion: nil)
-            }
+            self.updateView()
         }
         actionSheet.addAction(deleteAction)
         
@@ -113,6 +95,27 @@ class RoomViewController: MainViewController {
         actionSheet.addAction(cancelAction)
         
         present(actionSheet, animated: true, completion: nil)
+    }
+    
+    // MARK: - Methods
+    
+    override func updateView(){
+        
+        if RoomsFetchedResultsController.fetchedObjects?.count != nil && (RoomsFetchedResultsController.fetchedObjects?.count)! > 0 {
+            noDataLabel.isHidden = true
+            noDataLabel.alpha = 0.0
+            instructionLabel.isHidden = true
+            instructionLabel.alpha = 0.0
+            
+        } else {
+            self.noDataLabel.isHidden = false
+            self.instructionLabel.isHidden = false
+            
+            UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
+                self.noDataLabel.alpha = 1
+                self.instructionLabel.alpha = 1
+            }, completion: nil)
+        }
     }
     
     // MARK: - TableView Data
@@ -142,6 +145,14 @@ class RoomViewController: MainViewController {
         navigationController?.pushViewController(boxesVC, animated: true)
         
         mainTableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let room = RoomsFetchedResultsController.object(at: indexPath)
+            PlaceController.delete(room: room)
+            updateView()
+        }
     }
 }
 
@@ -176,7 +187,7 @@ extension RoomViewController: NSFetchedResultsControllerDelegate{
         case .insert:
             mainTableView.insertSections(indexSet, with: .automatic)
         default:
-            print("Can't edit sections like that")
+            fatalError("Can't edit sections like that")
         }
     }
 }

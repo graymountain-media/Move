@@ -39,7 +39,7 @@ class PlaceController {
     //create Room
     static func createRoom(withName name: String, inPlace place: Place ){
         let newRoom = Room(name: name, place: place)
-        print(newRoom)
+        
         saveData()
     }
     

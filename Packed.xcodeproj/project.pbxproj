@@ -143,12 +143,12 @@
 		A120412C208E53360093E782 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				A145AF722097D5C6005C2388 /* MainViewController.swift */,
 				A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */,
 				A11488C720A0EC3300F60B92 /* Places */,
 				A11488CA20A0EEA800F60B92 /* Rooms */,
 				A11488D320A1100D00F60B92 /* Boxes */,
 				A11488DA20A11E4100F60B92 /* Items */,
-				A145AF722097D5C6005C2388 /* MainViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -174,14 +174,14 @@
 			path = ModelControllers;
 			sourceTree = "<group>";
 		};
-		A1E9E5FC208F7DE600971DA7 /* Custom TVCells */ = {
+		A1E9E5FC208F7DE600971DA7 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
 				A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */,
 				A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */,
 				A1A9987320A231060039662E /* PackedItemTableViewCell.swift */,
 			);
-			path = "Custom TVCells";
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		A1EFE623208BBE42000C6E21 = {
@@ -203,7 +203,7 @@
 		A1EFE62E208BBE42000C6E21 /* Packed */ = {
 			isa = PBXGroup;
 			children = (
-				A1E9E5FC208F7DE600971DA7 /* Custom TVCells */,
+				A1E9E5FC208F7DE600971DA7 /* TableViewCells */,
 				A120412C208E53360093E782 /* ViewControllers */,
 				A1204137208E74680093E782 /* Models */,
 				A1204140208E7F230093E782 /* ModelControllers */,
