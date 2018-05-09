@@ -21,7 +21,7 @@ class ItemViewController: MainViewController {
         super.viewDidLoad()
         
         guard let box = self.box else {return}
-        self.title = box.name
+        viewTitle = box.name!
         
         noDataLabel.text = "You don't have any Items yet."
         instructionLabel.text = "Tap '+' to add a new Item."
@@ -51,7 +51,7 @@ class ItemViewController: MainViewController {
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [nameSort]
         
-        ItemsFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
+        ItemsFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
         
     }
     

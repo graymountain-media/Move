@@ -21,7 +21,7 @@ class RoomViewController: MainViewController {
         super.viewDidLoad()
         
         guard let place = place else {return}
-        self.title = place.name
+        viewTitle = place.name!
         
         noDataLabel.text = "You don't have any Rooms yet."
         instructionLabel.text = "Tap '+' to add a new Room."
@@ -49,7 +49,7 @@ class RoomViewController: MainViewController {
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [nameSort]
         
-        RoomsFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
+        RoomsFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
         
     }
     

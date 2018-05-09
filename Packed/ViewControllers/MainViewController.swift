@@ -10,6 +10,11 @@ import UIKit
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PackedTableViewCellDelegate {
    
+    var viewTitle = "" {
+        didSet {
+            self.title = viewTitle
+        }
+    }
     // MARK: - Properties
     let cellIdentifier = "mainCell"
     
@@ -51,7 +56,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "(title)"
+        self.title = viewTitle
         view.backgroundColor = offWhite
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
@@ -153,6 +158,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
         
         return cell
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return viewTitle
     }
  
 }

@@ -22,7 +22,7 @@ class BoxViewController: MainViewController {
         
         guard let room = room else { return }
         
-        self.title = "\(room.name!) Boxes"
+        viewTitle = room.name!
         
         noDataLabel.text = "You don't have any Boxes yet."
         instructionLabel.text = "Tap '+' to add a new Box."
@@ -50,7 +50,7 @@ class BoxViewController: MainViewController {
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [nameSort]
         
-        BoxesFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
+        BoxesFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
         
     }
     

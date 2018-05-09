@@ -19,7 +19,7 @@ class PlaceViewController: MainViewController {
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [nameSort]
         
-        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "name", cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
     
     // MARK: - Life Cycle
@@ -31,7 +31,7 @@ class PlaceViewController: MainViewController {
         noDataLabel.text = "You don't have any Places yet."
         instructionLabel.text = "Tap '+' to add a new Place."
         
-        self.title = "Places"
+        viewTitle = "Places"
         PlacesFetchedResultsController.delegate = self
 
         try? PlacesFetchedResultsController.performFetch()

@@ -37,28 +37,18 @@ class ItemDetailViewController: UIViewController {
         return label
     }()
     
-    let boxLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Box:"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 18)
-        label.textAlignment = .left
-        return label
-    }()
-    
     let boxNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = label.font.withSize(18)
-        label.textAlignment = .right
         return label
     }()
     
     let fragileLabel: UILabel = {
         let label = UILabel()
-        label.text = "Fragile:"
+        label.text = "Fragile"
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = label.font.withSize(18)
         label.textAlignment = .left
         return label
     }()
@@ -111,6 +101,22 @@ class ItemDetailViewController: UIViewController {
         button.layer.cornerRadius = 5
         button.clipsToBounds = true
         return button
+    }()
+    
+    let fragileIconView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = #imageLiteral(resourceName: "FragileIcon")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    let boxIconView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = #imageLiteral(resourceName: "BoxIcon")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     // MARK: - Life Cycle
@@ -194,10 +200,10 @@ class ItemDetailViewController: UIViewController {
         textInstructionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
         
-        optionsTableView.topAnchor.constraint(equalTo: textInstructionLabel.bottomAnchor, constant: 32).isActive = true
+        optionsTableView.topAnchor.constraint(equalTo: textInstructionLabel.bottomAnchor, constant: 16).isActive = true
+        optionsTableView.bottomAnchor.constraint(equalTo: deleteButton.topAnchor, constant: -8).isActive = true
         optionsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         optionsTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        optionsTableView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
         deleteButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         deleteButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
@@ -225,22 +231,29 @@ class ItemDetailViewController: UIViewController {
     }
     
     func setupCells() {
-        boxInfoCell.addSubview(boxLabel)
         boxInfoCell.addSubview(boxNameLabel)
+        boxInfoCell.addSubview(boxIconView)
         
-        boxLabel.centerYAnchor.constraint(equalTo: boxInfoCell.centerYAnchor).isActive = true
-        boxLabel.leadingAnchor.constraint(equalTo: boxInfoCell.leadingAnchor, constant: 8).isActive = true
-        boxLabel.trailingAnchor.constraint(equalTo: boxInfoCell.trailingAnchor, constant: -32).isActive = true
+        boxIconView.leadingAnchor.constraint(equalTo: boxInfoCell.leadingAnchor, constant: 8).isActive = true
+        boxIconView.topAnchor.constraint(equalTo: boxInfoCell.topAnchor, constant: 4).isActive = true
+        boxIconView.bottomAnchor.constraint(equalTo: boxInfoCell.bottomAnchor, constant: -4).isActive = true
+        boxIconView.widthAnchor.constraint(equalTo: boxIconView.heightAnchor).isActive = true
         
         boxNameLabel.centerYAnchor.constraint(equalTo: boxInfoCell.centerYAnchor).isActive = true
-        boxNameLabel.leadingAnchor.constraint(equalTo: boxInfoCell.leadingAnchor, constant: 32).isActive = true
+        boxNameLabel.leadingAnchor.constraint(equalTo: boxIconView.trailingAnchor, constant: 8).isActive = true
         boxNameLabel.trailingAnchor.constraint(equalTo: boxInfoCell.trailingAnchor, constant: -8).isActive = true
         
         fragileOptionCell.addSubview(fragileLabel)
         fragileOptionCell.addSubview(fragileSwitch)
+        fragileOptionCell.addSubview(fragileIconView)
+        
+        fragileIconView.leadingAnchor.constraint(equalTo: fragileOptionCell.leadingAnchor, constant: 8).isActive = true
+        fragileIconView.topAnchor.constraint(equalTo: fragileOptionCell.topAnchor, constant: 4).isActive = true
+        fragileIconView.bottomAnchor.constraint(equalTo: fragileOptionCell.bottomAnchor, constant: -4).isActive = true
+        fragileIconView.widthAnchor.constraint(equalTo: fragileOptionCell.heightAnchor).isActive = true
         
         fragileLabel.centerYAnchor.constraint(equalTo: fragileOptionCell.centerYAnchor).isActive = true
-        fragileLabel.leadingAnchor.constraint(equalTo: fragileOptionCell.leadingAnchor, constant: 8).isActive = true
+        fragileLabel.leadingAnchor.constraint(equalTo: fragileIconView.trailingAnchor, constant: 8).isActive = true
         fragileLabel.trailingAnchor.constraint(equalTo: fragileSwitch.leadingAnchor).isActive = true
         
         fragileSwitch.centerYAnchor.constraint(equalTo: fragileOptionCell.centerYAnchor).isActive = true
@@ -264,14 +277,32 @@ extension ItemDetailViewController: UITextFieldDelegate{
 extension ItemDetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "In Box"
+        case 1:
+            return "Options"
+        default:
+            fatalError("That section does not exist")
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return 1
+        default:
+            fatalError("That section does not exist")
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch (indexPath.row){
+        switch (indexPath.section){
             case 0:
                 return self.boxInfoCell
             default:
