@@ -74,6 +74,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupTableView()
         setupLabels()
         updateView()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
