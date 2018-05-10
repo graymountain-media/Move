@@ -18,7 +18,7 @@ class RenamePlaceViewController: UIViewController {
         textField.layer.cornerRadius = 5
         textField.clipsToBounds = true
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.setPadding()
+        textField.setIconPadding()
         return textField
     }()
     

@@ -12,6 +12,7 @@ import CoreData
 class PlaceViewController: MainViewController {
 
     var data: [Place] = []
+    var loginButton = UIBarButtonItem()
     
     let PlacesFetchedResultsController: NSFetchedResultsController<Place> = {
         let request: NSFetchRequest<Place> = Place.fetchRequest()
@@ -27,6 +28,8 @@ class PlaceViewController: MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .always
+        setupLoginButton()
+        
         
         noDataLabel.text = "You don't have any Places yet."
         instructionLabel.text = "Tap '+' to add a new Place."
@@ -38,6 +41,16 @@ class PlaceViewController: MainViewController {
     }
     
     // MARK: - View Setup
+    
+    private func setupLoginButton() {
+        loginButton = UIBarButtonItem(title: "Login", style: .plain, target: self, action: #selector(loginButtonPressed))
+        navigationItem.leftBarButtonItem = loginButton
+    }
+    
+    @objc private func loginButtonPressed(){
+        let loginController = LoginViewController()
+        present(loginController, animated: true, completion: nil)
+    }
     
     @objc override func addButtonPressed() {
         super.addButtonPressed()

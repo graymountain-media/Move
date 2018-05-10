@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A1EFE62B208BBE42000C6E21"
-               BuildableName = "Move.app"
-               BlueprintName = "Move"
+               BuildableName = "Packed.app"
+               BlueprintName = "Packed"
                ReferencedContainer = "container:Packed.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A1EFE62B208BBE42000C6E21"
-            BuildableName = "Move.app"
-            BlueprintName = "Move"
+            BuildableName = "Packed.app"
+            BlueprintName = "Packed"
             ReferencedContainer = "container:Packed.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -56,8 +56,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A1EFE62B208BBE42000C6E21"
-            BuildableName = "Move.app"
-            BlueprintName = "Move"
+            BuildableName = "Packed.app"
+            BlueprintName = "Packed"
             ReferencedContainer = "container:Packed.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -75,8 +75,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A1EFE62B208BBE42000C6E21"
-            BuildableName = "Move.app"
-            BlueprintName = "Move"
+            BuildableName = "Packed.app"
+            BlueprintName = "Packed"
             ReferencedContainer = "container:Packed.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -20,7 +20,7 @@ class ItemDetailViewController: UIViewController {
         textField.layer.cornerRadius = 5
         textField.clipsToBounds = true
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.setPadding()
+        textField.setIconPadding()
         let imageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 55, height: 45))
         imageView.image = #imageLiteral(resourceName: "ItemIcon")
         imageView.contentMode = .scaleAspectFit

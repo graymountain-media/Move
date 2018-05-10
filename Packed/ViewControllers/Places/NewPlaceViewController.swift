@@ -15,7 +15,7 @@ class NewPlaceViewController: UIViewController {
         textField.backgroundColor = .white
         textField.placeholder = "123 Hampton Ave"
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.setPadding()
+        textField.setIconPadding()
         let imageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 55, height: 45))
         imageView.image = #imageLiteral(resourceName: "HomeIcon")
         imageView.contentMode = .scaleAspectFit

@@ -62,6 +62,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
+        
+        navigationController?.toolbar.backgroundColor = mainColor
 
         mainTableView.register(PackedTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         mainTableView.dataSource = self
