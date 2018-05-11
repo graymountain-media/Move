@@ -13,10 +13,16 @@ class LoginViewController: UIViewController {
   
     
     var heightConstraint = NSLayoutConstraint()
+    
+    lazy var touchGestureRecognizer: UIGestureRecognizer = {
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(userTapped))
+        return recognizer
+    }()
+    
     let activityIndicator: UIActivityIndicatorView = {
         let activity = UIActivityIndicatorView()
         activity.translatesAutoresizingMaskIntoConstraints = false
-        activity.color = .gray
+        activity.color = .black
         return activity
     }()
     
@@ -73,11 +79,20 @@ class LoginViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Sign In", for: .normal)
         button.backgroundColor = .lightGray
-        button.frame.size.height = 50
         button.layer.cornerRadius = 5
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(submitButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var cancelButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Cancel", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -90,18 +105,30 @@ class LoginViewController: UIViewController {
         return label
     }()
 
+    // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = mainColor
         setupView()
+        
+        view.addGestureRecognizer(touchGestureRecognizer)
+        
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        passwordConfirmationTextField.delegate = self
 
     }
+    
+    // MARK: - View Setup
+    
     func setupView(){
         
         view.addSubview(detailLabel)
         view.addSubview(statusControl)
         view.addSubview(textFieldContainer)
         view.addSubview(submitButton)
+        view.addSubview(cancelButton)
         view.addSubview(activityIndicator)
         
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -124,6 +151,12 @@ class LoginViewController: UIViewController {
         submitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         submitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         submitButton.topAnchor.constraint(equalTo: textFieldContainer.bottomAnchor, constant: 8).isActive = true
+        submitButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        cancelButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cancelButton.widthAnchor.constraint(equalTo: submitButton.widthAnchor, multiplier: 0.4).isActive = true
+        cancelButton.topAnchor.constraint(equalTo: submitButton.bottomAnchor, constant: 8).isActive = true
+        cancelButton.heightAnchor.constraint(equalTo: submitButton.heightAnchor).isActive = true
         
         textFieldContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         textFieldContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
@@ -148,6 +181,13 @@ class LoginViewController: UIViewController {
         view.bringSubview(toFront: activityIndicator)
     }
     
+    // MARK: - Button Actions
+    
+    @objc private func userTapped() {
+        print("User Tapped")
+        view.endEditing(true)
+    }
+    
     @objc private func statusChanged() {
         switch statusControl.selectedSegmentIndex {
         case 0 :
@@ -167,36 +207,67 @@ class LoginViewController: UIViewController {
     @objc private func submitButtonPressed() {
         guard let email = emailTextField.text, !email.isEmpty else {print("No email entered") ; return}
         guard let password = passwordTextField.text, !password.isEmpty else {print("No Password entered") ; return}
-        guard let confirmPassword = passwordConfirmationTextField.text, !confirmPassword.isEmpty else {print("No Password confimation entered") ; return}
         
-        let results = validatePassword(password: password, confirmPassword: confirmPassword)
-        
-        if results.0 == false { print(results.1); return }
         
         switch statusControl.selectedSegmentIndex {
         case 0 :
-            self.heightConstraint.constant -= 50
-            self.passwordConfirmationTextField.isHidden = true
-            submitButton.setTitle("Sign In", for: .normal)
+            Auth.auth().signIn(withEmail: email, password: password) { (auth, error) in
+                if let error = error {
+                    print("Error signing in: \(error.localizedDescription)")
+                    return
+                }
+                print("sign in successful")
+                self.view.endEditing(true)
+                self.dismiss(animated: true, completion: nil)
+                
+            }
         case 1:
+            guard let confirmPassword = passwordConfirmationTextField.text, !confirmPassword.isEmpty else {print("No Password confimation entered") ; return}
+            
+            let results = validatePassword(password: password, confirmPassword: confirmPassword)
+            
+            if results.0 == false { print(results.1); return }
+            
             activityIndicator.startAnimating()
             Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-                DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                }
+                
                 if let error = error {
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                    }
                     print("Error \(error.localizedDescription)")
+                    return
                 }
                 
                 //Successful
-                print("SUccessful")
+                
+                //Sign In
+                Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                    }
+                    if let error = error {
+                        print("Error signing in: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    print("Sign in successful")
+                    self.view.endEditing(true)
+                    self.dismiss(animated: true, completion: nil)
+                })
             }
         default:
             print("Status change failed")
         }
     }
     
-    func validatePassword(password: String, confirmPassword: String) -> (Bool, String) {
+    @objc private func cancelButtonPressed(){
+        self.view.endEditing(true)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Methods
+    private func validatePassword(password: String, confirmPassword: String) -> (Bool, String) {
         
         if password.count < 8 {
             return (false, "Password must be at least 8 characters long")
@@ -207,6 +278,27 @@ class LoginViewController: UIViewController {
         }
         
         return (true, "")
+    }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.2) {
+            self.view.frame.origin.y -= 55
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
+        view.endEditing(true)
+        UIView.animate(withDuration: 0.2) {
+            self.view.frame.origin.y += 55
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        submitButtonPressed()
+        textField.resignFirstResponder()
+        return true
     }
 }
 

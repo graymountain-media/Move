@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PackedTableViewCellDelegate {
    
@@ -15,8 +16,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.title = viewTitle
         }
     }
+
     // MARK: - Properties
     let cellIdentifier = "mainCell"
+    
     
     let mainTableView: UITableView = {
         let tableView = UITableView()

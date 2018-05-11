@@ -30,10 +30,10 @@
 		A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */; };
 		A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */; };
 		A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */; };
-		A1A6A75C20A49AA9005B103E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1A6A75B20A49AA9005B103E /* GoogleService-Info.plist */; };
 		A1A9987420A231060039662E /* PackedItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A9987320A231060039662E /* PackedItemTableViewCell.swift */; };
 		A1AA1ABD20A0E9D600E53C51 /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */; };
 		A1BE820020A4AC9E002529A7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BE81FF20A4AC9E002529A7 /* LoginViewController.swift */; };
+		A1DB092C20A5F62D001D2FF1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1DB092B20A5F62D001D2FF1 /* GoogleService-Info.plist */; };
 		A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */; };
 		A1EFE637208BBE43000C6E21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EFE636208BBE43000C6E21 /* Assets.xcassets */; };
 		A1EFE63A208BBE43000C6E21 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1EFE638208BBE43000C6E21 /* LaunchScreen.storyboard */; };
@@ -65,10 +65,10 @@
 		A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
-		A1A6A75B20A49AA9005B103E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A1A9987320A231060039662E /* PackedItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedItemTableViewCell.swift; sourceTree = "<group>"; };
 		A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 		A1BE81FF20A4AC9E002529A7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		A1DB092B20A5F62D001D2FF1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		A1EFE62C208BBE42000C6E21 /* Packed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Packed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1EFE636208BBE43000C6E21 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -232,7 +232,7 @@
 		A1EFE62E208BBE42000C6E21 /* Packed */ = {
 			isa = PBXGroup;
 			children = (
-				A1A6A75B20A49AA9005B103E /* GoogleService-Info.plist */,
+				A1DB092B20A5F62D001D2FF1 /* GoogleService-Info.plist */,
 				A1E9E5FC208F7DE600971DA7 /* TableViewCells */,
 				A120412C208E53360093E782 /* ViewControllers */,
 				A1204137208E74680093E782 /* Models */,
@@ -304,8 +304,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1EFE63A208BBE43000C6E21 /* LaunchScreen.storyboard in Resources */,
+				A1DB092C20A5F62D001D2FF1 /* GoogleService-Info.plist in Resources */,
 				A1EFE637208BBE43000C6E21 /* Assets.xcassets in Resources */,
-				A1A6A75C20A49AA9005B103E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,12 +339,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Packed/Pods-Packed-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;

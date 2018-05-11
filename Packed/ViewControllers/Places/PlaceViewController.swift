@@ -8,11 +8,14 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 class PlaceViewController: MainViewController {
 
     var data: [Place] = []
     var loginButton = UIBarButtonItem()
+    var handle: AuthStateDidChangeListenerHandle?
+    var isLoggedIn: Bool = false
     
     let PlacesFetchedResultsController: NSFetchedResultsController<Place> = {
         let request: NSFetchRequest<Place> = Place.fetchRequest()
@@ -40,16 +43,53 @@ class PlaceViewController: MainViewController {
         try? PlacesFetchedResultsController.performFetch()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        updateView()
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if auth.currentUser != nil {
+                self.isLoggedIn = true
+                self.loginButton.title = "Sign Out"
+            }
+            print("*************AUTH: \(auth.currentUser?.email)")
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+    }
+    
     // MARK: - View Setup
     
     private func setupLoginButton() {
+
         loginButton = UIBarButtonItem(title: "Login", style: .plain, target: self, action: #selector(loginButtonPressed))
         navigationItem.leftBarButtonItem = loginButton
     }
     
     @objc private func loginButtonPressed(){
-        let loginController = LoginViewController()
-        present(loginController, animated: true, completion: nil)
+        if isLoggedIn {
+            
+            let alert = UIAlertController(title: "Are you sure you want to sign out?", message: "You will not be able to edit any shared Places while signed out", preferredStyle: .alert)
+            
+            let signOutAction = UIAlertAction(title: "Sign Out", style: .destructive) { (_) in
+                try? Auth.auth().signOut()
+                self.isLoggedIn = false
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.loginButton.title = "Login"
+                    
+                })
+            }
+            alert.addAction(signOutAction)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
+            
+        } else {
+            let loginController = LoginViewController()
+            present(loginController, animated: true, completion: nil)
+        }
     }
     
     @objc override func addButtonPressed() {
