@@ -269,7 +269,7 @@ class RegisterViewController: UIViewController {
     }
     
     private func add(user: User, withName name: String){
-        let userRef = Database.database().reference().child("users").child(user.uid)
+        let userRef = ref.child("users").child(user.uid)
         
         let values = ["name": name, "email" : user.email!]
         
@@ -277,9 +277,9 @@ class RegisterViewController: UIViewController {
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-//            keyboardHeight = keyboardSize.height
-        }
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+////            keyboardHeight = keyboardSize.height
+//        }
     }
     
 }

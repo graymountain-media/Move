@@ -28,6 +28,7 @@
 		A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF722097D5C6005C2388 /* MainViewController.swift */; };
 		A145AF7520983B0E005C2388 /* PackedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */; };
 		A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */; };
+		A174FF8B20C5E87100D89564 /* FirebaseDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A174FF8A20C5E87100D89564 /* FirebaseDataController.swift */; };
 		A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */; };
 		A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */; };
 		A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */; };
@@ -64,6 +65,7 @@
 		A145AF722097D5C6005C2388 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedTableViewCell.swift; sourceTree = "<group>"; };
 		A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceViewController.swift; sourceTree = "<group>"; };
+		A174FF8A20C5E87100D89564 /* FirebaseDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDataController.swift; sourceTree = "<group>"; };
 		A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				A120413A208E79460093E782 /* PlaceController.swift */,
 				A120413C208E79890093E782 /* RoomController.swift */,
 				A120413E208E79BE0093E782 /* BoxController.swift */,
+				A174FF8A20C5E87100D89564 /* FirebaseDataController.swift */,
 			);
 			path = ModelControllers;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				A122B2F420C59E72002E37F0 /* RegisterViewController.swift in Sources */,
 				A1204132208E72BA0093E782 /* Room.swift in Sources */,
 				A11488D520A11A8F00F60B92 /* ItemViewController.swift in Sources */,
+				A174FF8B20C5E87100D89564 /* FirebaseDataController.swift in Sources */,
 				A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */,
 				A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */,
 			);

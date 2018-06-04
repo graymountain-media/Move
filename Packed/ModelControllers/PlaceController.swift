@@ -20,33 +20,48 @@ class PlaceController {
         if !isHome{
             PlaceController.createRoom(withName: newPlace.name!, inPlace: newPlace)
         }
+        
     }
     
     //update place
     static func update(place: Place, withName newName: String, isHome newIsHome: Bool){
         place.name = newName
         place.isHome = newIsHome
+        if place.isShared{
+            FirebaseDataManager.update(place: place, withName: newName)
+        }
         saveData()
     }
     
     //delete place
     static func delete(place: Place){
+        if place.isShared {
+            FirebaseDataManager.delete(place: place)
+        }
         place.managedObjectContext?.delete(place)
+        
+        if place.isShared {
+            FirebaseDataManager.delete(place: place)
+        }
         
         saveData()
     }
     
     //create Room
     static func createRoom(withName name: String, inPlace place: Place ){
-        let _ = Room(name: name, place: place)
-        
+        let room = Room(name: name, place: place)
+        if place.isShared {
+            FirebaseDataManager.create(room: room)
+        }
         saveData()
     }
     
     //delete Room
     static func delete(room: Room){
+        if (room.place?.isShared)! {
+            FirebaseDataManager.delete(room: room)
+        }
         room.managedObjectContext?.delete(room)
-        
         saveData()
     }
     

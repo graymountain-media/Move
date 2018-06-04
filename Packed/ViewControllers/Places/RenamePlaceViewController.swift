@@ -54,6 +54,7 @@ class RenamePlaceViewController: UIViewController {
         if let address = nameTextField.text, !address.isEmpty, let place = self.place {
             PlaceController.update(place: place, withName: address, isHome: place.isHome)
             nameTextField.resignFirstResponder()
+            
             dismiss(animated: true, completion: nil)
         } else {
             let noAddressAlert = UIAlertController(title: "Missing Address", message: "Please input an address for your place.", preferredStyle: .alert)

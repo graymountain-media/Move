@@ -66,6 +66,7 @@ class RoomDetailViewController: UIViewController {
                 PlaceController.createRoom(withName: name, inPlace: place)
             }
             nameTextField.resignFirstResponder()
+            
             dismiss(animated: true, completion: nil)
         } else {
             let noAddressAlert = UIAlertController(title: "Missing Name", message: "Please input an name for your new room.", preferredStyle: .alert)

@@ -15,6 +15,7 @@ class PlaceViewController: MainViewController {
     var data: [Place] = []
     var loginButton = UIBarButtonItem()
     var handle: AuthStateDidChangeListenerHandle?
+    var userId: String = ""
     var isLoggedIn: Bool = false
     
     let PlacesFetchedResultsController: NSFetchedResultsController<Place> = {
@@ -51,6 +52,7 @@ class PlaceViewController: MainViewController {
             if auth.currentUser != nil {
                 self.isLoggedIn = true
                 self.loginButton.title = "Sign Out"
+                self.userId = (auth.currentUser?.uid)!
             }
             print("*************AUTH: \(auth.currentUser?.email)")
         }
@@ -114,8 +116,8 @@ class PlaceViewController: MainViewController {
         let actionSheet = UIAlertController(title: place.name, message: nil, preferredStyle: .actionSheet)
        
         let deleteAction = UIAlertAction(title: "Delete \(place.name!)", style: .destructive) { (_) in
-            PlaceController.delete(place: place)
             
+            PlaceController.delete(place: place)
             self.updateView()
         }
         
@@ -131,7 +133,12 @@ class PlaceViewController: MainViewController {
         }
         actionSheet.addAction(updateAction)
         
-        
+        let shareAction = UIAlertAction(title: "Share", style: .default) { (_) in
+            place.owner = self.userId
+            FirebaseDataManager.share(place: place)
+            self.mainTableView.reloadData()
+        }
+        actionSheet.addAction(shareAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         actionSheet.addAction(cancelAction)
@@ -158,6 +165,7 @@ class PlaceViewController: MainViewController {
                 self.instructionLabel.alpha = 1
             }, completion: nil)
         }
+        mainTableView.reloadData()
     }
     
     // MARK: - TableView Data
@@ -207,11 +215,19 @@ class PlaceViewController: MainViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return "Private Places"
+            if PlacesFetchedResultsController.object(at: IndexPath(row: 0, section: section)).isShared {
+                return "Shared Places"
+            } else {
+                return "Private Places"
+            }
         default:
             return "Shared Places"
         }
     }
+    
+    // MARK: - FireBase Data retrieval
+    
+    
 }
 
 extension PlaceViewController: NSFetchedResultsControllerDelegate{
