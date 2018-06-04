@@ -19,6 +19,7 @@ extension Item {
         self.name = name
         self.box = box
         self.isFragile = isFragile
+        self.id = UUID()
     }
     
 //    static func == (lhs: Item, rhs: Item) -> Bool {

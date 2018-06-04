@@ -14,12 +14,14 @@ extension Place{
 //    var name: String
 //    var rooms: [Room]
     
-    convenience init(name: String, isHome: Bool, context: NSManagedObjectContext = CoreDataStack.context){
+    convenience init(name: String, isHome: Bool, owner: String = "", context: NSManagedObjectContext = CoreDataStack.context){
         self.init(context: context)
         self.name = name
         self.rooms = []
         self.isHome = isHome
         self.isShared = false
+        self.owner = owner
+        self.id = UUID()
     }
     
 //    static func == (lhs: Space, rhs: Space) -> Bool {

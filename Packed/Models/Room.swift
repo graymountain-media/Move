@@ -21,6 +21,7 @@ extension Room {
         self.boxes = []
         self.place = place
         self.boxCount = 0
+        self.id = UUID()
     }
     
 //    static func == (lhs: Room, rhs: Room) -> Bool {

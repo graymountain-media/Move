@@ -24,6 +24,7 @@
 		A120413B208E79460093E782 /* PlaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413A208E79460093E782 /* PlaceController.swift */; };
 		A120413D208E79890093E782 /* RoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413C208E79890093E782 /* RoomController.swift */; };
 		A120413F208E79BE0093E782 /* BoxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413E208E79BE0093E782 /* BoxController.swift */; };
+		A122B2F420C59E72002E37F0 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A122B2F320C59E72002E37F0 /* RegisterViewController.swift */; };
 		A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF722097D5C6005C2388 /* MainViewController.swift */; };
 		A145AF7520983B0E005C2388 /* PackedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */; };
 		A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */; };
@@ -59,6 +60,7 @@
 		A120413A208E79460093E782 /* PlaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceController.swift; sourceTree = "<group>"; };
 		A120413C208E79890093E782 /* RoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomController.swift; sourceTree = "<group>"; };
 		A120413E208E79BE0093E782 /* BoxController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxController.swift; sourceTree = "<group>"; };
+		A122B2F320C59E72002E37F0 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		A145AF722097D5C6005C2388 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedTableViewCell.swift; sourceTree = "<group>"; };
 		A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceViewController.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				A145AF722097D5C6005C2388 /* MainViewController.swift */,
 				A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */,
 				A1BE81FF20A4AC9E002529A7 /* LoginViewController.swift */,
+				A122B2F320C59E72002E37F0 /* RegisterViewController.swift */,
 				A11488C720A0EC3300F60B92 /* Places */,
 				A11488CA20A0EEA800F60B92 /* Rooms */,
 				A11488D320A1100D00F60B92 /* Boxes */,
@@ -384,6 +387,7 @@
 				A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */,
 				A120412E208E56390093E782 /* Constants.swift in Sources */,
 				A11488CE20A0F14700F60B92 /* RenamePlaceViewController.swift in Sources */,
+				A122B2F420C59E72002E37F0 /* RegisterViewController.swift in Sources */,
 				A1204132208E72BA0093E782 /* Room.swift in Sources */,
 				A11488D520A11A8F00F60B92 /* ItemViewController.swift in Sources */,
 				A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */,

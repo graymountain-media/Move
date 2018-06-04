@@ -17,6 +17,7 @@ extension Box {
         self.items = []
         self.room = room
         self.isFragile = false
+        self.id = UUID()
     }
     
 }
