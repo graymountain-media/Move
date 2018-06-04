@@ -19,6 +19,7 @@ extension Place{
         self.name = name
         self.rooms = []
         self.isHome = isHome
+        self.isShared = false
     }
     
 //    static func == (lhs: Space, rhs: Space) -> Bool {

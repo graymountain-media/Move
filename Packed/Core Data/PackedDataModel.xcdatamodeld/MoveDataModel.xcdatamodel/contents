@@ -13,6 +13,7 @@
     </entity>
     <entity name="Place" representedClassName="Place" syncable="YES" codeGenerationType="class">
         <attribute name="isHome" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isShared" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="rooms" toMany="YES" deletionRule="Cascade" destinationEntity="Room" inverseName="place" inverseEntity="Room" syncable="YES"/>
     </entity>
@@ -25,7 +26,7 @@
     <elements>
         <element name="Box" positionX="-189" positionY="-99" width="128" height="105"/>
         <element name="Item" positionX="-36" positionY="9" width="128" height="90"/>
-        <element name="Place" positionX="-576" positionY="-270" width="128" height="90"/>
+        <element name="Place" positionX="-576" positionY="-270" width="128" height="105"/>
         <element name="Room" positionX="-362" positionY="-234" width="128" height="105"/>
     </elements>
 </model>

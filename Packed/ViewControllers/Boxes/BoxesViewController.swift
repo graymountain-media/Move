@@ -136,7 +136,7 @@ class BoxViewController: MainViewController {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
         
         let box = BoxesFetchedResultsController.object(at: indexPath)
-        cell.setupCell(name: box.name!, image: #imageLiteral(resourceName: "BoxIcon"), isFragile: box.isFragile)
+        cell.updateCellWith(name: box.name!, image: #imageLiteral(resourceName: "BoxIcon"), isFragile: box.isFragile)
         cell.delegate = self
         
         return cell

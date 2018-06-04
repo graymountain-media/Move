@@ -132,7 +132,7 @@ class RoomViewController: MainViewController {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
         
         let room = RoomsFetchedResultsController.object(at: indexPath)
-        cell.setupCell(name: room.name!, image: #imageLiteral(resourceName: "RoomIcon"), isFragile: false)
+        cell.updateCellWith(name: room.name!, image: #imageLiteral(resourceName: "RoomIcon"), isFragile: false)
         cell.delegate = self
         
         return cell

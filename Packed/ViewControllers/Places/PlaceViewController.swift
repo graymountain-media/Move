@@ -20,10 +20,12 @@ class PlaceViewController: MainViewController {
     let PlacesFetchedResultsController: NSFetchedResultsController<Place> = {
         let request: NSFetchRequest<Place> = Place.fetchRequest()
         
+        let sharedSort = NSSortDescriptor(key: "isShared", ascending: true)
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
-        request.sortDescriptors = [nameSort]
         
-        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
+        request.sortDescriptors = [sharedSort, nameSort]
+        
+        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "isShared", cacheName: nil)
     }()
     
     // MARK: - Life Cycle
@@ -62,7 +64,7 @@ class PlaceViewController: MainViewController {
     
     private func setupLoginButton() {
 
-        loginButton = UIBarButtonItem(title: "Login", style: .plain, target: self, action: #selector(loginButtonPressed))
+        loginButton = UIBarButtonItem(title: "Sign In", style: .plain, target: self, action: #selector(loginButtonPressed))
         navigationItem.leftBarButtonItem = loginButton
     }
     
@@ -171,7 +173,7 @@ class PlaceViewController: MainViewController {
         
         let item = PlacesFetchedResultsController.object(at: indexPath)
         let image = item.isHome ? #imageLiteral(resourceName: "HomeIcon") : #imageLiteral(resourceName: "StorageIcon")
-        cell.setupCell(name: item.name!, image: image, isFragile: false)
+        cell.updateCellWith(name: item.name!, image: image, isFragile: false)
         cell.delegate = self
 
         return cell
@@ -197,6 +199,15 @@ class PlaceViewController: MainViewController {
             let place = PlacesFetchedResultsController.object(at: indexPath)
             PlaceController.delete(place: place)
             updateView()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "Private Places"
+        default:
+            return "Shared Places"
         }
     }
 }

@@ -103,7 +103,7 @@ class ItemViewController: MainViewController {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedItemTableViewCell else {return PackedItemTableViewCell()}
         
         let item = ItemsFetchedResultsController.object(at: indexPath)
-        cell.setupCell(name: item.name!, image: #imageLiteral(resourceName: "ItemIcon"), isFragile: item.isFragile)
+        cell.updateCellWith(name: item.name!, image: #imageLiteral(resourceName: "ItemIcon"), isFragile: item.isFragile)
         cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         
         return cell
