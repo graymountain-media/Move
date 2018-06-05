@@ -21,7 +21,24 @@ extension Place{
         self.isHome = isHome
         self.isShared = false
         self.owner = owner
-        self.id = UUID()
+        self.id = UUID().uuidString
+    }
+    
+    convenience init(dict: NSDictionary,context: NSManagedObjectContext = CoreDataStack.context) {
+        self.init(context: context)
+        self.name = dict["name"] as? String
+        self.rooms = []
+        
+        let isHomeValue = dict["isHome"] as? Int ?? 1
+        if isHomeValue == 1 {
+            self.isHome = true
+        } else {
+            self.isHome = false
+        }
+        
+        self.isShared = true
+        self.owner = dict["ownerName"] as? String ?? "User"
+        self.id = dict["id"] as? String ?? ""
     }
     
 //    static func == (lhs: Space, rhs: Space) -> Bool {

@@ -14,7 +14,7 @@
         <relationship name="box" maxCount="1" deletionRule="Nullify" destinationEntity="Box" inverseName="items" inverseEntity="Box" syncable="YES"/>
     </entity>
     <entity name="Place" representedClassName="Place" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isHome" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isShared" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>

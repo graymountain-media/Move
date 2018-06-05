@@ -6,14 +6,16 @@
 //  Copyright © 2018 Jake Gray. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import Firebase
+import FirebaseDatabase
 
 class FirebaseDataManager {
     
     // MARK: - Places
     
     static func share(place: Place) {
-        let placesRef = ref.child("places").child((place.id?.uuidString)!)
+        let placesRef = ref.child("places").child(place.id!)
         
         let values: [String:Any] = ["name" : place.name ?? "Default Name", "owner" : place.owner ?? "Default Owner", "isHome" : place.isHome]
         
@@ -22,20 +24,20 @@ class FirebaseDataManager {
     }
     
     static func update(place: Place, withName name: String) {
-        ref.child("places").child((place.id?.uuidString)!).child("name").setValue(name)
+        ref.child("places").child(place.id!).child("name").setValue(name)
     }
     
     static func delete(place: Place) {
         for room in place.rooms! {
             delete(room: room as! Room)
         }
-        ref.child("places").child((place.id?.uuidString)!).removeValue()
+        ref.child("places").child(place.id!).removeValue()
     }
     
     // MARK: - Rooms
     
     static func create(room: Room) {
-        let roomsRef = ref.child("rooms").child((room.place?.id?.uuidString)!).child((room.id?.uuidString)!)
+        let roomsRef = ref.child("rooms").child((room.place?.id)!).child((room.id?.uuidString)!)
         
         let values: [String:Any] = ["name" : room.name ?? "Default Name"]
         
@@ -43,14 +45,14 @@ class FirebaseDataManager {
     }
     
     static func update(room: Room, withName name: String) {
-        ref.child("rooms").child((room.place?.id?.uuidString)!).child((room.id?.uuidString)!).child("name").setValue(name)
+        ref.child("rooms").child((room.place?.id)!).child((room.id?.uuidString)!).child("name").setValue(name)
     }
     
     static func delete(room: Room) {
         for box in room.boxes!{
             delete(box: box as! Box)
         }
-        ref.child("rooms").child((room.place?.id?.uuidString)!).child((room.id?.uuidString)!).removeValue()
+        ref.child("rooms").child((room.place?.id)!).child((room.id?.uuidString)!).removeValue()
     }
     
     // MARK: - Boxes
@@ -99,4 +101,43 @@ class FirebaseDataManager {
         ref.child("item_details").child((item.id?.uuidString)!).removeValue()
     }
     
+    // MARK: - Data Processing
+    
+    func processNewPlace(dict: [String:Any], sender: PlaceViewController) {
+        var owner: String = ""
+        var newPlaceDict: NSDictionary = [:]
+        
+        for _ in 0...dict.count {
+            guard let placeID = dict.first?.value as? String else {
+                print("Error decoding place id")
+                return
+            }
+            
+            for place in sender.PlacesFetchedResultsController.fetchedObjects! {
+                if place.id == placeID {
+                    print("place already exists, moving on")
+                    return
+                }
+            }
+            
+            ref.child("places").child(placeID).observeSingleEvent(of: DataEventType.value) { (snapshot) in
+                let dict = snapshot.value as? NSDictionary ?? [:]
+                let ownerID = dict["owner"] as! String
+                newPlaceDict = dict
+                
+                ref.child("users").child(ownerID).observeSingleEvent(of: DataEventType.value) { (snapshot) in
+                    let dict = snapshot.value as? NSDictionary ?? [:]
+                    owner = dict["name"] as? String ?? "User"
+                    print("user dict: \(dict)")
+                    newPlaceDict.setValue(owner, forKey: "ownerName")
+                    newPlaceDict.setValue(placeID, forKey: "id")
+                    
+                    PlaceController.createPlace(withDict: newPlaceDict)
+                }
+                
+                
+                print(dict)
+            }
+        }
+    }
 }

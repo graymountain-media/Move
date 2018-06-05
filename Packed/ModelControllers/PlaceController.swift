@@ -23,6 +23,17 @@ class PlaceController {
         
     }
     
+    static func createPlace(withDict dict: NSDictionary){
+        let newPlace = Place(dict: dict)
+        
+        saveData()
+        
+//        if !isHome{
+//            PlaceController.createRoom(withName: newPlace.name!, inPlace: newPlace)
+//        }
+        
+    }
+    
     //update place
     static func update(place: Place, withName newName: String, isHome newIsHome: Bool){
         place.name = newName

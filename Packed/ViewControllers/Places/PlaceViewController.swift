@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class PlaceViewController: MainViewController {
 
@@ -53,6 +55,13 @@ class PlaceViewController: MainViewController {
                 self.isLoggedIn = true
                 self.loginButton.title = "Sign Out"
                 self.userId = (auth.currentUser?.uid)!
+                
+                self.sharedReference = ref.child("users").child((Auth.auth().currentUser?.uid)!).child("shared").observe(DataEventType.value, with: { (snapshot) in
+                    print("CHANGE IN DATABASE")
+                    let postDict = snapshot.value as? [String : AnyObject] ?? [:]
+                    print("PostDict: \(postDict)")
+                    FirebaseDataManager.processNewPlace(dict: postDict, sender: self)
+                })
             }
             print("*************AUTH: \(auth.currentUser?.email)")
         }
@@ -226,6 +235,9 @@ class PlaceViewController: MainViewController {
     }
     
     // MARK: - FireBase Data retrieval
+    
+    var sharedReference = UInt()
+    
     
     
 }
