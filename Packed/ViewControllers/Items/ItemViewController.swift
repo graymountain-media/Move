@@ -8,10 +8,15 @@
 
 import UIKit
 import CoreData
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class ItemViewController: MainViewController {
     
     var box: Box?
+    
+    var itemsAddedReference = UInt()
     
     var ItemsFetchedResultsController: NSFetchedResultsController<Item> = NSFetchedResultsController()
     
@@ -32,6 +37,21 @@ class ItemViewController: MainViewController {
         try? ItemsFetchedResultsController.performFetch()
         
         mainTableView.register(PackedItemTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        updateView()
+        guard let box = box else {return}
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if auth.currentUser != nil {
+                
+                self.itemsAddedReference = ref.child("items").child(box.id!).observe(DataEventType.childAdded, with: { (snapshot) in
+                    let dict = snapshot.value as? [String : AnyObject] ?? [:]
+                    FirebaseDataManager.processNewItem(dict: dict, sender: self)
+                })
+            }
+            print("*************AUTH in Boxes: \(auth.currentUser?.email)")
+        }
     }
     
     // MARK: - View Setup

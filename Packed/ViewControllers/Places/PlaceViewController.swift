@@ -13,10 +13,11 @@ import FirebaseAuth
 import FirebaseDatabase
 
 class PlaceViewController: MainViewController {
+    
+    var sharedAddedReference = UInt()
 
     var data: [Place] = []
     var loginButton = UIBarButtonItem()
-    var handle: AuthStateDidChangeListenerHandle?
     var userId: String = ""
     var isLoggedIn: Bool = false
     
@@ -56,14 +57,14 @@ class PlaceViewController: MainViewController {
                 self.loginButton.title = "Sign Out"
                 self.userId = (auth.currentUser?.uid)!
                 
-                self.sharedReference = ref.child("users").child((Auth.auth().currentUser?.uid)!).child("shared").observe(DataEventType.value, with: { (snapshot) in
+                self.sharedAddedReference = ref.child("users").child((Auth.auth().currentUser?.uid)!).child("shared").observe(DataEventType.childAdded, with: { (snapshot) in
                     print("CHANGE IN DATABASE")
                     let postDict = snapshot.value as? [String : AnyObject] ?? [:]
                     print("PostDict: \(postDict)")
                     FirebaseDataManager.processNewPlace(dict: postDict, sender: self)
                 })
             }
-            print("*************AUTH: \(auth.currentUser?.email)")
+            print("*************AUTH In Places: \(auth.currentUser?.email)")
         }
     }
     
@@ -233,13 +234,6 @@ class PlaceViewController: MainViewController {
             return "Shared Places"
         }
     }
-    
-    // MARK: - FireBase Data retrieval
-    
-    var sharedReference = UInt()
-    
-    
-    
 }
 
 extension PlaceViewController: NSFetchedResultsControllerDelegate{

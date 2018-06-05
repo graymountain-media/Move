@@ -8,10 +8,15 @@
 
 import UIKit
 import CoreData
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class BoxViewController: MainViewController {
     
     var room: Room?
+    
+    var boxesAddedReference = UInt()
     
     var BoxesFetchedResultsController: NSFetchedResultsController<Box> = NSFetchedResultsController()
     
@@ -31,6 +36,21 @@ class BoxViewController: MainViewController {
         BoxesFetchedResultsController.delegate = self
         
         try? BoxesFetchedResultsController.performFetch()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        updateView()
+        guard let room = room else {return}
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if auth.currentUser != nil {
+                
+                self.boxesAddedReference = ref.child("boxes").child(room.id!).observe(DataEventType.childAdded, with: { (snapshot) in
+                    let dict = snapshot.value as? [String : AnyObject] ?? [:]
+                    FirebaseDataManager.processNewBox(dict: dict, sender: self)
+                })
+            }
+            print("*************AUTH in Boxes: \(auth.currentUser?.email)")
+        }
     }
     
     // MARK: - View Setup

@@ -27,6 +27,12 @@ class RoomController {
         saveData()
     }
     
+    static func createBox(withDictionary dict: NSDictionary, inRoom room: Room ){
+        let _ = Box(dict: dict, inRoom: room)
+        
+        saveData()
+    }
+    
     //delete Box
     static func delete(box: Box){
         if (box.room?.place?.isShared)! {

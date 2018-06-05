@@ -29,6 +29,15 @@ class BoxController {
         
         checkFragileState(forBox: box)
     }
+    
+    static func createItem(withDictionary dict: NSDictionary, inBox box: Box){
+        let _ = Item(withDict: dict, inBox: box)
+        
+        saveData()
+        
+        checkFragileState(forBox: box)
+    }
+    
     //Update Item
     static func update(item: Item, withName newName: String, isFragile newIsFragile: Bool){
         item.name = newName

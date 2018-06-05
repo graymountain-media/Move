@@ -8,10 +8,15 @@
 
 import UIKit
 import CoreData
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class RoomViewController: MainViewController {
     
     var place: Place?
+    
+    var roomsAddedReference = UInt()
     
     var RoomsFetchedResultsController: NSFetchedResultsController<Room> = NSFetchedResultsController()
     
@@ -30,6 +35,21 @@ class RoomViewController: MainViewController {
         RoomsFetchedResultsController.delegate = self
         
         try? RoomsFetchedResultsController.performFetch()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        updateView()
+        guard let place = place else {return}
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if auth.currentUser != nil {
+                
+                self.roomsAddedReference = ref.child("rooms").child(place.id!).observe(DataEventType.childAdded, with: { (snapshot) in
+                    let dict = snapshot.value as? [String : AnyObject] ?? [:]
+                    FirebaseDataManager.processNewRoom(dict: dict, sender: self)
+                })
+            }
+            print("*************AUTH in Rooms: \(auth.currentUser?.email)")
+        }
     }
     
     // MARK: - View Setup

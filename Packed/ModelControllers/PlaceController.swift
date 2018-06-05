@@ -24,7 +24,7 @@ class PlaceController {
     }
     
     static func createPlace(withDict dict: NSDictionary){
-        let newPlace = Place(dict: dict)
+        let _ = Place(dict: dict)
         
         saveData()
         
@@ -64,6 +64,11 @@ class PlaceController {
         if place.isShared {
             FirebaseDataManager.create(room: room)
         }
+        saveData()
+    }
+    
+    static func createRoom(withDict dict: NSDictionary, inPlace place: Place ){
+        let _ = Room(dict: dict, place: place)
         saveData()
     }
     

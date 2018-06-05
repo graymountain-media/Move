@@ -19,6 +19,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     // MARK: - Properties
     let cellIdentifier = "mainCell"
+    var handle: AuthStateDidChangeListenerHandle?
     
     
     let mainTableView: UITableView = {
