@@ -16,7 +16,8 @@ class RoomViewController: MainViewController {
     
     var place: Place?
     
-    var roomsAddedReference = UInt()
+    var roomsAddedHandle = UInt()
+    var roomsReference = DatabaseReference()
     
     var RoomsFetchedResultsController: NSFetchedResultsController<Room> = NSFetchedResultsController()
     
@@ -39,11 +40,20 @@ class RoomViewController: MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         updateView()
+        setupHandle()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+        roomsReference.removeAllObservers()
+    }
+    
+    private func setupHandle() {
         guard let place = place else {return}
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if auth.currentUser != nil {
-                
-                self.roomsAddedReference = ref.child("rooms").child(place.id!).observe(DataEventType.childAdded, with: { (snapshot) in
+                self.roomsReference = ref.child("rooms").child(place.id!)
+                self.roomsAddedHandle = self.roomsReference.observe(DataEventType.childAdded, with: { (snapshot) in
                     let dict = snapshot.value as? [String : AnyObject] ?? [:]
                     FirebaseDataManager.processNewRoom(dict: dict, sender: self)
                 })

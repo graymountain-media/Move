@@ -16,7 +16,8 @@ class ItemViewController: MainViewController {
     
     var box: Box?
     
-    var itemsAddedReference = UInt()
+    var itemsAddedHandle = UInt()
+    var itemsReference = DatabaseReference()
     
     var ItemsFetchedResultsController: NSFetchedResultsController<Item> = NSFetchedResultsController()
     
@@ -41,11 +42,21 @@ class ItemViewController: MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         updateView()
+        setupHandle()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+        itemsReference.removeAllObservers()
+    }
+    
+    private func setupHandle() {
         guard let box = box else {return}
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if auth.currentUser != nil {
                 
-                self.itemsAddedReference = ref.child("items").child(box.id!).observe(DataEventType.childAdded, with: { (snapshot) in
+                self.itemsReference = ref.child("items").child(box.id!)
+                self.itemsAddedHandle = self.itemsReference.observe(DataEventType.childAdded, with: { (snapshot) in
                     let dict = snapshot.value as? [String : AnyObject] ?? [:]
                     FirebaseDataManager.processNewItem(dict: dict, sender: self)
                 })

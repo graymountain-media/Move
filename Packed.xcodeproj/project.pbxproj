@@ -32,6 +32,8 @@
 		A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */; };
 		A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */; };
 		A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */; };
+		A18F728420C6FF9E00C9BD68 /* FireBaseDataManagerDestroyer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18F728320C6FF9E00C9BD68 /* FireBaseDataManagerDestroyer.swift */; };
+		A18F728620C8481F00C9BD68 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18F728520C8481F00C9BD68 /* ShareViewController.swift */; };
 		A1A9987420A231060039662E /* PackedItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A9987320A231060039662E /* PackedItemTableViewCell.swift */; };
 		A1AA1ABD20A0E9D600E53C51 /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */; };
 		A1BE820020A4AC9E002529A7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BE81FF20A4AC9E002529A7 /* LoginViewController.swift */; };
@@ -69,6 +71,8 @@
 		A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
+		A18F728320C6FF9E00C9BD68 /* FireBaseDataManagerDestroyer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBaseDataManagerDestroyer.swift; sourceTree = "<group>"; };
+		A18F728520C8481F00C9BD68 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		A1A9987320A231060039662E /* PackedItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedItemTableViewCell.swift; sourceTree = "<group>"; };
 		A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 		A1BE81FF20A4AC9E002529A7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +181,7 @@
 				A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */,
 				A1BE81FF20A4AC9E002529A7 /* LoginViewController.swift */,
 				A122B2F320C59E72002E37F0 /* RegisterViewController.swift */,
+				A18F728520C8481F00C9BD68 /* ShareViewController.swift */,
 				A11488C720A0EC3300F60B92 /* Places */,
 				A11488CA20A0EEA800F60B92 /* Rooms */,
 				A11488D320A1100D00F60B92 /* Boxes */,
@@ -203,6 +208,7 @@
 				A120413C208E79890093E782 /* RoomController.swift */,
 				A120413E208E79BE0093E782 /* BoxController.swift */,
 				A174FF8A20C5E87100D89564 /* FirebaseDataManagerCreator.swift */,
+				A18F728320C6FF9E00C9BD68 /* FireBaseDataManagerDestroyer.swift */,
 			);
 			path = ModelControllers;
 			sourceTree = "<group>";
@@ -387,6 +393,7 @@
 				A1204130208E72680093E782 /* Place.swift in Sources */,
 				A1204134208E72D80093E782 /* Box.swift in Sources */,
 				A1204136208E72DE0093E782 /* Item.swift in Sources */,
+				A18F728620C8481F00C9BD68 /* ShareViewController.swift in Sources */,
 				A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */,
 				A120412E208E56390093E782 /* Constants.swift in Sources */,
 				A11488CE20A0F14700F60B92 /* RenamePlaceViewController.swift in Sources */,
@@ -395,6 +402,7 @@
 				A11488D520A11A8F00F60B92 /* ItemViewController.swift in Sources */,
 				A174FF8B20C5E87100D89564 /* FirebaseDataManagerCreator.swift in Sources */,
 				A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */,
+				A18F728420C6FF9E00C9BD68 /* FireBaseDataManagerDestroyer.swift in Sources */,
 				A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

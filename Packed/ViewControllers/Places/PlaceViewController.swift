@@ -14,12 +14,14 @@ import FirebaseDatabase
 
 class PlaceViewController: MainViewController {
     
-    var sharedAddedReference = UInt()
+    var sharedReference = DatabaseReference()
 
     var data: [Place] = []
     var loginButton = UIBarButtonItem()
     var userId: String = ""
     var isLoggedIn: Bool = false
+    
+    let blurredBackgroundView = UIVisualEffectView()
     
     let PlacesFetchedResultsController: NSFetchedResultsController<Place> = {
         let request: NSFetchRequest<Place> = Place.fetchRequest()
@@ -47,32 +49,71 @@ class PlaceViewController: MainViewController {
         PlacesFetchedResultsController.delegate = self
 
         try? PlacesFetchedResultsController.performFetch()
+        
+        setupBlur()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         updateView()
+        setupHandle()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+        sharedReference.removeAllObservers()
+    }
+    
+    private func setupHandle() {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if auth.currentUser != nil {
                 self.isLoggedIn = true
                 self.loginButton.title = "Sign Out"
                 self.userId = (auth.currentUser?.uid)!
                 
-                self.sharedAddedReference = ref.child("users").child((Auth.auth().currentUser?.uid)!).child("shared").observe(DataEventType.childAdded, with: { (snapshot) in
-                    print("CHANGE IN DATABASE")
-                    let postDict = snapshot.value as? [String : AnyObject] ?? [:]
-                    print("PostDict: \(postDict)")
-                    FirebaseDataManager.processNewPlace(dict: postDict, sender: self)
-                })
+                self.sharedReference = ref.child("shared").child((Auth.auth().currentUser?.uid)!)
+                self.setupObservers()
+                
             }
             print("*************AUTH In Places: \(auth.currentUser?.email)")
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        Auth.auth().removeStateDidChangeListener(handle!)
+    private func setupObservers(){
+        self.sharedReference.observe(DataEventType.childAdded, with: { (snapshot) in
+            print("SHARED ADDED")
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            print("PostDict: \(dict)")
+            
+            if !dict.isEmpty {
+                FirebaseDataManager.processNewPlace(dict: dict, sender: self)
+            }
+            self.mainTableView.reloadData()
+        })
+        self.sharedReference.observe(DataEventType.childRemoved, with: { (snapshot) in
+            print("SHARED removed")
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            print("PostDict: \(dict)")
+            FirebaseDataManager.processPlaceRemoval(dict: dict, sender: self)
+            self.mainTableView.reloadData()
+        })
+        self.sharedReference.observe(DataEventType.childChanged, with: { (snapshot) in
+            print("SHARED changed")
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            print("PostDict: \(dict)")
+            //FirebaseDataManager.processPlaceUpdate(dict: dict, sender: self)
+            self.mainTableView.reloadData()
+        })
     }
     
     // MARK: - View Setup
+    
+    private func setupBlur(){
+        blurredBackgroundView.frame = view.frame
+        blurredBackgroundView.effect = UIBlurEffect(style: .dark)
+        blurredBackgroundView.alpha = 0
+        
+        view.addSubview(blurredBackgroundView)
+    }
     
     private func setupLoginButton() {
 
@@ -143,11 +184,18 @@ class PlaceViewController: MainViewController {
         }
         actionSheet.addAction(updateAction)
         
-        let shareAction = UIAlertAction(title: "Share", style: .default) { (_) in
+        let shareAction = UIAlertAction(title: "Share This Place", style: .default) { (_) in
             place.owner = self.userId
-            FirebaseDataManager.share(place: place)
-            self.mainTableView.reloadData()
+            let shareView = ShareViewController()
+            shareView.delegate = self
+            shareView.place = place
+            shareView.modalPresentationStyle = .overFullScreen
+            self.present(shareView, animated: true, completion: nil)
+            UIView.animate(withDuration: 0.2, animations: {
+                self.blurredBackgroundView.alpha = 1
+            })
         }
+        
         actionSheet.addAction(shareAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -270,5 +318,17 @@ extension PlaceViewController: NSFetchedResultsControllerDelegate{
             fatalError("Can't edit sections like that")
         }
     }
+}
+
+extension PlaceViewController: BlurBackgroundDelegate {
+    func dismissBlur() {
+        self.mainTableView.reloadData()
+        UIView.animate(withDuration: 0.2) {
+            self.blurredBackgroundView.alpha = 0
+        }
+        
+    }
+    
+    
 }
 

@@ -12,29 +12,24 @@ import FirebaseDatabase
 
 class FirebaseDataManager {
     
-    // MARK: - Places
+    // MARK: - Place Creation
     
-    static func share(place: Place) {
+    static func share(place: Place, toUser user: String) {
         let placesRef = ref.child("places").child(place.id!)
         
         let values: [String:Any] = ["name" : place.name ?? "Default Name", "owner" : place.owner ?? "Default Owner", "isHome" : place.isHome, "id" : place.id!]
         
         placesRef.updateChildValues(values)
         place.isShared = true
+        
+        ref.child("shared").child(user).child(place.id!).updateChildValues(["name" : place.name!, "id" : place.id!])
     }
     
     static func update(place: Place, withName name: String) {
         ref.child("places").child(place.id!).child("name").setValue(name)
     }
     
-    static func delete(place: Place) {
-        for room in place.rooms! {
-            delete(room: room as! Room)
-        }
-        ref.child("places").child(place.id!).removeValue()
-    }
-    
-    // MARK: - Rooms
+    // MARK: - Room Creation
     
     static func create(room: Room) {
         let roomsRef = ref.child("rooms").child((room.place?.id)!).child(room.id!)
@@ -48,14 +43,7 @@ class FirebaseDataManager {
         ref.child("rooms").child((room.place?.id)!).child(room.id!).child("name").setValue(name)
     }
     
-    static func delete(room: Room) {
-        for box in room.boxes!{
-            delete(box: box as! Box)
-        }
-        ref.child("rooms").child((room.place?.id)!).child(room.id!).removeValue()
-    }
-    
-    // MARK: - Boxes
+    // MARK: - Box Creation
     
     static func create(box: Box) {
         let boxesRef = ref.child("boxes").child((box.room?.id)!).child(box.id!)
@@ -70,14 +58,7 @@ class FirebaseDataManager {
         ref.child("boxes").child((box.room?.id)!).child(box.id!).child("isFragile").setValue(box.isFragile)
     }
     
-    static func delete(box: Box) {
-        for item in box.items! {
-            delete(item: item as! Item)
-        }
-        ref.child("boxes").child((box.room?.id)!).child(box.id!).removeValue()
-    }
-    
-    // MARK: - Items
+    // MARK: - Item Creation
     
     static func create(item: Item) {
         let itemsRef = ref.child("items").child((item.box?.id)!).child(item.id!)
@@ -96,51 +77,56 @@ class FirebaseDataManager {
         ref.child("item_details").child(item.id!).updateChildValues(values)
     }
     
-    static func delete(item: Item) {
-        ref.child("items").child((item.box?.id)!).child(item.id!).removeValue()
-        ref.child("item_details").child(item.id!).removeValue()
-    }
-    
-    // MARK: - Data Processing
+}
+
+// MARK: - Place Data Processing
+
+extension FirebaseDataManager {
     
     //Create new shared place
     static func processNewPlace(dict: [String:Any], sender: PlaceViewController) {
         var owner: String = ""
         var newPlaceDict: NSDictionary = [:]
         
-        for _ in 0...dict.count {
-            guard let placeID = dict.first?.value as? String else {
-                print("Error decoding place id")
+        guard let placeID = dict["id"] as? String else {
+            print("Error decoding place id")
+            return
+        }
+        
+        for place in sender.PlacesFetchedResultsController.fetchedObjects! {
+            if place.id == placeID {
+                print("place already exists, moving on")
                 return
             }
-            
-            for place in sender.PlacesFetchedResultsController.fetchedObjects! {
-                if place.id == placeID {
-                    print("place already exists, moving on")
-                    return
-                }
-            }
-            
-            ref.child("places").child(placeID).observeSingleEvent(of: DataEventType.value) { (snapshot) in
-                let dict = snapshot.value as? NSDictionary ?? [:]
-                let ownerID = dict["owner"] as! String
-                newPlaceDict = dict
-                
-                ref.child("users").child(ownerID).observeSingleEvent(of: DataEventType.value) { (snapshot) in
-                    let dict = snapshot.value as? NSDictionary ?? [:]
-                    owner = dict["name"] as? String ?? "User"
-                    print("user dict: \(dict)")
-                    newPlaceDict.setValue(owner, forKey: "ownerName")
-                    newPlaceDict.setValue(placeID, forKey: "id")
-                    
-                    PlaceController.createPlace(withDict: newPlaceDict)
-                }
-                
-                
-                print(dict)
-            }
         }
+        
+        ref.child("places").child(placeID).observeSingleEvent(of: DataEventType.value) { (snapshot) in
+            let dict = snapshot.value as? NSDictionary ?? [:]
+            print("Place dictionary: \(dict)")
+            let ownerID = dict["owner"] as! String
+            newPlaceDict = dict
+            
+            ref.child("users").child(ownerID).observeSingleEvent(of: DataEventType.value) { (snapshot) in
+                let dict = snapshot.value as? NSDictionary ?? [:]
+                owner = dict["name"] as? String ?? "User"
+                print("user dict: \(dict)")
+                newPlaceDict.setValue(owner, forKey: "ownerName")
+                newPlaceDict.setValue(placeID, forKey: "id")
+                
+                PlaceController.createPlace(withDict: newPlaceDict)
+            }
+            
+            
+            print(dict)
+        }
+        
     }
+    
+    static func processPlaceRemoval(dict: [String : AnyObject], sender: PlaceViewController){
+        print("Place removed: \(dict)")
+    }
+    
+    // MARK: - Room Data Processing
     
     static func processNewRoom(dict: [String:Any], sender: RoomViewController) {
         var newRoomDict: NSDictionary = [:]
@@ -163,6 +149,8 @@ class FirebaseDataManager {
         
     }
     
+    // MARK: - Box Data Processing
+    
     static func processNewBox(dict: [String:Any], sender: BoxViewController) {
         var newBoxDict: NSDictionary = [:]
         
@@ -183,6 +171,8 @@ class FirebaseDataManager {
         RoomController.createBox(withDictionary: newBoxDict, inRoom: room)
         
     }
+    
+    // MARK: - Item Data Processing
     
     static func processNewItem(dict: [String:Any], sender: ItemViewController) {
         var newItemDict: NSDictionary = [:]
