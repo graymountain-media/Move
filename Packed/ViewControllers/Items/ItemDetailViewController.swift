@@ -76,6 +76,7 @@ class ItemDetailViewController: UIViewController {
         tableView.backgroundColor = offWhite
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.isScrollEnabled = false
+        tableView.allowsSelection = false
         return tableView
     }()
     let boxInfoCell: UITableViewCell = {
