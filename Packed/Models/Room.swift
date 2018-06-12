@@ -11,20 +11,22 @@ import CoreData
 
 extension Room {
     
-//    var name: String
-//    var boxes: [Box]
-//    var space: Space
-    
     convenience init(name: String, place: Place, context: NSManagedObjectContext = CoreDataStack.context){
         self.init(context:context)
         self.name = name
         self.boxes = []
         self.place = place
         self.boxCount = 0
+        self.id = UUID().uuidString
     }
-    
-//    static func == (lhs: Room, rhs: Room) -> Bool {
-//        return (lhs.name == rhs.name && lhs.boxes == rhs.boxes && lhs.space == rhs.space)
-//    }
+ 
+    convenience init(dict: NSDictionary, place: Place, context: NSManagedObjectContext = CoreDataStack.context){
+        self.init(context:context)
+        self.name = dict["name"] as? String ?? "Default Room"
+        self.boxes = []
+        self.place = place
+        self.boxCount = 0
+        self.id = dict["id"] as? String ?? UUID().uuidString
+    }
     
 }

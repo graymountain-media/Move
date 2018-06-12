@@ -20,7 +20,7 @@ class RoomDetailViewController: UIViewController {
         textField.layer.cornerRadius = 5
         textField.clipsToBounds = true
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.setPadding()
+        textField.setIconPadding()
         let imageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 55, height: 45))
         imageView.image = #imageLiteral(resourceName: "RoomIcon")
         imageView.contentMode = .scaleAspectFit
@@ -66,6 +66,7 @@ class RoomDetailViewController: UIViewController {
                 PlaceController.createRoom(withName: name, inPlace: place)
             }
             nameTextField.resignFirstResponder()
+            
             dismiss(animated: true, completion: nil)
         } else {
             let noAddressAlert = UIAlertController(title: "Missing Name", message: "Please input an name for your new room.", preferredStyle: .alert)

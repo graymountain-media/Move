@@ -8,10 +8,16 @@
 
 import UIKit
 import CoreData
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class RoomViewController: MainViewController {
     
     var place: Place?
+    
+    var roomsAddedHandle = UInt()
+    var roomsReference = DatabaseReference()
     
     var RoomsFetchedResultsController: NSFetchedResultsController<Room> = NSFetchedResultsController()
     
@@ -30,6 +36,54 @@ class RoomViewController: MainViewController {
         RoomsFetchedResultsController.delegate = self
         
         try? RoomsFetchedResultsController.performFetch()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setupHandle()
+        updateView()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+        roomsReference.removeAllObservers()
+    }
+    
+    private func setupHandle() {
+        guard let place = place else {return}
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if auth.currentUser != nil {
+                self.roomsReference = ref.child("rooms").child(place.id!)
+                self.setupObservers()
+            }
+            print("*************AUTH in Rooms: \(auth.currentUser?.email)")
+        }
+    }
+    
+    private func setupObservers() {
+        self.roomsReference.observe(DataEventType.childAdded, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            FirebaseDataManager.processNewRoom(dict: dict, sender: self)
+        })
+        
+        self.roomsReference.observe(DataEventType.childRemoved, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            guard let roomID = dict["id"] as? String else {return}
+            for room in self.RoomsFetchedResultsController.fetchedObjects! {
+                if room.id == roomID {
+                    PlaceController.delete(room: room)
+                }
+            }
+        })
+        
+        self.roomsReference.observe(DataEventType.childChanged, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            guard let roomID = dict["id"] as? String, let newName = dict["name"] as? String else {return}
+            for room in self.RoomsFetchedResultsController.fetchedObjects! {
+                if room.id == roomID {
+                    RoomController.update(room: room, withName: newName)
+                }
+            }
+        })
     }
     
     // MARK: - View Setup
@@ -132,7 +186,7 @@ class RoomViewController: MainViewController {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
         
         let room = RoomsFetchedResultsController.object(at: indexPath)
-        cell.setupCell(name: room.name!, image: #imageLiteral(resourceName: "RoomIcon"), isFragile: false)
+        cell.updateCellWith(name: room.name!, image: #imageLiteral(resourceName: "RoomIcon"), isFragile: false)
         cell.delegate = self
         
         return cell

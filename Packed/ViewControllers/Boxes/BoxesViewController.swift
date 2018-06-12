@@ -8,10 +8,16 @@
 
 import UIKit
 import CoreData
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class BoxViewController: MainViewController {
     
     var room: Room?
+    
+    var boxesAddedHandle = UInt()
+    var boxesReference = DatabaseReference()
     
     var BoxesFetchedResultsController: NSFetchedResultsController<Box> = NSFetchedResultsController()
     
@@ -31,6 +37,54 @@ class BoxViewController: MainViewController {
         BoxesFetchedResultsController.delegate = self
         
         try? BoxesFetchedResultsController.performFetch()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        updateView()
+        setupHandle()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+        boxesReference.removeAllObservers()
+    }
+    
+    private func setupHandle() {
+        guard let room = room else {return}
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if auth.currentUser != nil {
+                self.boxesReference = ref.child("boxes").child(room.id!)
+                self.setupObservers()
+            }
+            print("*************AUTH in Boxes: \(auth.currentUser?.email)")
+        }
+    }
+    
+    private func setupObservers() {
+        boxesReference.observe(DataEventType.childAdded, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            FirebaseDataManager.processNewBox(dict: dict, sender: self)
+        })
+        
+        boxesReference.observe(DataEventType.childRemoved, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            guard let boxID = dict["id"] as? String else {return}
+            for box in self.BoxesFetchedResultsController.fetchedObjects! {
+                if box.id == boxID {
+                    RoomController.delete(box: box)
+                }
+            }
+        })
+        
+        boxesReference.observe(DataEventType.childChanged, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            guard let boxID = dict["id"] as? String, let newName = dict["name"] as? String else {return}
+            for box in self.BoxesFetchedResultsController.fetchedObjects! {
+                if box.id == boxID {
+                    BoxController.update(box: box, withName: newName)
+                }
+            }
+        })
     }
     
     // MARK: - View Setup
@@ -139,7 +193,7 @@ class BoxViewController: MainViewController {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
         
         let box = BoxesFetchedResultsController.object(at: indexPath)
-        cell.setupCell(name: box.name!, image: #imageLiteral(resourceName: "BoxIcon"), isFragile: box.isFragile)
+        cell.updateCellWith(name: box.name!, image: #imageLiteral(resourceName: "BoxIcon"), isFragile: box.isFragile)
         cell.delegate = self
         
         return cell

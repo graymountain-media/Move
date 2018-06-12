@@ -8,10 +8,16 @@
 
 import UIKit
 import CoreData
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class ItemViewController: MainViewController {
     
     var box: Box?
+    
+    var itemsAddedHandle = UInt()
+    var itemsReference = DatabaseReference()
     
     var ItemsFetchedResultsController: NSFetchedResultsController<Item> = NSFetchedResultsController()
     
@@ -32,6 +38,55 @@ class ItemViewController: MainViewController {
         try? ItemsFetchedResultsController.performFetch()
         
         mainTableView.register(PackedItemTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        updateView()
+        setupHandle()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+        itemsReference.removeAllObservers()
+    }
+    
+    private func setupHandle() {
+        guard let box = box else {return}
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if auth.currentUser != nil {
+                
+                self.itemsReference = ref.child("items").child(box.id!)
+                self.setupObservers()
+            }
+            print("*************AUTH in Boxes: \(auth.currentUser?.email)")
+        }
+    }
+    
+    private func setupObservers() {
+        itemsReference.observe(DataEventType.childAdded, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            FirebaseDataManager.processNewItem(dict: dict, sender: self)
+        })
+        
+        itemsReference.observe(DataEventType.childRemoved, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            guard let itemID = dict["id"] as? String else {return}
+            for item in self.ItemsFetchedResultsController.fetchedObjects! {
+                if item.id == itemID {
+                    BoxController.delete(item: item)
+                }
+            }
+        })
+        
+        itemsReference.observe(DataEventType.childChanged, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            guard let itemID = dict["id"] as? String, let newName = dict["name"] as? String, let newIsFragile = dict["isFragile"] as? Bool else {return}
+            for item in self.ItemsFetchedResultsController.fetchedObjects! {
+                if item.id == itemID {
+                    BoxController.update(item: item, withName: newName, isFragile: newIsFragile)
+                }
+            }
+        })
     }
     
     // MARK: - View Setup
@@ -103,7 +158,7 @@ class ItemViewController: MainViewController {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedItemTableViewCell else {return PackedItemTableViewCell()}
         
         let item = ItemsFetchedResultsController.object(at: indexPath)
-        cell.setupCell(name: item.name!, image: #imageLiteral(resourceName: "ItemIcon"), isFragile: item.isFragile)
+        cell.updateCellWith(name: item.name!, image: #imageLiteral(resourceName: "ItemIcon"), isFragile: item.isFragile)
         cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         
         return cell

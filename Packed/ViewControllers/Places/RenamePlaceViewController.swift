@@ -18,7 +18,7 @@ class RenamePlaceViewController: UIViewController {
         textField.layer.cornerRadius = 5
         textField.clipsToBounds = true
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.setPadding()
+        textField.setIconPadding()
         return textField
     }()
     
@@ -54,6 +54,7 @@ class RenamePlaceViewController: UIViewController {
         if let address = nameTextField.text, !address.isEmpty, let place = self.place {
             PlaceController.update(place: place, withName: address, isHome: place.isHome)
             nameTextField.resignFirstResponder()
+            
             dismiss(animated: true, completion: nil)
         } else {
             let noAddressAlert = UIAlertController(title: "Missing Address", message: "Please input an address for your place.", preferredStyle: .alert)

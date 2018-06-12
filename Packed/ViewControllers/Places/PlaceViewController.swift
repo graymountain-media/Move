@@ -8,18 +8,32 @@
 
 import UIKit
 import CoreData
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class PlaceViewController: MainViewController {
+    
+    var sharedReference = DatabaseReference()
+    var placeReference = DatabaseReference()
+    var references: [DatabaseReference] = []
 
     var data: [Place] = []
+    var loginButton = UIBarButtonItem()
+    var userId: String = ""
+    var isLoggedIn: Bool = false
+    
+    let blurredBackgroundView = UIVisualEffectView()
     
     let PlacesFetchedResultsController: NSFetchedResultsController<Place> = {
         let request: NSFetchRequest<Place> = Place.fetchRequest()
         
+        let sharedSort = NSSortDescriptor(key: "isShared", ascending: true)
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
-        request.sortDescriptors = [nameSort]
         
-        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
+        request.sortDescriptors = [sharedSort, nameSort]
+        
+        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "isShared", cacheName: nil)
     }()
     
     // MARK: - Life Cycle
@@ -27,6 +41,8 @@ class PlaceViewController: MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .always
+        setupLoginButton()
+        
         
         noDataLabel.text = "You don't have any Places yet."
         instructionLabel.text = "Tap '+' to add a new Place."
@@ -35,15 +51,153 @@ class PlaceViewController: MainViewController {
         PlacesFetchedResultsController.delegate = self
 
         try? PlacesFetchedResultsController.performFetch()
+        
+        setupBlur()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        updateView()
+        setupHandle()
+        resetObservers()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+        sharedReference.removeAllObservers()
+        
+        for ref in references {
+            ref.removeAllObservers()
+        }
+    }
+    
+    private func setupHandle() {
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if auth.currentUser != nil {
+                self.isLoggedIn = true
+                self.loginButton.title = "Sign Out"
+                self.userId = (auth.currentUser?.uid)!
+                
+                self.sharedReference = ref.child("shared").child((Auth.auth().currentUser?.uid)!)
+                self.placeReference = ref.child("places")
+                self.setupSharedObserver()
+            }
+            print("*************AUTH In Places: \(auth.currentUser?.email)")
+        }
+    }
+    
+    private func resetObservers() {
+        for place in PlacesFetchedResultsController.fetchedObjects! {
+            if place.isShared {
+                addObservers(toReference: placeReference.child(place.id!))
+            }
+        }
+    }
+    
+    private func setupSharedObserver(){
+        self.sharedReference.observe(DataEventType.childAdded, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            let newPlaceReference = self.placeReference.child(dict["id"] as? String ?? "")
+            
+            self.addObservers(toReference: newPlaceReference)
+            
+            if !dict.isEmpty {
+                FirebaseDataManager.processNewPlace(dict: dict, sender: self)
+            }
+            
+            DispatchQueue.main.async {
+                self.noDataLabel.isHidden = true
+                self.noDataLabel.alpha = 0.0
+                self.instructionLabel.isHidden = true
+                self.instructionLabel.alpha = 0.0
+            }
+        })
+        
+        
+    }
+    
+    private func addObservers(toReference ref: DatabaseReference) {
+//        ref.observe(DataEventType.childAdded, with: { (snapshot) in
+//            print("place child added")
+//            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+//            print(dict)
+//        })
+        print("Observers Added")
+        self.references.append(ref)
+        
+        ref.observe(DataEventType.childRemoved, with: { (_) in
+            print("place child removed")
+            let placeID = ref.key
+            for place in self.PlacesFetchedResultsController.fetchedObjects! {
+                if place.id == placeID {
+                    PlaceController.delete(place: place)
+                }
+            }
+            self.updateView()
+        })
+        ref.observe(DataEventType.childChanged, with: { (snapshot) in
+            print("place child changed")
+            ref.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
+                let dict = snapshot.value as? [String : AnyObject] ?? [:]
+                guard let newName = dict["name"] as? String, let placeID = dict["id"] as? String, let newIsHome = dict["isHome"] as? Bool else {return}
+                for place in self.PlacesFetchedResultsController.fetchedObjects! {
+                    if place.id == placeID {
+                        PlaceController.update(place: place, withName: newName, isHome: newIsHome)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.updateView()
+                }
+            })
+        })
     }
     
     // MARK: - View Setup
+    
+    private func setupBlur(){
+        blurredBackgroundView.frame = view.frame
+        blurredBackgroundView.effect = UIBlurEffect(style: .dark)
+        blurredBackgroundView.alpha = 0
+        
+        view.addSubview(blurredBackgroundView)
+    }
+    
+    private func setupLoginButton() {
+
+        loginButton = UIBarButtonItem(title: "Sign In", style: .plain, target: self, action: #selector(loginButtonPressed))
+        navigationItem.leftBarButtonItem = loginButton
+    }
+    
+    @objc private func loginButtonPressed(){
+        if isLoggedIn {
+            
+            let alert = UIAlertController(title: "Are you sure you want to sign out?", message: "You will not be able to edit any shared Places while signed out", preferredStyle: .alert)
+            
+            let signOutAction = UIAlertAction(title: "Sign Out", style: .destructive) { (_) in
+                try? Auth.auth().signOut()
+                self.isLoggedIn = false
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.loginButton.title = "Login"
+                    
+                })
+            }
+            alert.addAction(signOutAction)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
+            
+        } else {
+            let loginController = LoginViewController()
+            present(loginController, animated: true, completion: nil)
+        }
+    }
     
     @objc override func addButtonPressed() {
         super.addButtonPressed()
         
         let newPlaceViewController = NewPlaceViewController()
-        
         let navController = UINavigationController(rootViewController: newPlaceViewController)
         navController.setupBar()
         navController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
@@ -59,8 +213,8 @@ class PlaceViewController: MainViewController {
         let actionSheet = UIAlertController(title: place.name, message: nil, preferredStyle: .actionSheet)
        
         let deleteAction = UIAlertAction(title: "Delete \(place.name!)", style: .destructive) { (_) in
-            PlaceController.delete(place: place)
             
+            PlaceController.delete(place: place)
             self.updateView()
         }
         
@@ -75,6 +229,26 @@ class PlaceViewController: MainViewController {
             self.present(navController, animated: true, completion: nil)
         }
         actionSheet.addAction(updateAction)
+        
+        let shareAction = UIAlertAction(title: "Share This Place", style: .default) { (_) in
+//            let myDynamicLink = "WOOOOOW"
+//            let msg = "Hey, check this out: " + myDynamicLink
+//            let shareSheet = UIActivityViewController(activityItems: [ msg ], applicationActivities: nil)
+//            shareSheet.popoverPresentationController?.sourceView = self.view
+//            self.present(shareSheet, animated: true, completion: nil)
+            place.owner = self.userId
+            let shareView = ShareViewController()
+            shareView.delegate = self
+            shareView.place = place
+            shareView.modalPresentationStyle = .overFullScreen
+            self.addObservers(toReference: self.placeReference.child(place.id!))
+            self.present(shareView, animated: true, completion: nil)
+            UIView.animate(withDuration: 0.2, animations: {
+                self.blurredBackgroundView.alpha = 1
+            })
+        }
+        
+        actionSheet.addAction(shareAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         actionSheet.addAction(cancelAction)
@@ -101,6 +275,7 @@ class PlaceViewController: MainViewController {
                 self.instructionLabel.alpha = 1
             }, completion: nil)
         }
+        mainTableView.reloadData()
     }
     
     // MARK: - TableView Data
@@ -118,7 +293,7 @@ class PlaceViewController: MainViewController {
         
         let item = PlacesFetchedResultsController.object(at: indexPath)
         let image = item.isHome ? #imageLiteral(resourceName: "HomeIcon") : #imageLiteral(resourceName: "StorageIcon")
-        cell.setupCell(name: item.name!, image: image, isFragile: false)
+        cell.updateCellWith(name: item.name!, image: image, isFragile: false)
         cell.delegate = self
 
         return cell
@@ -144,6 +319,19 @@ class PlaceViewController: MainViewController {
             let place = PlacesFetchedResultsController.object(at: indexPath)
             PlaceController.delete(place: place)
             updateView()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            if PlacesFetchedResultsController.object(at: IndexPath(row: 0, section: section)).isShared {
+                return "Shared Places"
+            } else {
+                return "Private Places"
+            }
+        default:
+            return "Shared Places"
         }
     }
 }
@@ -181,6 +369,16 @@ extension PlaceViewController: NSFetchedResultsControllerDelegate{
         default:
             fatalError("Can't edit sections like that")
         }
+    }
+}
+
+extension PlaceViewController: BlurBackgroundDelegate {
+    func dismissBlur() {
+        self.mainTableView.reloadData()
+        UIView.animate(withDuration: 0.2) {
+            self.blurredBackgroundView.alpha = 0
+        }
+        
     }
 }
 

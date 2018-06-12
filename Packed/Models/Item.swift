@@ -11,17 +11,20 @@ import CoreData
 
 extension Item {
     
-//    var name: String
-//    var box: Box
-    
     convenience init(name: String, box: Box, isFragile: Bool = false, context: NSManagedObjectContext = CoreDataStack.context) {
         self.init(context: context)
         self.name = name
         self.box = box
         self.isFragile = isFragile
+        self.id = UUID().uuidString
     }
     
-//    static func == (lhs: Item, rhs: Item) -> Bool {
-//        return (lhs.name == rhs.name && lhs.box == rhs.box)
-//    }
+    convenience init(withDict dict: NSDictionary, inBox box: Box, context: NSManagedObjectContext = CoreDataStack.context) {
+        self.init(context: context)
+        self.name = dict["name"] as? String ?? "Default Item"
+        self.box = box
+        self.isFragile = dict["isFragile"] as? Bool ?? false
+        self.id = dict["id"] as? String ?? UUID().uuidString
+    }
+
 }
