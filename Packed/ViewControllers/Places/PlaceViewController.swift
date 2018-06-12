@@ -15,6 +15,8 @@ import FirebaseDatabase
 class PlaceViewController: MainViewController {
     
     var sharedReference = DatabaseReference()
+    var placeReference = DatabaseReference()
+    var references: [DatabaseReference] = []
 
     var data: [Place] = []
     var loginButton = UIBarButtonItem()
@@ -56,11 +58,16 @@ class PlaceViewController: MainViewController {
     override func viewWillAppear(_ animated: Bool) {
         updateView()
         setupHandle()
+        resetObservers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         Auth.auth().removeStateDidChangeListener(handle!)
         sharedReference.removeAllObservers()
+        
+        for ref in references {
+            ref.removeAllObservers()
+        }
     }
     
     private func setupHandle() {
@@ -71,37 +78,77 @@ class PlaceViewController: MainViewController {
                 self.userId = (auth.currentUser?.uid)!
                 
                 self.sharedReference = ref.child("shared").child((Auth.auth().currentUser?.uid)!)
-                self.setupObservers()
-                
+                self.placeReference = ref.child("places")
+                self.setupSharedObserver()
             }
             print("*************AUTH In Places: \(auth.currentUser?.email)")
         }
     }
     
-    private func setupObservers(){
+    private func resetObservers() {
+        for place in PlacesFetchedResultsController.fetchedObjects! {
+            if place.isShared {
+                addObservers(toReference: placeReference.child(place.id!))
+            }
+        }
+    }
+    
+    private func setupSharedObserver(){
         self.sharedReference.observe(DataEventType.childAdded, with: { (snapshot) in
-            print("SHARED ADDED")
             let dict = snapshot.value as? [String : AnyObject] ?? [:]
-            print("PostDict: \(dict)")
+            let newPlaceReference = self.placeReference.child(dict["id"] as? String ?? "")
+            
+            self.addObservers(toReference: newPlaceReference)
             
             if !dict.isEmpty {
                 FirebaseDataManager.processNewPlace(dict: dict, sender: self)
             }
-            self.mainTableView.reloadData()
+            
+            DispatchQueue.main.async {
+                self.noDataLabel.isHidden = true
+                self.noDataLabel.alpha = 0.0
+                self.instructionLabel.isHidden = true
+                self.instructionLabel.alpha = 0.0
+            }
         })
-        self.sharedReference.observe(DataEventType.childRemoved, with: { (snapshot) in
-            print("SHARED removed")
-            let dict = snapshot.value as? [String : AnyObject] ?? [:]
-            print("PostDict: \(dict)")
-            FirebaseDataManager.processPlaceRemoval(dict: dict, sender: self)
-            self.mainTableView.reloadData()
+        
+        
+    }
+    
+    private func addObservers(toReference ref: DatabaseReference) {
+//        ref.observe(DataEventType.childAdded, with: { (snapshot) in
+//            print("place child added")
+//            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+//            print(dict)
+//        })
+        print("Observers Added")
+        self.references.append(ref)
+        
+        ref.observe(DataEventType.childRemoved, with: { (_) in
+            print("place child removed")
+            let placeID = ref.key
+            for place in self.PlacesFetchedResultsController.fetchedObjects! {
+                if place.id == placeID {
+                    PlaceController.delete(place: place)
+                }
+            }
+            self.updateView()
         })
-        self.sharedReference.observe(DataEventType.childChanged, with: { (snapshot) in
-            print("SHARED changed")
-            let dict = snapshot.value as? [String : AnyObject] ?? [:]
-            print("PostDict: \(dict)")
-            //FirebaseDataManager.processPlaceUpdate(dict: dict, sender: self)
-            self.mainTableView.reloadData()
+        ref.observe(DataEventType.childChanged, with: { (snapshot) in
+            print("place child changed")
+            ref.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
+                let dict = snapshot.value as? [String : AnyObject] ?? [:]
+                guard let newName = dict["name"] as? String, let placeID = dict["id"] as? String, let newIsHome = dict["isHome"] as? Bool else {return}
+                for place in self.PlacesFetchedResultsController.fetchedObjects! {
+                    if place.id == placeID {
+                        PlaceController.update(place: place, withName: newName, isHome: newIsHome)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.updateView()
+                }
+            })
         })
     }
     
@@ -151,7 +198,6 @@ class PlaceViewController: MainViewController {
         super.addButtonPressed()
         
         let newPlaceViewController = NewPlaceViewController()
-        
         let navController = UINavigationController(rootViewController: newPlaceViewController)
         navController.setupBar()
         navController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
@@ -185,11 +231,17 @@ class PlaceViewController: MainViewController {
         actionSheet.addAction(updateAction)
         
         let shareAction = UIAlertAction(title: "Share This Place", style: .default) { (_) in
+//            let myDynamicLink = "WOOOOOW"
+//            let msg = "Hey, check this out: " + myDynamicLink
+//            let shareSheet = UIActivityViewController(activityItems: [ msg ], applicationActivities: nil)
+//            shareSheet.popoverPresentationController?.sourceView = self.view
+//            self.present(shareSheet, animated: true, completion: nil)
             place.owner = self.userId
             let shareView = ShareViewController()
             shareView.delegate = self
             shareView.place = place
             shareView.modalPresentationStyle = .overFullScreen
+            self.addObservers(toReference: self.placeReference.child(place.id!))
             self.present(shareView, animated: true, completion: nil)
             UIView.animate(withDuration: 0.2, animations: {
                 self.blurredBackgroundView.alpha = 1
@@ -328,7 +380,5 @@ extension PlaceViewController: BlurBackgroundDelegate {
         }
         
     }
-    
-    
 }
 

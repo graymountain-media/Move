@@ -10,5 +10,5 @@ target 'Packed' do
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
-
+pod 'Firebase/DynamicLinks'
 end

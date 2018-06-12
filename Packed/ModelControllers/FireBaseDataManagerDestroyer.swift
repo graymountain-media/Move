@@ -14,15 +14,20 @@ extension FirebaseDataManager {
     // MARK: - Place Deletion
     
     static func delete(place: Place) {
-        let userID = Auth.auth().currentUser?.uid ?? ""
-        if place.owner! == userID {
-            for room in place.rooms! {
-                delete(room: room as! Room)
-            }
-            ref.child("places").child(place.id!).removeValue()
-        } else {
-            print("You are not the owner")
+        guard let userID = Auth.auth().currentUser?.uid else {return}
+        for room in place.rooms! {
+            delete(room: room as! Room)
         }
+        ref.child("places").child(place.id!).removeValue()
+        ref.child("shared").child(userID).child(place.id!).removeValue()
+    }
+    
+    static func processPlaceRemoval(dict: [String : AnyObject], sender: PlaceViewController){
+        print("Place removed: \(dict)")
+        
+        let tempPlace = Place(dict: dict as NSDictionary)
+
+        PlaceController.delete(place: tempPlace)
     }
     
     // MARK: - Room Deletion

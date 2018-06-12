@@ -56,13 +56,37 @@ class ItemViewController: MainViewController {
             if auth.currentUser != nil {
                 
                 self.itemsReference = ref.child("items").child(box.id!)
-                self.itemsAddedHandle = self.itemsReference.observe(DataEventType.childAdded, with: { (snapshot) in
-                    let dict = snapshot.value as? [String : AnyObject] ?? [:]
-                    FirebaseDataManager.processNewItem(dict: dict, sender: self)
-                })
+                self.setupObservers()
             }
             print("*************AUTH in Boxes: \(auth.currentUser?.email)")
         }
+    }
+    
+    private func setupObservers() {
+        itemsReference.observe(DataEventType.childAdded, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            FirebaseDataManager.processNewItem(dict: dict, sender: self)
+        })
+        
+        itemsReference.observe(DataEventType.childRemoved, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            guard let itemID = dict["id"] as? String else {return}
+            for item in self.ItemsFetchedResultsController.fetchedObjects! {
+                if item.id == itemID {
+                    BoxController.delete(item: item)
+                }
+            }
+        })
+        
+        itemsReference.observe(DataEventType.childChanged, with: { (snapshot) in
+            let dict = snapshot.value as? [String : AnyObject] ?? [:]
+            guard let itemID = dict["id"] as? String, let newName = dict["name"] as? String, let newIsFragile = dict["isFragile"] as? Bool else {return}
+            for item in self.ItemsFetchedResultsController.fetchedObjects! {
+                if item.id == itemID {
+                    BoxController.update(item: item, withName: newName, isFragile: newIsFragile)
+                }
+            }
+        })
     }
     
     // MARK: - View Setup

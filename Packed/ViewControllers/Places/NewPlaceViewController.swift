@@ -8,8 +8,9 @@
 
 import UIKit
 
+
 class NewPlaceViewController: UIViewController {
-    
+
     let nameTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .white

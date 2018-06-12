@@ -10,7 +10,6 @@ import UIKit
 
 class PlaceController {
     
-    
     //create place
     static func createPlace(withName name: String, isHome: Bool){
         let newPlace = Place(name: name, isHome: isHome)
@@ -20,7 +19,6 @@ class PlaceController {
         if !isHome{
             PlaceController.createRoom(withName: newPlace.name!, inPlace: newPlace)
         }
-        
     }
     
     static func createPlace(withDict dict: NSDictionary){

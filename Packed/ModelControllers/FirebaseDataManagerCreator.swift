@@ -122,9 +122,7 @@ extension FirebaseDataManager {
         
     }
     
-    static func processPlaceRemoval(dict: [String : AnyObject], sender: PlaceViewController){
-        print("Place removed: \(dict)")
-    }
+    
     
     // MARK: - Room Data Processing
     

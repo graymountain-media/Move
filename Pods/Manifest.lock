@@ -10,6 +10,9 @@ PODS:
   - Firebase/Database (5.0.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (= 5.0.0)
+  - Firebase/DynamicLinks (5.0.0):
+    - Firebase/Core
+    - FirebaseDynamicLinks (= 3.0.0)
   - FirebaseAnalytics (5.0.0):
     - FirebaseCore (~> 5.0)
     - FirebaseInstanceID (~> 3.0)
@@ -23,6 +26,8 @@ PODS:
   - FirebaseDatabase (5.0.0):
     - FirebaseCore (~> 5.0)
     - leveldb-library (~> 1.18)
+  - FirebaseDynamicLinks (3.0.0):
+    - FirebaseAnalytics (~> 5.0)
   - FirebaseInstanceID (3.0.0):
     - FirebaseCore (~> 5.0)
   - GoogleToolboxForMac/Defines (2.1.4)
@@ -40,6 +45,7 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
+  - Firebase/DynamicLinks
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -48,6 +54,7 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseDatabase
+    - FirebaseDynamicLinks
     - FirebaseInstanceID
     - GoogleToolboxForMac
     - GTMSessionFetcher
@@ -60,12 +67,13 @@ SPEC CHECKSUMS:
   FirebaseAuth: acbeef02fe7c3a26624e309849f3fe30c84115af
   FirebaseCore: e46e4babb9de298fb2f736958edcc6da1dc60d73
   FirebaseDatabase: 697eb53e5b4fe7cd4fa8756c1f82a9fca011345f
+  FirebaseDynamicLinks: c70e8ef2f267f13459db89b8816b13a06b2278d2
   FirebaseInstanceID: 83e0040351565df711a5db3d8ebe5ea21aca998a
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
 
-PODFILE CHECKSUM: b4b4280030bcb8a43c42592cf1e86e3e63a837d9
+PODFILE CHECKSUM: 3ebd1c55c6cd6f2290cb1559ae96970807576f1c
 
 COCOAPODS: 1.5.2
