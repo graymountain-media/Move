@@ -78,9 +78,9 @@ class SearchTableViewCell: UITableViewCell {
             let place = room.place!
             
             if place.isHome {
-                breadCrumbLabel.text = "\(place.name!) > \(room.name!) > \(box.name!)"
+                breadCrumbLabel.text = "\(place.name!) > \(room.name!)"
             } else {
-                breadCrumbLabel.text = "\(place.name!) > \(box.name!)"
+                breadCrumbLabel.text = "\(place.name!)"
             }
             
             
@@ -95,9 +95,9 @@ class SearchTableViewCell: UITableViewCell {
             let place = room.place!
             
             if place.isHome {
-                breadCrumbLabel.text = "\(place.name!) > \(room.name!) > \(box.name!) > \(item.name!)"
+                breadCrumbLabel.text = "\(place.name!) > \(room.name!) > \(box.name!)"
             } else {
-                breadCrumbLabel.text = "\(place.name!) > \(box.name!) > \(item.name!)"
+                breadCrumbLabel.text = "\(place.name!) > \(box.name!)"
             }
         }
     }

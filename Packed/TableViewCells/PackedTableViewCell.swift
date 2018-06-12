@@ -101,6 +101,8 @@ class PackedTableViewCell: UITableViewCell {
         iconImageView.image = image
         if isFragile {
             fragileIconImageView.isHidden = false
+        } else {
+            fragileIconImageView.isHidden = true
         }
     }
 }
