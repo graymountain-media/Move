@@ -135,6 +135,9 @@ class BoxViewController: MainViewController {
             RoomController.delete(box: box)
     
             self.updateView()
+            if self.BoxesFetchedResultsController.fetchedObjects?.count == 0 {
+                self.room?.boxCount = 0
+            }
         }
         actionSheet.addAction(deleteAction)
         
@@ -210,6 +213,9 @@ class BoxViewController: MainViewController {
             let box = BoxesFetchedResultsController.object(at: indexPath)
             RoomController.delete(box: box)
             updateView()
+            if BoxesFetchedResultsController.fetchedObjects?.count == 0 {
+                room?.boxCount = 0
+            }
         }
     }
 }
