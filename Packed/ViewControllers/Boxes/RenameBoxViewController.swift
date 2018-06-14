@@ -61,7 +61,7 @@ class RenameBoxViewController: UIViewController {
     @objc private func saveButtonPressed(){
         guard let box = self.box else {return}
         if let name = nameTextField.text, !name.isEmpty {
-            BoxController.update(box: box, withName: name)
+            BoxController.update(box: box, withName: name, isFragile: box.isFragile)
             nameTextField.resignFirstResponder()
             dismiss(animated: true, completion: nil)
         } else {

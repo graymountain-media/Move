@@ -36,14 +36,14 @@ class RoomViewController: MainViewController {
         RoomsFetchedResultsController.delegate = self
         
         try? RoomsFetchedResultsController.performFetch()
+        setupHandle()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setupHandle()
         updateView()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    deinit {
         Auth.auth().removeStateDidChangeListener(handle!)
         roomsReference.removeAllObservers()
     }
@@ -55,7 +55,6 @@ class RoomViewController: MainViewController {
                 self.roomsReference = ref.child("rooms").child(place.id!)
                 self.setupObservers()
             }
-            print("*************AUTH in Rooms: \(auth.currentUser?.email)")
         }
     }
     
@@ -63,6 +62,13 @@ class RoomViewController: MainViewController {
         self.roomsReference.observe(DataEventType.childAdded, with: { (snapshot) in
             let dict = snapshot.value as? [String : AnyObject] ?? [:]
             FirebaseDataManager.processNewRoom(dict: dict, sender: self)
+            
+            DispatchQueue.main.async {
+                self.noDataLabel.isHidden = true
+                self.noDataLabel.alpha = 0.0
+                self.instructionLabel.isHidden = true
+                self.instructionLabel.alpha = 0.0
+            }
         })
         
         self.roomsReference.observe(DataEventType.childRemoved, with: { (snapshot) in
@@ -73,6 +79,9 @@ class RoomViewController: MainViewController {
                     PlaceController.delete(room: room)
                 }
             }
+            DispatchQueue.main.async {
+                self.updateView()
+            }
         })
         
         self.roomsReference.observe(DataEventType.childChanged, with: { (snapshot) in
@@ -82,6 +91,9 @@ class RoomViewController: MainViewController {
                 if room.id == roomID {
                     RoomController.update(room: room, withName: newName)
                 }
+            }
+            DispatchQueue.main.async {
+                self.updateView()
             }
         })
     }

@@ -11,8 +11,9 @@ import Foundation
 class BoxController {
     
     //Edit Box
-    static func update(box: Box, withName newName: String){
+    static func update(box: Box, withName newName: String, isFragile newIsFragile: Bool){
         box.name = newName
+        box.isFragile = newIsFragile
         if (box.room?.place?.isShared)! {
             FirebaseDataManager.update(box: box, withName: newName)
         }

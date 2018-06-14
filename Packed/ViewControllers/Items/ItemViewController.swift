@@ -38,14 +38,15 @@ class ItemViewController: MainViewController {
         try? ItemsFetchedResultsController.performFetch()
         
         mainTableView.register(PackedItemTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        
+        setupHandle()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         updateView()
-        setupHandle()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    deinit {
         Auth.auth().removeStateDidChangeListener(handle!)
         itemsReference.removeAllObservers()
     }
@@ -58,7 +59,6 @@ class ItemViewController: MainViewController {
                 self.itemsReference = ref.child("items").child(box.id!)
                 self.setupObservers()
             }
-            print("*************AUTH in Boxes: \(auth.currentUser?.email)")
         }
     }
     
@@ -66,6 +66,13 @@ class ItemViewController: MainViewController {
         itemsReference.observe(DataEventType.childAdded, with: { (snapshot) in
             let dict = snapshot.value as? [String : AnyObject] ?? [:]
             FirebaseDataManager.processNewItem(dict: dict, sender: self)
+            
+            DispatchQueue.main.async {
+                self.noDataLabel.isHidden = true
+                self.noDataLabel.alpha = 0.0
+                self.instructionLabel.isHidden = true
+                self.instructionLabel.alpha = 0.0
+            }
         })
         
         itemsReference.observe(DataEventType.childRemoved, with: { (snapshot) in
@@ -76,6 +83,9 @@ class ItemViewController: MainViewController {
                     BoxController.delete(item: item)
                 }
             }
+            DispatchQueue.main.async {
+                self.updateView()
+            }
         })
         
         itemsReference.observe(DataEventType.childChanged, with: { (snapshot) in
@@ -85,6 +95,9 @@ class ItemViewController: MainViewController {
                 if item.id == itemID {
                     BoxController.update(item: item, withName: newName, isFragile: newIsFragile)
                 }
+            }
+            DispatchQueue.main.async {
+                self.updateView()
             }
         })
     }

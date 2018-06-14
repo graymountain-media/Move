@@ -25,6 +25,34 @@ class PlaceViewController: MainViewController {
     
     let blurredBackgroundView = UIVisualEffectView()
     
+    //Menu Items
+    let menuView: UIView = {
+        let view = UIView()
+        view.backgroundColor = offWhite
+        view.layer.shadowRadius = 10
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowColor = UIColor.black.cgColor
+        
+        return view
+    }()
+    
+    let backButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    //Place View Items
+    lazy var settingsButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
+        button.setImage(UIImage(named: "gear"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(settingsButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
     let PlacesFetchedResultsController: NSFetchedResultsController<Place> = {
         let request: NSFetchRequest<Place> = Place.fetchRequest()
         
@@ -52,19 +80,20 @@ class PlaceViewController: MainViewController {
 
         try? PlacesFetchedResultsController.performFetch()
         
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsButton)
+        
+        setupHandle()
         setupBlur()
+        setupMenu()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         updateView()
-        setupHandle()
-        resetObservers()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        Auth.auth().removeStateDidChangeListener(handle!)
+    deinit {
         sharedReference.removeAllObservers()
-        
+        Auth.auth().removeStateDidChangeListener(handle!)
         for ref in references {
             ref.removeAllObservers()
         }
@@ -73,13 +102,14 @@ class PlaceViewController: MainViewController {
     private func setupHandle() {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if auth.currentUser != nil {
-                self.isLoggedIn = true
-                self.loginButton.title = "Sign Out"
-                self.userId = (auth.currentUser?.uid)!
+//                self.isLoggedIn = true
+//                self.loginButton.title = "Sign Out"
+//                self.userId = (auth.currentUser?.uid)!
                 
                 self.sharedReference = ref.child("shared").child((Auth.auth().currentUser?.uid)!)
                 self.placeReference = ref.child("places")
                 self.setupSharedObserver()
+                self.resetObservers()
             }
             print("*************AUTH In Places: \(auth.currentUser?.email)")
         }
@@ -111,8 +141,6 @@ class PlaceViewController: MainViewController {
                 self.instructionLabel.alpha = 0.0
             }
         })
-        
-        
     }
     
     private func addObservers(toReference ref: DatabaseReference) {
@@ -166,6 +194,13 @@ class PlaceViewController: MainViewController {
 
         loginButton = UIBarButtonItem(title: "Sign In", style: .plain, target: self, action: #selector(loginButtonPressed))
         navigationItem.leftBarButtonItem = loginButton
+    }
+    
+    @objc private func settingsButtonPressed() {
+        print("SETTINGS PRESSED")
+        UIView.animate(withDuration: 0.3) {
+            self.menuView.frame.origin.x = 0
+        }
     }
     
     @objc private func loginButtonPressed(){
@@ -380,5 +415,15 @@ extension PlaceViewController: BlurBackgroundDelegate {
         }
         
     }
+}
+
+// MARK: - Menu Setup
+extension PlaceViewController {
+    
+    private func setupMenu(){
+        UIApplication.shared.keyWindow?.addSubview(menuView)
+        menuView.frame = CGRect(x: -view.frame.width, y: 0, width: view.frame.width / 2, height: view.frame.height)
+    }
+    
 }
 

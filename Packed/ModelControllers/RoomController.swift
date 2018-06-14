@@ -24,12 +24,13 @@ class RoomController {
         if (newBox.room?.place?.isShared)! {
             FirebaseDataManager.create(box: newBox)
         }
+        room.boxCount += 1
         saveData()
     }
     
     static func createBox(withDictionary dict: NSDictionary, inRoom room: Room ){
         let _ = Box(dict: dict, inRoom: room)
-        
+        room.boxCount += 1
         saveData()
     }
     

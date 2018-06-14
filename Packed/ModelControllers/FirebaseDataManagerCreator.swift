@@ -63,18 +63,19 @@ class FirebaseDataManager {
     static func create(item: Item) {
         let itemsRef = ref.child("items").child((item.box?.id)!).child(item.id!)
         
-        let values: [String:Any] = ["name" : item.name ?? "Default Name", "id" : item.id!]
+        let values: [String:Any] = ["name" : item.name ?? "Default Name", "id" : item.id!, "isFragile" : item.isFragile, "box" : (item.box?.id)!]
         
         itemsRef.updateChildValues(values)
         
-        let detailValues: [String:Any] = ["name" : item.name!, "isFragile": item.isFragile, "box" : (item.box?.id)!]
-        ref.child("item_details").child(item.id!).updateChildValues(detailValues)
+//        let detailValues: [String:Any] = ["name" : item.name!, "isFragile": item.isFragile, "box" : (item.box?.id)!]
+//        ref.child("items").child(item.id!).updateChildValues(detailValues)
     }
     
     static func update(item: Item, withName name: String) {
-        ref.child("items").child((item.box?.id)!).child(item.id!).child("name").setValue(name)
+        let itemRef = ref.child("items").child((item.box?.id)!).child(item.id!)
         let values: [String:Any] = ["name" : name, "isFragile": item.isFragile, "box" : (item.box?.id)!]
-        ref.child("item_details").child(item.id!).updateChildValues(values)
+        itemRef.updateChildValues(values)
+//        ref.child("items").child(item.id!).updateChildValues(values)
     }
     
 }
@@ -164,7 +165,6 @@ extension FirebaseDataManager {
                 return
             }
         }
-        
         newBoxDict = dict as NSDictionary
         RoomController.createBox(withDictionary: newBoxDict, inRoom: room)
         

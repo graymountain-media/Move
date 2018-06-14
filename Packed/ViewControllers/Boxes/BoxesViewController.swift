@@ -37,14 +37,15 @@ class BoxViewController: MainViewController {
         BoxesFetchedResultsController.delegate = self
         
         try? BoxesFetchedResultsController.performFetch()
+        
+        setupHandle()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         updateView()
-        setupHandle()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    deinit {
         Auth.auth().removeStateDidChangeListener(handle!)
         boxesReference.removeAllObservers()
     }
@@ -56,7 +57,6 @@ class BoxViewController: MainViewController {
                 self.boxesReference = ref.child("boxes").child(room.id!)
                 self.setupObservers()
             }
-            print("*************AUTH in Boxes: \(auth.currentUser?.email)")
         }
     }
     
@@ -64,6 +64,12 @@ class BoxViewController: MainViewController {
         boxesReference.observe(DataEventType.childAdded, with: { (snapshot) in
             let dict = snapshot.value as? [String : AnyObject] ?? [:]
             FirebaseDataManager.processNewBox(dict: dict, sender: self)
+            DispatchQueue.main.async {
+                self.noDataLabel.isHidden = true
+                self.noDataLabel.alpha = 0.0
+                self.instructionLabel.isHidden = true
+                self.instructionLabel.alpha = 0.0
+            }
         })
         
         boxesReference.observe(DataEventType.childRemoved, with: { (snapshot) in
@@ -74,15 +80,24 @@ class BoxViewController: MainViewController {
                     RoomController.delete(box: box)
                 }
             }
+            if self.BoxesFetchedResultsController.fetchedObjects?.count == 0 {
+                self.room?.boxCount = 1
+            }
+            DispatchQueue.main.async {
+                self.updateView()
+            }
         })
         
         boxesReference.observe(DataEventType.childChanged, with: { (snapshot) in
             let dict = snapshot.value as? [String : AnyObject] ?? [:]
-            guard let boxID = dict["id"] as? String, let newName = dict["name"] as? String else {return}
+            guard let boxID = dict["id"] as? String, let newName = dict["name"] as? String, let newIsFragile = dict["isFragile"] as? Bool else {return}
             for box in self.BoxesFetchedResultsController.fetchedObjects! {
                 if box.id == boxID {
-                    BoxController.update(box: box, withName: newName)
+                    BoxController.update(box: box, withName: newName, isFragile: newIsFragile)
                 }
+            }
+            DispatchQueue.main.async {
+                self.updateView()
             }
         })
     }
@@ -111,7 +126,7 @@ class BoxViewController: MainViewController {
     @objc override func addButtonPressed() {
         super.addButtonPressed()
         guard let room = room else {return}
-        room.boxCount += 1
+//        room.boxCount += 1
         
         UIView.animate(withDuration: 0.2, animations: {
             self.noDataLabel.alpha = 0.0
@@ -136,7 +151,7 @@ class BoxViewController: MainViewController {
     
             self.updateView()
             if self.BoxesFetchedResultsController.fetchedObjects?.count == 0 {
-                self.room?.boxCount = 0
+                self.room?.boxCount = 1
             }
         }
         actionSheet.addAction(deleteAction)
@@ -214,7 +229,7 @@ class BoxViewController: MainViewController {
             RoomController.delete(box: box)
             updateView()
             if BoxesFetchedResultsController.fetchedObjects?.count == 0 {
-                room?.boxCount = 0
+                room?.boxCount = 1
             }
         }
     }
