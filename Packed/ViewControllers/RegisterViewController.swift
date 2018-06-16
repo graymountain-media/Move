@@ -45,16 +45,6 @@ class RegisterViewController: UIViewController {
     }()
     
     //Text Fields
-    var userNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Email"
-        textField.setPadding()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = .white
-        textField.layer.cornerRadius = 5
-        textField.clipsToBounds = true
-        return textField
-    }()
     
     var emailTextField: UITextField = {
         let textField = UITextField()
@@ -93,7 +83,7 @@ class RegisterViewController: UIViewController {
     
     lazy var submitButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Register", for: .normal)
+        button.setTitle("Sign Up", for: .normal)
         button.backgroundColor = .lightGray
         button.layer.cornerRadius = 5
         button.clipsToBounds = true
@@ -114,7 +104,7 @@ class RegisterViewController: UIViewController {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Register"
+        label.text = "Sign Up"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 28)
         label.adjustsFontSizeToFitWidth = true
@@ -125,7 +115,7 @@ class RegisterViewController: UIViewController {
     
     let detailLabel: UILabel = {
         let label = UILabel()
-        label.text = "Register to share your places with anyone helping you."
+        label.text = "Sign up to share your places with anyone helping you."
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 14)
         label.textAlignment = .center
@@ -148,8 +138,6 @@ class RegisterViewController: UIViewController {
         registerTableView.delegate = self
         registerTableView.dataSource = self
         view.addGestureRecognizer(touchGestureRecognizer)
-        
-        userNameTextField.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
         passwordConfirmationTextField.delegate = self
@@ -184,7 +172,7 @@ class RegisterViewController: UIViewController {
         registerTableView.topAnchor.constraint(equalTo: detailLabel.bottomAnchor, constant: 8).isActive = true
         registerTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         registerTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
-        registerTableView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        registerTableView.heightAnchor.constraint(equalToConstant: 250).isActive = true
         
         submitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         submitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
@@ -201,10 +189,6 @@ class RegisterViewController: UIViewController {
         //setupCells()
     }
     
-    private func setupCells(){
-        userNameCell.addSubview(userNameTextField)
-    }
-    
     // MARK: - Button Actions
     
     @objc private func userTapped() {
@@ -218,14 +202,40 @@ class RegisterViewController: UIViewController {
         UIView.animate(withDuration: 0.2) {
             self.view.frame.origin.y = 0
         }
-        guard let email = emailTextField.text, !email.isEmpty else {print("No email entered") ; return}
-        guard let password = passwordTextField.text, !password.isEmpty else {print("No Password entered") ; return}
-        guard let confirmPassword = passwordConfirmationTextField.text, !confirmPassword.isEmpty else {print("No Password confimation entered") ; return}
-        guard let name = userNameTextField.text, !name.isEmpty else {print("No username entered") ; return}
+        guard let email = emailTextField.text, !email.isEmpty else {
+            let alert = UIAlertController(title: "Missing Information", message: "No email entered", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
+            alert.addAction(okayAction)
+            present(alert, animated: true, completion: nil)
+        
+            return}
+        guard let password = passwordTextField.text, !password.isEmpty else {
+            let alert = UIAlertController(title: "Missing Information", message: "No password entered", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
+            alert.addAction(okayAction)
+            present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        guard let confirmPassword = passwordConfirmationTextField.text, !confirmPassword.isEmpty else {
+            let alert = UIAlertController(title: "Missing Information", message: "Please confirm your password", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
+            alert.addAction(okayAction)
+            present(alert, animated: true, completion: nil)
+            
+            return
+        }
             
             let results = validatePassword(password: password, confirmPassword: confirmPassword)
             
-            if results.0 == false { print(results.1); return }
+            if results.0 == false {
+                let alert = UIAlertController(title: "Invalid Password", message: results.1, preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
+                alert.addAction(okayAction)
+                present(alert, animated: true, completion: nil)
+                
+                return
+            }
             
             activityIndicator.startAnimating()
             Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
@@ -234,14 +244,17 @@ class RegisterViewController: UIViewController {
                     DispatchQueue.main.async {
                         self.activityIndicator.stopAnimating()
                     }
-                    print("Error \(error.localizedDescription)")
+                    let alert = UIAlertController(title: "Oops! Something went wrong!", message: error.localizedDescription, preferredStyle: .alert)
+                    let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
+                    alert.addAction(okayAction)
+                    self.present(alert, animated: true, completion: nil)
+                    
                     return
                 }
                 
                 //Successful
                 if let user = result?.user {
-                    self.add(user: user, withName: name)
-                    print("Sign in successful")
+                    self.add(user: user)
                     self.view.endEditing(true)
                     self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
                 }
@@ -268,10 +281,10 @@ class RegisterViewController: UIViewController {
         return (true, "")
     }
     
-    private func add(user: User, withName name: String){
+    private func add(user: User){
         let userRef = ref.child("users").child(user.uid)
         
-        let values = ["name": name, "email" : user.email!]
+        let values = ["email" : user.email!]
         
         userRef.updateChildValues(values)
     }
@@ -287,12 +300,6 @@ class RegisterViewController: UIViewController {
 // MARK: - Text Field Delegate
 
 extension RegisterViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        let moveAmount = keyboardHeight - (textField.superview?.frame.origin.y)! - 44
-//        if moveAmount < 0 {
-//           self.view.frame.origin.y -= -(moveAmount)
-//        }
-    }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
         view.frame.origin.y = 0
@@ -305,9 +312,6 @@ extension RegisterViewController: UITextFieldDelegate {
 //        textField.resignFirstResponder()
         
         switch textField {
-        case userNameTextField:
-            userNameTextField.resignFirstResponder()
-            emailTextField.becomeFirstResponder()
         case emailTextField:
             emailTextField.resignFirstResponder()
             passwordTextField.becomeFirstResponder()
@@ -343,23 +347,18 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return "Username"
-        case 1:
             return "Email"
-        case 2:
+        case 1:
             return "Password"
+        case 2:
+            return "Confirm Password"
         default:
             return ""
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 2:
-            return 2
-        default:
-            return 1
-        }
+       return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -369,15 +368,6 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch indexPath.section {
         case 0:
-            print("Name section")
-            cell.addSubview(userNameTextField)
-            
-            userNameTextField.placeholder = "Username"
-            userNameTextField.topAnchor.constraint(equalTo: cell.topAnchor).isActive = true
-            userNameTextField.bottomAnchor.constraint(equalTo: cell.bottomAnchor).isActive = true
-            userNameTextField.leadingAnchor.constraint(equalTo: cell.leadingAnchor).isActive = true
-            userNameTextField.trailingAnchor.constraint(equalTo: cell.trailingAnchor).isActive = true
-        case 1:
             print("email section")
             cell.addSubview(emailTextField)
             
@@ -386,24 +376,23 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
             emailTextField.bottomAnchor.constraint(equalTo: cell.bottomAnchor).isActive = true
             emailTextField.leadingAnchor.constraint(equalTo: cell.leadingAnchor).isActive = true
             emailTextField.trailingAnchor.constraint(equalTo: cell.trailingAnchor).isActive = true
+        case 1:
+            cell.addSubview(passwordTextField)
+            
+            passwordTextField.placeholder = "Password"
+            passwordTextField.topAnchor.constraint(equalTo: cell.topAnchor).isActive = true
+            passwordTextField.bottomAnchor.constraint(equalTo: cell.bottomAnchor).isActive = true
+            passwordTextField.leadingAnchor.constraint(equalTo: cell.leadingAnchor).isActive = true
+            passwordTextField.trailingAnchor.constraint(equalTo: cell.trailingAnchor).isActive = true
+            
         case 2:
-            if indexPath.row == 0 {
-                cell.addSubview(passwordTextField)
-                
-                passwordTextField.placeholder = "Password"
-                passwordTextField.topAnchor.constraint(equalTo: cell.topAnchor).isActive = true
-                passwordTextField.bottomAnchor.constraint(equalTo: cell.bottomAnchor).isActive = true
-                passwordTextField.leadingAnchor.constraint(equalTo: cell.leadingAnchor).isActive = true
-                passwordTextField.trailingAnchor.constraint(equalTo: cell.trailingAnchor).isActive = true
-            } else {
-                cell.addSubview(passwordConfirmationTextField)
-                
-                passwordConfirmationTextField.placeholder = "Retype Password"
-                passwordConfirmationTextField.topAnchor.constraint(equalTo: cell.topAnchor).isActive = true
-                passwordConfirmationTextField.bottomAnchor.constraint(equalTo: cell.bottomAnchor).isActive = true
-                passwordConfirmationTextField.leadingAnchor.constraint(equalTo: cell.leadingAnchor).isActive = true
-                passwordConfirmationTextField.trailingAnchor.constraint(equalTo: cell.trailingAnchor).isActive = true
-            }
+            cell.addSubview(passwordConfirmationTextField)
+            
+            passwordConfirmationTextField.placeholder = "Retype Password"
+            passwordConfirmationTextField.topAnchor.constraint(equalTo: cell.topAnchor).isActive = true
+            passwordConfirmationTextField.bottomAnchor.constraint(equalTo: cell.bottomAnchor).isActive = true
+            passwordConfirmationTextField.leadingAnchor.constraint(equalTo: cell.leadingAnchor).isActive = true
+            passwordConfirmationTextField.trailingAnchor.constraint(equalTo: cell.trailingAnchor).isActive = true
         default:
             return cell
         }

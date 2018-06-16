@@ -26,7 +26,7 @@ class LoginViewController: UIViewController {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Sign In"
+        label.text = "Log In"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 28)
         label.adjustsFontSizeToFitWidth = true
@@ -37,7 +37,7 @@ class LoginViewController: UIViewController {
     
     let detailLabel: UILabel = {
         let label = UILabel()
-        label.text = "Sign in to share your places with anyone helping you."
+        label.text = "Log in to share your places with anyone helping you."
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 14)
         label.adjustsFontSizeToFitWidth = true
@@ -49,7 +49,7 @@ class LoginViewController: UIViewController {
     let activityIndicator: UIActivityIndicatorView = {
         let activity = UIActivityIndicatorView()
         activity.translatesAutoresizingMaskIntoConstraints = false
-        activity.color = .black
+        activity.color = .white
         return activity
     }()
     
@@ -63,7 +63,7 @@ class LoginViewController: UIViewController {
         return table
     }()
     
-    let registerLabel: UILabel = {
+    let signUpLabel: UILabel = {
         let label = UILabel()
         label.text = "Don't have an account?"
         label.textColor = .white
@@ -74,13 +74,13 @@ class LoginViewController: UIViewController {
         return label
     }()
     
-    lazy var registerButton: UIButton = {
+    lazy var signUpButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Register Here", for: .normal)
+        button.setTitle("Sign Up Here", for: .normal)
         button.setTitleColor(secondaryColor, for: .normal)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(registerButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(signUpButtonPressed), for: .touchUpInside)
         return button
     }()
 
@@ -112,7 +112,7 @@ class LoginViewController: UIViewController {
     
     lazy var submitButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Sign In", for: .normal)
+        button.setTitle("Log In", for: .normal)
         button.backgroundColor = .lightGray
         button.layer.cornerRadius = 5
         button.clipsToBounds = true
@@ -192,17 +192,19 @@ class LoginViewController: UIViewController {
         cancelButton.topAnchor.constraint(equalTo: submitButton.bottomAnchor, constant: 4).isActive = true
         cancelButton.heightAnchor.constraint(equalTo: submitButton.heightAnchor).isActive = true
         
-        let registerStackView = UIStackView(arrangedSubviews: [registerLabel,registerButton])
-        registerStackView.spacing = 0
-        registerStackView.translatesAutoresizingMaskIntoConstraints = false
-        registerStackView.distribution = .fillProportionally
+        let signUpStackView = UIStackView(arrangedSubviews: [signUpLabel,signUpButton])
+        signUpStackView.spacing = 0
+        signUpStackView.translatesAutoresizingMaskIntoConstraints = false
+        signUpStackView.distribution = .fillProportionally
+        signUpStackView.axis = .vertical
+        signUpStackView.spacing = 4
         
-        view.addSubview(registerStackView)
+        view.addSubview(signUpStackView)
         
-        registerStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
-        registerStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
-        registerStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        registerStackView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        signUpStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        signUpStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
+        signUpStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        signUpStackView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         view.bringSubview(toFront: activityIndicator)
     }
@@ -217,36 +219,45 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func submitButtonPressed() {
+        activityIndicator.startAnimating()
         UIView.animate(withDuration: 0.2) {
             self.view.frame.origin.y = 0
         }
+        
         guard let email = emailTextField.text, !email.isEmpty else {
+            activityIndicator.stopAnimating()
             let alert = UIAlertController(title: "Missing Information", message: "No email entered", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
             alert.addAction(okayAction)
             present(alert, animated: true, completion: nil)
-            return}
+            return
+            
+        }
+        
         guard let password = passwordTextField.text, !password.isEmpty else {
+            activityIndicator.stopAnimating()
             let alert = UIAlertController(title: "Missing Information", message: "No password entered", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
             alert.addAction(okayAction)
             present(alert, animated: true, completion: nil)
             
-            return}
+            return
+            
+        }
         
-            Auth.auth().signIn(withEmail: email, password: password) { (auth, error) in
-                if let error = error {
-                    let alert = UIAlertController(title: "Error Logging In", message: error.localizedDescription, preferredStyle: .alert)
-                    let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
-                    alert.addAction(okayAction)
-                    self.present(alert, animated: true, completion: nil)
-                    return
-                }
-                print("sign in successful")
-                self.view.endEditing(true)
-                self.dismiss(animated: true, completion: nil)
-                
+        Auth.auth().signIn(withEmail: email, password: password) { (auth, error) in
+            self.activityIndicator.stopAnimating()
+            if let error = error {
+                let alert = UIAlertController(title: "Error Logging In", message: error.localizedDescription, preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
+                alert.addAction(okayAction)
+                self.present(alert, animated: true, completion: nil)
+                return
             }
+            self.view.endEditing(true)
+            self.dismiss(animated: true, completion: nil)
+            
+        }
         
     }
     
@@ -255,7 +266,7 @@ class LoginViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @objc private func registerButtonPressed() {
+    @objc private func signUpButtonPressed() {
         present(RegisterViewController(), animated: true, completion: nil)
     }
 }

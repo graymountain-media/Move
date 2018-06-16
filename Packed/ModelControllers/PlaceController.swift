@@ -49,9 +49,12 @@ class PlaceController {
         }
         place.managedObjectContext?.delete(place)
         
-        if place.isShared {
-            FirebaseDataManager.delete(place: place)
-        }
+        saveData()
+    }
+    
+    static func deleteLocal(place: Place){
+        
+        place.managedObjectContext?.delete(place)
         
         saveData()
     }

@@ -238,28 +238,30 @@ class ShareViewController: UIViewController {
     @objc private func searchButtonPressed(){
         searchTextField.resignFirstResponder()
         
-        ref.child("users").observeSingleEvent(of: DataEventType.value) { (snapshot) in
-            guard let enteredEmail = self.searchTextField.text?.lowercased(), let place = self.place else {
+            ref.child("users").observeSingleEvent(of: DataEventType.value) { (snapshot) in
+                guard let enteredEmail = self.searchTextField.text?.lowercased(), let place = self.place else {
+                    
+                    return}
+                var userID: String = ""
+                let userDict = snapshot.value as? [String:[String:Any]]
                 
-                return}
-            var userID: String = ""
-            let userDict = snapshot.value as? [String:[String:Any]]
-            
-            for person in userDict! {
-                guard let email = person.value["email"] as? String else {continue}
-                if email == enteredEmail {
-                
-                    userID = person.key
-                    FirebaseDataManager.share(place: place, toUser: userID)
-                    self.dismiss(animated: true, completion: nil)
-                    self.delegate?.dismissBlur()
-                    return
+                for person in userDict! {
+                    guard let email = person.value["email"] as? String else {continue}
+                    if email == enteredEmail {
+                        
+                        userID = person.key
+                        FirebaseDataManager.share(place: place, toUser: userID)
+                        self.dismiss(animated: true, completion: nil)
+                        self.delegate?.dismissBlur()
+                        return
+                    }
                 }
+                self.userNotFoundLabel.isHidden = false
+                
             }
-            self.userNotFoundLabel.isHidden = false
-            
-        }
-//        FirebaseDataManager.share(place: place)
+        
+        
+        
     }
     
     @objc private func addButtonPressed(){

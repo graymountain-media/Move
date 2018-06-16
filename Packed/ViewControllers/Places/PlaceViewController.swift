@@ -19,38 +19,16 @@ class PlaceViewController: MainViewController {
     var references: [DatabaseReference] = []
 
     var data: [Place] = []
-    var loginButton = UIBarButtonItem()
     var userId: String = ""
     var isLoggedIn: Bool = false
     
     let blurredBackgroundView = UIVisualEffectView()
     
-    //Menu Items
-    let menuView: UIView = {
-        let view = UIView()
-        view.backgroundColor = offWhite
-        view.layer.shadowRadius = 10
-        view.layer.shadowOpacity = 0.5
-        view.layer.shadowColor = UIColor.black.cgColor
-        
-        return view
-    }()
     
-    let backButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
     
-    //Place View Items
-    lazy var settingsButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
-        button.setImage(UIImage(named: "gear"), for: .normal)
-        button.contentMode = .scaleAspectFit
-        button.addTarget(self, action: #selector(settingsButtonPressed), for: .touchUpInside)
-        return button
+    lazy var touchGestureRecognizer: UIGestureRecognizer = {
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(userTapped))
+        return recognizer
     }()
     
     let PlacesFetchedResultsController: NSFetchedResultsController<Place> = {
@@ -64,27 +42,98 @@ class PlaceViewController: MainViewController {
         return NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: "isShared", cacheName: nil)
     }()
     
+    //Menu Items
+    let menuView: UIView = {
+        let view = UIView()
+        view.backgroundColor = mainColor
+        view.layer.shadowRadius = 10
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowColor = UIColor.black.cgColor
+        
+        return view
+    }()
+    
+    let menuTable: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = mainColor
+        tableView.separatorColor = offWhite
+        tableView.rowHeight = 44
+        tableView.separatorInsetReference = .fromCellEdges
+        tableView.separatorInset = .zero
+        return tableView
+    }()
+    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Packed."
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let backButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
+        button.tintColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var helpButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "Help"), for: .normal)
+        button.addTarget(self, action: #selector(presentOnboarding), for: .touchUpInside)
+        button.contentMode = .scaleAspectFit
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    
+    //Place View Items
+    lazy var menuButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        button.setImage(UIImage(named: "menu"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(menuButtonPressed), for: .touchUpInside)
+        button.tintColor = .white
+        return button
+    }()
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .always
-        setupLoginButton()
         
+        PlacesFetchedResultsController.delegate = self
+        try? PlacesFetchedResultsController.performFetch()
+        
+        menuTable.delegate = self
+        menuTable.dataSource = self
+        menuTable.register(UITableViewCell.self, forCellReuseIdentifier: "menuCell")
+        
+        searchController.searchBar.delegate = self
         
         noDataLabel.text = "You don't have any Places yet."
         instructionLabel.text = "Tap '+' to add a new Place."
         
         viewTitle = "Places"
-        PlacesFetchedResultsController.delegate = self
-
-        try? PlacesFetchedResultsController.performFetch()
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsButton)
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: menuButton)
         
         setupHandle()
         setupBlur()
         setupMenu()
+        
+        let viewedOnboarding = UserDefaults.standard.bool(forKey: "viewedOnboarding")
+        
+        if viewedOnboarding != true {
+            presentOnboarding()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -102,16 +151,22 @@ class PlaceViewController: MainViewController {
     private func setupHandle() {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if auth.currentUser != nil {
-//                self.isLoggedIn = true
-//                self.loginButton.title = "Sign Out"
-//                self.userId = (auth.currentUser?.uid)!
+                self.isLoggedIn = true
+                self.menuTable.cellForRow(at: IndexPath(item: 0, section: 0))?.textLabel?.text = "Sign Out"
+                self.userId = (auth.currentUser?.uid)!
                 
                 self.sharedReference = ref.child("shared").child((Auth.auth().currentUser?.uid)!)
                 self.placeReference = ref.child("places")
                 self.setupSharedObserver()
                 self.resetObservers()
+            } else {
+                //do the deletion things
+                for place in self.PlacesFetchedResultsController.fetchedObjects! {
+                    if place.isShared{
+                        PlaceController.deleteLocal(place: place)
+                    }
+                }
             }
-            print("*************AUTH In Places: \(auth.currentUser?.email)")
         }
     }
     
@@ -190,20 +245,24 @@ class PlaceViewController: MainViewController {
         view.addSubview(blurredBackgroundView)
     }
     
-    private func setupLoginButton() {
-
-        loginButton = UIBarButtonItem(title: "Sign In", style: .plain, target: self, action: #selector(loginButtonPressed))
-        navigationItem.leftBarButtonItem = loginButton
+    // MARK: - Button Actions
+    
+    @objc private func presentOnboarding() {
+        let onboardingVC = OnboardingViewController()
+        onboardingVC.loginDelegate = self
+        dismissMenu()
+        present(onboardingVC, animated: true, completion: nil)
     }
     
-    @objc private func settingsButtonPressed() {
-        print("SETTINGS PRESSED")
+    @objc private func menuButtonPressed() {
+        view.addGestureRecognizer(touchGestureRecognizer)
         UIView.animate(withDuration: 0.3) {
             self.menuView.frame.origin.x = 0
         }
     }
     
     @objc private func loginButtonPressed(){
+        dismissMenu()
         if isLoggedIn {
             
             let alert = UIAlertController(title: "Are you sure you want to sign out?", message: "You will not be able to edit any shared Places while signed out", preferredStyle: .alert)
@@ -212,7 +271,7 @@ class PlaceViewController: MainViewController {
                 try? Auth.auth().signOut()
                 self.isLoggedIn = false
                 UIView.animate(withDuration: 0.2, animations: {
-                    self.loginButton.title = "Login"
+                    self.menuTable.cellForRow(at: IndexPath(item: 0, section: 0))?.textLabel?.text = "Log In"
                     
                 })
             }
@@ -231,12 +290,16 @@ class PlaceViewController: MainViewController {
     
     @objc override func addButtonPressed() {
         super.addButtonPressed()
-        
+        dismissMenu()
         let newPlaceViewController = NewPlaceViewController()
         let navController = UINavigationController(rootViewController: newPlaceViewController)
         navController.setupBar()
         navController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         present(navController, animated: true, completion: nil)
+    }
+    
+    @objc private func userTapped() {
+        dismissMenu()
     }
     
     // MARK: - Cell Delegate
@@ -266,21 +329,31 @@ class PlaceViewController: MainViewController {
         actionSheet.addAction(updateAction)
         
         let shareAction = UIAlertAction(title: "Share This Place", style: .default) { (_) in
-//            let myDynamicLink = "WOOOOOW"
-//            let msg = "Hey, check this out: " + myDynamicLink
-//            let shareSheet = UIActivityViewController(activityItems: [ msg ], applicationActivities: nil)
-//            shareSheet.popoverPresentationController?.sourceView = self.view
-//            self.present(shareSheet, animated: true, completion: nil)
-            place.owner = self.userId
-            let shareView = ShareViewController()
-            shareView.delegate = self
-            shareView.place = place
-            shareView.modalPresentationStyle = .overFullScreen
-            self.addObservers(toReference: self.placeReference.child(place.id!))
-            self.present(shareView, animated: true, completion: nil)
-            UIView.animate(withDuration: 0.2, animations: {
-                self.blurredBackgroundView.alpha = 1
-            })
+            if Auth.auth().currentUser != nil {
+                place.owner = self.userId
+                let shareView = ShareViewController()
+                shareView.delegate = self
+                shareView.place = place
+                shareView.modalPresentationStyle = .overFullScreen
+                self.addObservers(toReference: self.placeReference.child(place.id!))
+                self.present(shareView, animated: true, completion: nil)
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.blurredBackgroundView.alpha = 1
+                })
+            } else {
+                let alert = UIAlertController(title: "Log In?", message: "You must login or sing up in order to share places", preferredStyle: .alert)
+                
+                let loginAction = UIAlertAction(title: "Log In", style: .default) { (_) in
+                    let loginController = LoginViewController()
+                    self.present(loginController, animated: true, completion: nil)
+                }
+                alert.addAction(loginAction)
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                alert.addAction(cancelAction)
+                
+                self.present(alert, animated: true, completion: nil)
+            }
         }
         
         actionSheet.addAction(shareAction)
@@ -313,60 +386,108 @@ class PlaceViewController: MainViewController {
         mainTableView.reloadData()
     }
     
+    private func dismissMenu(){
+        UIView.animate(withDuration: 0.2) {
+            self.menuView.frame.origin.x = -self.view.frame.width
+        }
+        view.removeGestureRecognizer(touchGestureRecognizer)
+    }
+    
     // MARK: - TableView Data
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return PlacesFetchedResultsController.sections?.count ?? 0
+        var sectionCount = 0
+        if tableView == self.menuTable {
+            sectionCount = 1
+        } else {
+            sectionCount = PlacesFetchedResultsController.sections?.count ?? 0
+        }
+        return sectionCount
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return PlacesFetchedResultsController.sections?[section].numberOfObjects ?? 0
+        var rowCount = 0
+        if tableView == self.menuTable {
+            rowCount = 1
+        } else {
+            rowCount = PlacesFetchedResultsController.sections?[section].numberOfObjects ?? 0
+        }
+        return rowCount
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
+        if tableView == self.menuTable {
+            let cell = menuTable.dequeueReusableCell(withIdentifier: "menuCell", for: indexPath)
+            cell.backgroundColor = mainColor
+            cell.imageView?.image = #imageLiteral(resourceName: "User")
+            cell.textLabel?.textColor = .white
+            if isLoggedIn {
+                cell.textLabel?.text = "Log Out"
+            } else {
+                cell.textLabel?.text = "Log In"
+            }
+            
+            return cell
+        } else {
+            guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
+            
+            let item = PlacesFetchedResultsController.object(at: indexPath)
+            let image = item.isHome ? #imageLiteral(resourceName: "HomeIcon") : #imageLiteral(resourceName: "StorageIcon")
+            cell.updateCellWith(name: item.name!, image: image, isFragile: false)
+            cell.delegate = self
+            
+            return cell
+        }
         
-        let item = PlacesFetchedResultsController.object(at: indexPath)
-        let image = item.isHome ? #imageLiteral(resourceName: "HomeIcon") : #imageLiteral(resourceName: "StorageIcon")
-        cell.updateCellWith(name: item.name!, image: image, isFragile: false)
-        cell.delegate = self
-
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let place = PlacesFetchedResultsController.object(at: indexPath)
-        if place.isHome{
-            let roomVC = RoomViewController()
-            roomVC.place = place
-            navigationController?.pushViewController(roomVC, animated: true)
+        print("DID SELECT ROW AT")
+        if tableView == menuTable {
+            loginButtonPressed()
+            menuTable.deselectRow(at: indexPath, animated: true)
+            return
         } else {
-            let boxesVC = BoxViewController()
-            let rooms = place.rooms?.compactMap({$0 as? Room})
-            boxesVC.room = rooms?.first
-            navigationController?.pushViewController(boxesVC, animated: true)
+            print("Main table pressed")
+            let place = PlacesFetchedResultsController.object(at: indexPath)
+            if place.isHome{
+                let roomVC = RoomViewController()
+                roomVC.place = place
+                navigationController?.pushViewController(roomVC, animated: true)
+            } else {
+                let boxesVC = BoxViewController()
+                let rooms = place.rooms?.compactMap({$0 as? Room})
+                boxesVC.room = rooms?.first
+                navigationController?.pushViewController(boxesVC, animated: true)
+            }
+            mainTableView.deselectRow(at: indexPath, animated: true)
         }
-        mainTableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let place = PlacesFetchedResultsController.object(at: indexPath)
-            PlaceController.delete(place: place)
-            updateView()
+        if tableView != menuTable {
+            if editingStyle == .delete {
+                let place = PlacesFetchedResultsController.object(at: indexPath)
+                PlaceController.delete(place: place)
+                updateView()
+            }
         }
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            if PlacesFetchedResultsController.object(at: IndexPath(row: 0, section: section)).isShared {
+        if tableView != menuTable {
+            switch section {
+            case 0:
+                if PlacesFetchedResultsController.object(at: IndexPath(row: 0, section: section)).isShared {
+                    return "Shared Places"
+                } else {
+                    return "Private Places"
+                }
+            default:
                 return "Shared Places"
-            } else {
-                return "Private Places"
             }
-        default:
-            return "Shared Places"
+        } else {
+            return nil
         }
     }
 }
@@ -407,6 +528,14 @@ extension PlaceViewController: NSFetchedResultsControllerDelegate{
     }
 }
 
+// MARK: - SearchBarDelegate
+extension PlaceViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        dismissMenu()
+    }
+}
+
+// MARK: - BlurBackgroundDelegate
 extension PlaceViewController: BlurBackgroundDelegate {
     func dismissBlur() {
         self.mainTableView.reloadData()
@@ -423,7 +552,50 @@ extension PlaceViewController {
     private func setupMenu(){
         UIApplication.shared.keyWindow?.addSubview(menuView)
         menuView.frame = CGRect(x: -view.frame.width, y: 0, width: view.frame.width / 2, height: view.frame.height)
+        
+        
+        
+        addMenuItems()
     }
     
+    private func addMenuItems(){
+        menuView.addSubview(titleLabel)
+        menuView.addSubview(menuTable)
+        menuView.addSubview(backButton)
+        menuView.addSubview(helpButton)
+        
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        backButton.trailingAnchor.constraint(equalTo: menuView.trailingAnchor).isActive = true
+        backButton.topAnchor.constraint(equalTo: menuView.topAnchor, constant: 60).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        titleLabel.trailingAnchor.constraint(equalTo: backButton.leadingAnchor).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: menuView.leadingAnchor, constant: 16).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: menuView.topAnchor, constant: 60).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
+        menuTable.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4).isActive = true
+        menuTable.trailingAnchor.constraint(equalTo: menuView.trailingAnchor).isActive = true
+        menuTable.leadingAnchor.constraint(equalTo: menuView.leadingAnchor).isActive = true
+        menuTable.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        menuTable.bottomAnchor.constraint(equalTo: menuView.bottomAnchor, constant: -30).isActive = true
+        
+        helpButton.bottomAnchor.constraint(equalTo: menuView.bottomAnchor, constant: -40).isActive = true
+        helpButton.trailingAnchor.constraint(equalTo: menuView.trailingAnchor, constant: -8).isActive = true
+        helpButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
+        helpButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+    }
+    
+    
+    @objc private func backButtonPressed() {
+        dismissMenu()
+    }
 }
 
+extension PlaceViewController: OnboardingDelegate {
+    func presentLogin() {
+        let loginView = LoginViewController()
+        present(loginView, animated: true, completion: nil)
+    }
+}

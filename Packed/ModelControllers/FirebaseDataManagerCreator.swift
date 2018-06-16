@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
+import FirebaseAuth
 
 class FirebaseDataManager {
     
@@ -23,6 +24,7 @@ class FirebaseDataManager {
         place.isShared = true
         
         ref.child("shared").child(user).child(place.id!).updateChildValues(["name" : place.name!, "id" : place.id!])
+        ref.child("owned").child(Auth.auth().currentUser!.uid).child(place.id!).updateChildValues(["name" : place.name!, "id" : place.id!])
     }
     
     static func update(place: Place, withName name: String) {

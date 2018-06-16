@@ -28,6 +28,8 @@
 		A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF722097D5C6005C2388 /* MainViewController.swift */; };
 		A145AF7520983B0E005C2388 /* PackedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */; };
 		A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */; };
+		A14D803920D44408004EBE67 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14D803820D44408004EBE67 /* OnboardingViewController.swift */; };
+		A169E89220D5A49200CB05E7 /* InstructionSlideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A169E89120D5A49200CB05E7 /* InstructionSlideViewController.swift */; };
 		A174FF8B20C5E87100D89564 /* FirebaseDataManagerCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A174FF8A20C5E87100D89564 /* FirebaseDataManagerCreator.swift */; };
 		A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */; };
 		A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */; };
@@ -67,6 +69,8 @@
 		A145AF722097D5C6005C2388 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedTableViewCell.swift; sourceTree = "<group>"; };
 		A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceViewController.swift; sourceTree = "<group>"; };
+		A14D803820D44408004EBE67 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		A169E89120D5A49200CB05E7 /* InstructionSlideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionSlideViewController.swift; sourceTree = "<group>"; };
 		A174FF8A20C5E87100D89564 /* FirebaseDataManagerCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDataManagerCreator.swift; sourceTree = "<group>"; };
 		A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
@@ -182,6 +186,8 @@
 				A1BE81FF20A4AC9E002529A7 /* LoginViewController.swift */,
 				A122B2F320C59E72002E37F0 /* RegisterViewController.swift */,
 				A18F728520C8481F00C9BD68 /* ShareViewController.swift */,
+				A14D803820D44408004EBE67 /* OnboardingViewController.swift */,
+				A169E89120D5A49200CB05E7 /* InstructionSlideViewController.swift */,
 				A11488C720A0EC3300F60B92 /* Places */,
 				A11488CA20A0EEA800F60B92 /* Rooms */,
 				A11488D320A1100D00F60B92 /* Boxes */,
@@ -400,6 +406,8 @@
 				A122B2F420C59E72002E37F0 /* RegisterViewController.swift in Sources */,
 				A1204132208E72BA0093E782 /* Room.swift in Sources */,
 				A11488D520A11A8F00F60B92 /* ItemViewController.swift in Sources */,
+				A14D803920D44408004EBE67 /* OnboardingViewController.swift in Sources */,
+				A169E89220D5A49200CB05E7 /* InstructionSlideViewController.swift in Sources */,
 				A174FF8B20C5E87100D89564 /* FirebaseDataManagerCreator.swift in Sources */,
 				A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */,
 				A18F728420C6FF9E00C9BD68 /* FireBaseDataManagerDestroyer.swift in Sources */,
