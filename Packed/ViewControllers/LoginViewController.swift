@@ -131,6 +131,16 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    lazy var forgotPasswordButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Forgot Password?", for: .normal)
+        button.setTitleColor(secondaryColor, for: .normal)
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(forgotPasswordButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
     
 
     // MARK: - Life Cycle
@@ -159,6 +169,7 @@ class LoginViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(detailLabel)
         view.addSubview(loginTableView)
+        view.addSubview(forgotPasswordButton)
         view.addSubview(submitButton)
         view.addSubview(cancelButton)
         view.addSubview(activityIndicator)
@@ -180,11 +191,16 @@ class LoginViewController: UIViewController {
         loginTableView.topAnchor.constraint(equalTo: detailLabel.bottomAnchor, constant: 8).isActive = true
         loginTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         loginTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
-        loginTableView.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        loginTableView.heightAnchor.constraint(equalToConstant: 170).isActive = true
+        
+        forgotPasswordButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        forgotPasswordButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
+        forgotPasswordButton.topAnchor.constraint(equalTo: loginTableView.bottomAnchor).isActive = true
+        forgotPasswordButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         submitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         submitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
-        submitButton.topAnchor.constraint(equalTo: loginTableView.bottomAnchor, constant: 16).isActive = true
+        submitButton.topAnchor.constraint(equalTo: forgotPasswordButton.bottomAnchor, constant: 8).isActive = true
         submitButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         cancelButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -264,6 +280,12 @@ class LoginViewController: UIViewController {
     @objc private func cancelButtonPressed(){
         self.view.endEditing(true)
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func forgotPasswordButtonPressed(){
+        self.view.endEditing(true)
+        let forgotVC = ForgotPasswordViewController()
+        present(forgotVC, animated: true, completion: nil)
     }
     
     @objc private func signUpButtonPressed() {

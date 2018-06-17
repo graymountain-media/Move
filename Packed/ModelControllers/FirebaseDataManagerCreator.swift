@@ -114,6 +114,12 @@ extension FirebaseDataManager {
         
         ref.child("places").child(placeID).observeSingleEvent(of: DataEventType.value) { (snapshot) in
             let dict = snapshot.value as? NSDictionary ?? [:]
+            
+            if dict == [:] {
+                print("No shared Place Found")
+                removeShared(id: placeID)
+                return
+            }
             print("Place dictionary: \(dict)")
             let ownerID = dict["owner"] as! String
             newPlaceDict = dict

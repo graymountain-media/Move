@@ -88,6 +88,20 @@ class ShareViewController: UIViewController {
         return label
     }()
     
+    let confirmationLabel: UILabel = {
+        let label = UILabel()
+        label.text = "User Added!"
+        label.backgroundColor = confirmationColor
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.isHidden = true
+        label.alpha = 0
+        return label
+    }()
+    
     // Add User
     let addContainer: UIView = {
         let view = UIView()
@@ -178,6 +192,7 @@ class ShareViewController: UIViewController {
         searchContainerView.addSubview(instructionLabel)
         searchContainerView.addSubview(searchButton)
         searchContainerView.addSubview(userNotFoundLabel)
+        searchContainerView.addSubview(confirmationLabel)
         
         topLabel.bottomAnchor.constraint(equalTo: searchTextField.topAnchor, constant: -24).isActive = true
         topLabel.leadingAnchor.constraint(equalTo: searchContainerView.leadingAnchor).isActive = true
@@ -205,6 +220,11 @@ class ShareViewController: UIViewController {
         searchButton.leadingAnchor.constraint(equalTo: searchContainerView.leadingAnchor).isActive = true
         searchButton.trailingAnchor.constraint(equalTo: searchContainerView.trailingAnchor).isActive = true
         searchButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
+        confirmationLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        confirmationLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        confirmationLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
+        confirmationLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
     }
     
     private func setupAddSubviews() {
@@ -251,8 +271,24 @@ class ShareViewController: UIViewController {
                         
                         userID = person.key
                         FirebaseDataManager.share(place: place, toUser: userID)
-                        self.dismiss(animated: true, completion: nil)
-                        self.delegate?.dismissBlur()
+                        
+                        DispatchQueue.main.async {
+                            UIView.animate(withDuration: 0.2, animations: {
+                                self.confirmationLabel.isHidden = false
+                                self.confirmationLabel.alpha = 1
+                                self.confirmationLabel.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                            }, completion: { (_) in
+                                UIView.animate(withDuration: 0.2, animations: {
+                                    self.confirmationLabel.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                                }, completion: { (_) in
+                                    let timer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { (timer) in
+                                        self.dismiss(animated: true, completion: nil)
+                                        self.delegate?.dismissBlur()
+                                    }
+                                    RunLoop.current.add(timer, forMode: .commonModes)
+                                })
+                            })
+                        }
                         return
                     }
                 }

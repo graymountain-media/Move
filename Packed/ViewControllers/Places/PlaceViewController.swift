@@ -106,10 +106,15 @@ class PlaceViewController: MainViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.largeTitleDisplayMode = .always
         
         PlacesFetchedResultsController.delegate = self
         try? PlacesFetchedResultsController.performFetch()
+        
+        if let places = PlacesFetchedResultsController.fetchedObjects, UserDefaults.standard.bool(forKey: "didConvert") != true {
+            PlaceController.convert(places: places, forOwner: Auth.auth().currentUser?.uid ?? UUID().uuidString)
+        }
+        
+        navigationItem.largeTitleDisplayMode = .always
         
         menuTable.delegate = self
         menuTable.dataSource = self
@@ -136,7 +141,8 @@ class PlaceViewController: MainViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         updateView()
     }
     
@@ -156,12 +162,7 @@ class PlaceViewController: MainViewController {
                 self.userId = (auth.currentUser?.uid)!
                 
                 FirebaseDataManager.fetchOwnedPlaces(existingIds: self.PlacesFetchedResultsController.fetchedObjects!.compactMap({$0.id!})) {_ in
-                    DispatchQueue.main.async {
-                        self.instructionLabel.alpha = 0.0
-                        self.noDataLabel.alpha = 0.0
-                        self.noDataLabel.isHidden = true
-                        self.instructionLabel.isHidden = true
-                    }
+                   print("Owned Fetched")
                 }
                 self.sharedReference = ref.child("shared").child((Auth.auth().currentUser?.uid)!)
                 self.placeReference = ref.child("places")
@@ -194,10 +195,7 @@ class PlaceViewController: MainViewController {
             }
             
             DispatchQueue.main.async {
-                self.noDataLabel.isHidden = true
-                self.noDataLabel.alpha = 0.0
-                self.instructionLabel.isHidden = true
-                self.instructionLabel.alpha = 0.0
+                self.updateView()
             }
         })
     }
@@ -381,7 +379,7 @@ class PlaceViewController: MainViewController {
     // MARK: - Methods
     
     override func updateView(){
-        
+        super.updateView()
         print(PlacesFetchedResultsController.fetchedObjects?.count)
         
         if PlacesFetchedResultsController.fetchedObjects?.count != nil && (PlacesFetchedResultsController.fetchedObjects?.count)! > 0 {

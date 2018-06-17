@@ -23,6 +23,11 @@ extension FirebaseDataManager {
         ref.child("owned").child(userID).child(place.id!).removeValue()
     }
     
+    static func removeShared(id: String){
+        guard let userId = Auth.auth().currentUser?.uid else {return}
+        ref.child("shared").child(userId).child(id).removeValue()
+    }
+    
     static func processPlaceRemoval(dict: [String : AnyObject], sender: PlaceViewController){
         print("Place removed: \(dict)")
         

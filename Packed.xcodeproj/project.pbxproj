@@ -16,6 +16,7 @@
 		A11488D720A11BA100F60B92 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488D620A11BA100F60B92 /* ItemDetailViewController.swift */; };
 		A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887AF2090D13B0026F971 /* CoreDataStack.swift */; };
 		A11887B32090D1660026F971 /* PackedDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A11887B12090D1660026F971 /* PackedDataModel.xcdatamodeld */; };
+		A11D6A1420D5F76900C73979 /* MappingModelV1ToV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = A11D6A1320D5F76900C73979 /* MappingModelV1ToV2.xcmappingmodel */; };
 		A120412E208E56390093E782 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412D208E56390093E782 /* Constants.swift */; };
 		A1204130208E72680093E782 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412F208E72680093E782 /* Place.swift */; };
 		A1204132208E72BA0093E782 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204131208E72BA0093E782 /* Room.swift */; };
@@ -39,6 +40,7 @@
 		A1A9987420A231060039662E /* PackedItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A9987320A231060039662E /* PackedItemTableViewCell.swift */; };
 		A1AA1ABD20A0E9D600E53C51 /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */; };
 		A1BE820020A4AC9E002529A7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BE81FF20A4AC9E002529A7 /* LoginViewController.swift */; };
+		A1C8B3DA20D60576001BB2DB /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C8B3D920D60576001BB2DB /* ForgotPasswordViewController.swift */; };
 		A1DB092C20A5F62D001D2FF1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1DB092B20A5F62D001D2FF1 /* GoogleService-Info.plist */; };
 		A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */; };
 		A1EFE637208BBE43000C6E21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EFE636208BBE43000C6E21 /* Assets.xcassets */; };
@@ -58,6 +60,7 @@
 		A11887AF2090D13B0026F971 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel.xcdatamodel; sourceTree = "<group>"; };
 		A11D6A1220D5F57900C73979 /* MoveDataModel_v1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel_v1.xcdatamodel; sourceTree = "<group>"; };
+		A11D6A1320D5F76900C73979 /* MappingModelV1ToV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV1ToV2.xcmappingmodel; sourceTree = "<group>"; };
 		A120412D208E56390093E782 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A120412F208E72680093E782 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		A1204131208E72BA0093E782 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
@@ -81,6 +84,8 @@
 		A1A9987320A231060039662E /* PackedItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedItemTableViewCell.swift; sourceTree = "<group>"; };
 		A1AA1ABC20A0E9D600E53C51 /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 		A1BE81FF20A4AC9E002529A7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		A1C8B3D920D60576001BB2DB /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		A1C8B3DB20D62DE7001BB2DB /* Packed..entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Packed..entitlements; sourceTree = "<group>"; };
 		A1DB092B20A5F62D001D2FF1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		A1EFE62C208BBE42000C6E21 /* Packed..app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Packed..app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1EFE62F208BBE42000C6E21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +130,7 @@
 			children = (
 				A11887AF2090D13B0026F971 /* CoreDataStack.swift */,
 				A11887B12090D1660026F971 /* PackedDataModel.xcdatamodeld */,
+				A11D6A1320D5F76900C73979 /* MappingModelV1ToV2.xcmappingmodel */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -185,6 +191,7 @@
 				A145AF722097D5C6005C2388 /* MainViewController.swift */,
 				A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */,
 				A1BE81FF20A4AC9E002529A7 /* LoginViewController.swift */,
+				A1C8B3D920D60576001BB2DB /* ForgotPasswordViewController.swift */,
 				A122B2F320C59E72002E37F0 /* RegisterViewController.swift */,
 				A18F728520C8481F00C9BD68 /* ShareViewController.swift */,
 				A14D803820D44408004EBE67 /* OnboardingViewController.swift */,
@@ -233,6 +240,7 @@
 		A1EFE623208BBE42000C6E21 = {
 			isa = PBXGroup;
 			children = (
+				A1C8B3DB20D62DE7001BB2DB /* Packed..entitlements */,
 				A1EFE62E208BBE42000C6E21 /* Packed */,
 				A1EFE62D208BBE42000C6E21 /* Products */,
 				98A1C0B23D10A04A8B735713 /* Pods */,
@@ -296,6 +304,11 @@
 				TargetAttributes = {
 					A1EFE62B208BBE42000C6E21 = {
 						CreatedOnToolsVersion = 9.3;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -381,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1BE820020A4AC9E002529A7 /* LoginViewController.swift in Sources */,
+				A1C8B3DA20D60576001BB2DB /* ForgotPasswordViewController.swift in Sources */,
 				A11488D220A10E6600F60B92 /* RenameBoxViewController.swift in Sources */,
 				A120413F208E79BE0093E782 /* BoxController.swift in Sources */,
 				A120413B208E79460093E782 /* PlaceController.swift in Sources */,
@@ -392,6 +406,7 @@
 				A11887B32090D1660026F971 /* PackedDataModel.xcdatamodeld in Sources */,
 				A11488D720A11BA100F60B92 /* ItemDetailViewController.swift in Sources */,
 				A1AA1ABD20A0E9D600E53C51 /* RoomViewController.swift in Sources */,
+				A11D6A1420D5F76900C73979 /* MappingModelV1ToV2.xcmappingmodel in Sources */,
 				A11488C920A0EC6000F60B92 /* RoomDetailViewController.swift in Sources */,
 				A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */,
 				A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */,
@@ -549,6 +564,7 @@
 			baseConfigurationReference = 530A73DB23875A1D11EDE31B /* Pods-Packed.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Packed..entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6K47ASRSPN;
 				INFOPLIST_FILE = "$(SRCROOT)/Packed/Resources/Info.plist";
@@ -569,6 +585,7 @@
 			baseConfigurationReference = B7720B3B9F5DD3883F187243 /* Pods-Packed.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Packed..entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6K47ASRSPN;
 				INFOPLIST_FILE = "$(SRCROOT)/Packed/Resources/Info.plist";

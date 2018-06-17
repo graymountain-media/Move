@@ -39,6 +39,7 @@ class PlaceController {
             }
         }
         saveData()
+        UserDefaults.standard.set(true, forKey: "didConvert")
     }
     
     //update place
@@ -99,6 +100,16 @@ class PlaceController {
             try CoreDataStack.context.save()
         } catch {
             print("Error saving: \(error.localizedDescription)")
+        }
+    }
+    
+    static func convert(places: [Place], forOwner owner: String){
+        for place in places {
+            if place.isShared != true{
+               place.isShared = false
+            }
+            place.owner = owner
+            place.id = place.id ?? UUID().uuidString
         }
     }
 }
