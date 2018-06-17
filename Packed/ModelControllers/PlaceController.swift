@@ -29,7 +29,16 @@ class PlaceController {
 //        if !isHome{
 //            PlaceController.createRoom(withName: newPlace.name!, inPlace: newPlace)
 //        }
-        
+    }
+    
+    static func recreatePlaces(fromDict dict: [String:Any], withIds ids: [String]) {
+        for outerPlaceDict in dict {
+            let placeDict = outerPlaceDict.value as? [String: String] ?? [:]
+            if ids.contains(placeDict["id"]!) == false {
+                let _ = Place(dict: placeDict as NSDictionary)
+            }
+        }
+        saveData()
     }
     
     //update place
@@ -52,9 +61,12 @@ class PlaceController {
         saveData()
     }
     
-    static func deleteLocal(place: Place){
-        
-        place.managedObjectContext?.delete(place)
+    static func deleteLocal(places: [Place]){
+        for place in places {
+            if place.isShared {
+                place.managedObjectContext?.delete(place)
+            }
+        }
         
         saveData()
     }
@@ -82,7 +94,7 @@ class PlaceController {
         saveData()
     }
     
-    private static func saveData(){
+    static private func saveData(){
         do {
             try CoreDataStack.context.save()
         } catch {

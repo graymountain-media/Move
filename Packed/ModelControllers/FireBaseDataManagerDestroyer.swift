@@ -20,6 +20,7 @@ extension FirebaseDataManager {
         }
         ref.child("places").child(place.id!).removeValue()
         ref.child("shared").child(userID).child(place.id!).removeValue()
+        ref.child("owned").child(userID).child(place.id!).removeValue()
     }
     
     static func processPlaceRemoval(dict: [String : AnyObject], sender: PlaceViewController){

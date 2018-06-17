@@ -57,6 +57,7 @@
 		A11488D620A11BA100F60B92 /* ItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
 		A11887AF2090D13B0026F971 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel.xcdatamodel; sourceTree = "<group>"; };
+		A11D6A1220D5F57900C73979 /* MoveDataModel_v1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel_v1.xcdatamodel; sourceTree = "<group>"; };
 		A120412D208E56390093E782 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A120412F208E72680093E782 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		A1204131208E72BA0093E782 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
@@ -610,6 +611,7 @@
 		A11887B12090D1660026F971 /* PackedDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				A11D6A1220D5F57900C73979 /* MoveDataModel_v1.xcdatamodel */,
 				A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */,
 			);
 			currentVersion = A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */;

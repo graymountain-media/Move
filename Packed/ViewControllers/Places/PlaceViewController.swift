@@ -155,18 +155,22 @@ class PlaceViewController: MainViewController {
                 self.menuTable.cellForRow(at: IndexPath(item: 0, section: 0))?.textLabel?.text = "Sign Out"
                 self.userId = (auth.currentUser?.uid)!
                 
+                FirebaseDataManager.fetchOwnedPlaces(existingIds: self.PlacesFetchedResultsController.fetchedObjects!.compactMap({$0.id!})) {_ in
+                    DispatchQueue.main.async {
+                        self.instructionLabel.alpha = 0.0
+                        self.noDataLabel.alpha = 0.0
+                        self.noDataLabel.isHidden = true
+                        self.instructionLabel.isHidden = true
+                    }
+                }
                 self.sharedReference = ref.child("shared").child((Auth.auth().currentUser?.uid)!)
                 self.placeReference = ref.child("places")
                 self.setupSharedObserver()
                 self.resetObservers()
             } else {
-                //do the deletion things
-                for place in self.PlacesFetchedResultsController.fetchedObjects! {
-                    if place.isShared{
-                        PlaceController.deleteLocal(place: place)
-                    }
-                }
+                PlaceController.deleteLocal(places: self.PlacesFetchedResultsController.fetchedObjects ?? [])
             }
+            self.updateView()
         }
     }
     
@@ -311,8 +315,18 @@ class PlaceViewController: MainViewController {
         let actionSheet = UIAlertController(title: place.name, message: nil, preferredStyle: .actionSheet)
        
         let deleteAction = UIAlertAction(title: "Delete \(place.name!)", style: .destructive) { (_) in
+            if place.isShared && place.owner == Auth.auth().currentUser!.uid {
+                PlaceController.delete(place: place)
+            } else if place.isShared && place.owner != Auth.auth().currentUser!.uid {
+                let alert = UIAlertController(title: "Cannot Delete", message: "You must be the owner of this Place in order to delete it", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
+                alert.addAction(okAction)
+                self.present(alert, animated: true, completion: nil)
+                return
+            } else {
+                PlaceController.delete(place: place)
+            }
             
-            PlaceController.delete(place: place)
             self.updateView()
         }
         
@@ -367,6 +381,8 @@ class PlaceViewController: MainViewController {
     // MARK: - Methods
     
     override func updateView(){
+        
+        print(PlacesFetchedResultsController.fetchedObjects?.count)
         
         if PlacesFetchedResultsController.fetchedObjects?.count != nil && (PlacesFetchedResultsController.fetchedObjects?.count)! > 0 {
             noDataLabel.isHidden = true
@@ -468,7 +484,17 @@ class PlaceViewController: MainViewController {
         if tableView != menuTable {
             if editingStyle == .delete {
                 let place = PlacesFetchedResultsController.object(at: indexPath)
-                PlaceController.delete(place: place)
+                if place.isShared && place.owner == Auth.auth().currentUser!.uid {
+                    PlaceController.delete(place: place)
+                } else if place.isShared && place.owner != Auth.auth().currentUser!.uid {
+                    let alert = UIAlertController(title: "Cannot Delete", message: "You must be the owner of this Place in order to delete it", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
+                    alert.addAction(okAction)
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                } else {
+                    PlaceController.delete(place: place)
+                }
                 updateView()
             }
         }

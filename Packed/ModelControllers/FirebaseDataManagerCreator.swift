@@ -82,9 +82,18 @@ class FirebaseDataManager {
     
 }
 
-// MARK: - Place Data Processing
+// MARK: - Data Processing
 
 extension FirebaseDataManager {
+    
+    static func fetchOwnedPlaces(existingIds ids: [String], completion: @escaping (Bool) -> Void ) {
+        ref.child("owned").child(Auth.auth().currentUser!.uid).observeSingleEvent(of: DataEventType.value) { (snapshot) in
+            let dict = snapshot.value as? [String:Any] ?? [:]
+            
+            PlaceController.recreatePlaces(fromDict: dict, withIds: ids)
+        }
+        completion(true)
+    }
     
     //Create new shared place
     static func processNewPlace(dict: [String:Any], sender: PlaceViewController) {
