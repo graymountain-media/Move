@@ -72,15 +72,25 @@ class SearchTableViewCell: UITableViewCell {
         
         if let box = box {
             iconImageView.image = #imageLiteral(resourceName: "BoxIcon")
-            nameLabel.text = box.name
+            let roomName = box.room!.name!
+            let boxName = box.name!
+            let placeName = box.room!.place!.name!
             
-            let room = box.room!
-            let place = room.place!
+            let plainString = "\(boxName) in \(roomName)"
+            let boldRangeStart = plainString.count - roomName.count
             
-            if place.isHome {
-                breadCrumbLabel.text = "\(place.name!) > \(room.name!)"
+            let attributedString = NSMutableAttributedString(string: plainString)
+            
+            attributedString.addAttributes([NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 14)], range: NSRange(location: boldRangeStart, length: roomName.count))
+            
+            nameLabel.attributedText = attributedString
+            
+            
+            
+            if box.room!.place!.isHome {
+                breadCrumbLabel.text = "\(placeName)"
             } else {
-                breadCrumbLabel.text = "\(place.name!)"
+                breadCrumbLabel.text = "\(placeName)"
             }
             
             
@@ -88,16 +98,24 @@ class SearchTableViewCell: UITableViewCell {
         
         if let item = item {
             iconImageView.image = #imageLiteral(resourceName: "ItemIcon")
-            nameLabel.text = item.name!
+            
+            let plainString = "\(item.name!) in \(item.box!.name!)"
+            let boldRangeStart = plainString.count - item.box!.name!.count
+            
+            let attributedString = NSMutableAttributedString(string: plainString)
+            
+            attributedString.addAttributes([NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 14)], range: NSRange(location: boldRangeStart, length: item.box!.name!.count))
+            
+            nameLabel.attributedText = attributedString
             
             let box = item.box!
             let room = box.room!
             let place = room.place!
             
             if place.isHome {
-                breadCrumbLabel.text = "\(place.name!) > \(room.name!) > \(box.name!)"
+                breadCrumbLabel.text = "\(place.name!) > \(room.name!)"
             } else {
-                breadCrumbLabel.text = "\(place.name!) > \(box.name!)"
+                breadCrumbLabel.text = "\(place.name!)"
             }
         }
     }

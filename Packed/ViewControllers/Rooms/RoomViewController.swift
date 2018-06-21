@@ -198,7 +198,25 @@ class RoomViewController: MainViewController {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
         
         let room = RoomsFetchedResultsController.object(at: indexPath)
-        cell.updateCellWith(name: room.name!, image: #imageLiteral(resourceName: "RoomIcon"), isFragile: false)
+        let roomName = room.name!.lowercased()
+        
+        var roomImage = UIImage()
+        if roomName.contains("kitchen") {
+            roomImage = #imageLiteral(resourceName: "Kitchen")
+        } else if roomName.contains("office"){
+            roomImage = #imageLiteral(resourceName: "Office")
+        } else if roomName.contains("bathroom"){
+            roomImage = #imageLiteral(resourceName: "Bathroom")
+        } else if roomName.contains("dining"){
+            roomImage = #imageLiteral(resourceName: "Dining")
+        } else if roomName.contains("bedroom"){
+            roomImage = #imageLiteral(resourceName: "Bedroom")
+        } else if roomName.contains("garage"){
+            roomImage = #imageLiteral(resourceName: "Garage")
+        } else {
+            roomImage = #imageLiteral(resourceName: "RoomIcon")
+        }
+        cell.updateCellWith(name: room.name!, image: roomImage, isFragile: false)
         cell.delegate = self
         
         return cell

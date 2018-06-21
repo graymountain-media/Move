@@ -16,7 +16,7 @@ extension Room {
         self.name = name
         self.boxes = []
         self.place = place
-        self.boxCount = 1
+        self.boxCount = 01
         self.id = UUID().uuidString
     }
  
@@ -25,7 +25,7 @@ extension Room {
         self.name = dict["name"] as? String ?? "Default Room"
         self.boxes = []
         self.place = place
-        self.boxCount = 1
+        self.boxCount = 01
         self.id = dict["id"] as? String ?? UUID().uuidString
     }
     

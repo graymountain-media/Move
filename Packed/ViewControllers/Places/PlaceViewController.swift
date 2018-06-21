@@ -67,7 +67,14 @@ class PlaceViewController: MainViewController {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Packed."
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        guard let customFont = UIFont(name: "Bree-Bold", size: 28) else {
+            fatalError("""
+        Failed to load the "Bree-Bold" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
+        label.font = customFont
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -313,18 +320,26 @@ class PlaceViewController: MainViewController {
         let actionSheet = UIAlertController(title: place.name, message: nil, preferredStyle: .actionSheet)
        
         let deleteAction = UIAlertAction(title: "Delete \(place.name!)", style: .destructive) { (_) in
-            if place.isShared && place.owner == Auth.auth().currentUser!.uid {
-                PlaceController.delete(place: place)
-            } else if place.isShared && place.owner != Auth.auth().currentUser!.uid {
+            if place.isShared && place.owner != Auth.auth().currentUser!.uid {
                 let alert = UIAlertController(title: "Cannot Delete", message: "You must be the owner of this Place in order to delete it", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
                 alert.addAction(okAction)
                 self.present(alert, animated: true, completion: nil)
                 return
             } else {
-                PlaceController.delete(place: place)
+                let deleteAlert = UIAlertController(title: "Are You Sure?", message: "Are you sure you want to delete this place? This cannot be undone.", preferredStyle: .alert)
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                deleteAlert.addAction(cancelAction)
+                
+                let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
+                    PlaceController.delete(place: place)
+                    self.updateView()
+                })
+                deleteAlert.addAction(deleteAction)
+                
+                self.present(deleteAlert, animated: true, completion: nil)
             }
-            
             self.updateView()
         }
         
@@ -482,16 +497,25 @@ class PlaceViewController: MainViewController {
         if tableView != menuTable {
             if editingStyle == .delete {
                 let place = PlacesFetchedResultsController.object(at: indexPath)
-                if place.isShared && place.owner == Auth.auth().currentUser!.uid {
-                    PlaceController.delete(place: place)
-                } else if place.isShared && place.owner != Auth.auth().currentUser!.uid {
+                if place.isShared && place.owner != Auth.auth().currentUser!.uid {
                     let alert = UIAlertController(title: "Cannot Delete", message: "You must be the owner of this Place in order to delete it", preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
                     alert.addAction(okAction)
                     self.present(alert, animated: true, completion: nil)
                     return
                 } else {
-                    PlaceController.delete(place: place)
+                    let deleteAlert = UIAlertController(title: "Are You Sure?", message: "Are you sure you want to delete this place? This cannot be undone.", preferredStyle: .alert)
+                    
+                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                    deleteAlert.addAction(cancelAction)
+                    
+                    let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
+                        PlaceController.delete(place: place)
+                        self.updateView()
+                    })
+                    deleteAlert.addAction(deleteAction)
+                    
+                    self.present(deleteAlert, animated: true, completion: nil)
                 }
                 updateView()
             }
@@ -505,7 +529,7 @@ class PlaceViewController: MainViewController {
                 if PlacesFetchedResultsController.object(at: IndexPath(row: 0, section: section)).isShared {
                     return "Shared Places"
                 } else {
-                    return "Private Places"
+                    return "My Places"
                 }
             default:
                 return "Shared Places"

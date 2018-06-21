@@ -18,6 +18,13 @@ class BoxViewController: MainViewController {
     
     var boxesAddedHandle = UInt()
     var boxesReference = DatabaseReference()
+    var boxes: [Box] = [] {
+        didSet {
+            print(boxes.compactMap({$0.name!}))
+            print("Sorted: \(boxes.compactMap({$0.name!}))")
+            
+        }
+    }
     
     var BoxesFetchedResultsController: NSFetchedResultsController<Box> = NSFetchedResultsController()
     
@@ -37,12 +44,15 @@ class BoxViewController: MainViewController {
         BoxesFetchedResultsController.delegate = self
         
         try? BoxesFetchedResultsController.performFetch()
+        boxes = BoxesFetchedResultsController.fetchedObjects ?? []
+        sortBoxes()
         
         setupHandle()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         updateView()
+        mainTableView.reloadData()
     }
     
     deinit {
@@ -117,11 +127,13 @@ class BoxViewController: MainViewController {
         request.predicate = predicate
         
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
+        
         request.sortDescriptors = [nameSort]
         
         BoxesFetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
         
     }
+   
     
     @objc override func addButtonPressed() {
         super.addButtonPressed()
@@ -134,7 +146,12 @@ class BoxViewController: MainViewController {
         }) { (_) in
             self.noDataLabel.isHidden = true
             self.instructionLabel.isHidden = true
-            RoomController.createBox(withName: "\(room.name!) Box \(room.boxCount)", inRoom: room)
+            if room.boxCount < 10 {
+                RoomController.createBox(withName: "\(room.name!) Box 0\(room.boxCount)", inRoom: room)
+            } else {
+                RoomController.createBox(withName: "\(room.name!) Box \(room.boxCount)", inRoom: room)
+            }
+            
         }
     }
     
@@ -148,6 +165,7 @@ class BoxViewController: MainViewController {
         
         let deleteAction = UIAlertAction(title: "Delete \(box.name!)", style: .destructive) { (_) in
             RoomController.delete(box: box)
+            self.mainTableView.deleteRows(at: [indexPath!], with: .automatic)
     
             self.updateView()
             if self.BoxesFetchedResultsController.fetchedObjects?.count == 0 {
@@ -174,6 +192,31 @@ class BoxViewController: MainViewController {
     }
     
     // MARK: - Methods
+    
+    private func sortBoxes() {
+        boxes = boxes.sorted { (leftBox, rightBox) -> Bool in
+            let leftComponents = leftBox.name!.lowercased().split(separator: " ")
+            let rightComponents = rightBox.name!.lowercased().split(separator: " ")
+            
+            var limit = leftComponents.count < rightComponents.count ? leftComponents.count : rightComponents.count
+            
+            for i in 0...limit - 1 {
+                let leftString = String(leftComponents[i])
+                let rightString = String(rightComponents[i])
+
+                if !CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: leftString)) || !CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: rightString)) {
+                    if leftComponents[i] != rightComponents[i] {
+                        return leftComponents[i] < rightComponents[i]
+                    }
+                } else if CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: leftString)) && CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: rightString)) {
+                    
+                    return Int(leftString)! < Int(rightString)!
+                }
+            }
+            
+            return !(leftBox.name!.lowercased() > rightBox.name!.lowercased())
+        }
+    }
     
     override func updateView(){
         
@@ -206,7 +249,7 @@ class BoxViewController: MainViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = mainTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PackedTableViewCell else {return PackedTableViewCell()}
-        
+        print(indexPath)
         let box = BoxesFetchedResultsController.object(at: indexPath)
         cell.updateCellWith(name: box.name!, image: #imageLiteral(resourceName: "BoxIcon"), isFragile: box.isFragile)
         cell.delegate = self
@@ -249,9 +292,11 @@ extension BoxViewController: NSFetchedResultsControllerDelegate{
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type{
         case .delete:
+            print("delete")
             mainTableView.deleteRows(at: [indexPath!], with: .automatic)
         case .insert:
             mainTableView.insertRows(at: [newIndexPath!], with: .automatic)
+            print("insert")
         case .move:
             mainTableView.moveRow(at: indexPath!, to: newIndexPath!)
         case .update:
@@ -266,6 +311,7 @@ extension BoxViewController: NSFetchedResultsControllerDelegate{
             mainTableView.deleteSections(indexSet, with: .automatic)
         case .insert:
             mainTableView.insertSections(indexSet, with: .automatic)
+            print("insert")
         default:
             fatalError("Can't edit sections like that")
         }

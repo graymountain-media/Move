@@ -23,8 +23,43 @@ class FirebaseDataManager {
         placesRef.updateChildValues(values)
         place.isShared = true
         
+        if place.id == nil {
+            place.id = UUID().uuidString
+        }
+        
         ref.child("shared").child(user).child(place.id!).updateChildValues(["name" : place.name!, "id" : place.id!])
         ref.child("owned").child(Auth.auth().currentUser!.uid).child(place.id!).updateChildValues(["name" : place.name!, "id" : place.id!])
+        
+        guard let rooms = place.rooms else {return}
+        
+        for object in rooms {
+            guard let room = object as? Room else {print("Cannot convert to room"); return}
+            if room.id == nil {
+                room.id = UUID().uuidString
+            }
+            create(room: room)
+//            ref.child("rooms").child(place.id!).updateChildValues(["name": room.name!, "id": room.id!])
+            
+            guard let boxes = room.boxes else {return}
+            for object in boxes {
+                guard let box = object as? Box else {print("Cannot convert to box"); return}
+                if box.id == nil {
+                    box.id = UUID().uuidString
+                }
+                create(box: box)
+//                ref.child("boxes").child(room.id!).child(box.id!).updateChildValues(["name": box.name!, "idFragile": box.isFragile])
+                
+                guard let items = box.items else {return}
+                for object in items {
+                    guard let item = object as? Item else {print("Cannot convert to item"); return}
+                    if item.id == nil {
+                        item.id = UUID().uuidString
+                    }
+                    create(item: item)
+//                    ref.child("items").child(box.id!).child(item.id!).updateChildValues("name": item.name!, "idFragile": item.isFragile, "box": box.id,"id", item.isFragile])
+                }
+            }
+        }
     }
     
     static func update(place: Place, withName name: String) {

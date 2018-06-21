@@ -30,7 +30,7 @@ class ShareViewController: UIViewController {
     
     let instructionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Enter the user's email address"
+        label.text = "Enter the Packed user's email address."
         label.font = UIFont.systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -61,7 +61,7 @@ class ShareViewController: UIViewController {
     
     lazy var searchButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Search", for: .normal)
+        button.setTitle("Share My Place", for: .normal)
         button.setTitleColor(mainColor, for: .normal)
         button.addTarget(self, action: #selector(searchButtonPressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

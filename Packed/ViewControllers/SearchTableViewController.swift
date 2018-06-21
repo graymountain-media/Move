@@ -26,8 +26,11 @@ class SearchTableViewController: UIViewController, UISearchResultsUpdating, UITa
         let tableView = UITableView()
         tableView.rowHeight = 50
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.keyboardDismissMode = .onDrag
         return tableView
     }()
+    
+    // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,5 +155,13 @@ class SearchTableViewController: UIViewController, UISearchResultsUpdating, UITa
         }
         
         searchTableView.reloadData()
+    }
+    
+}
+
+extension SearchTableViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

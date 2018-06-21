@@ -14,6 +14,8 @@ class PackedItemTableViewCell: PackedTableViewCell {
         super.setupViews()
         
         optionsButton.isHidden = true
+        accessoryView = .none
+        accessoryType = UITableViewCellAccessoryType.disclosureIndicator
     }
 
 }

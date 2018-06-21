@@ -16,7 +16,6 @@
 		A11488D720A11BA100F60B92 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11488D620A11BA100F60B92 /* ItemDetailViewController.swift */; };
 		A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11887AF2090D13B0026F971 /* CoreDataStack.swift */; };
 		A11887B32090D1660026F971 /* PackedDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A11887B12090D1660026F971 /* PackedDataModel.xcdatamodeld */; };
-		A11D6A1420D5F76900C73979 /* MappingModelV1ToV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = A11D6A1320D5F76900C73979 /* MappingModelV1ToV2.xcmappingmodel */; };
 		A120412E208E56390093E782 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412D208E56390093E782 /* Constants.swift */; };
 		A1204130208E72680093E782 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120412F208E72680093E782 /* Place.swift */; };
 		A1204132208E72BA0093E782 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1204131208E72BA0093E782 /* Room.swift */; };
@@ -26,10 +25,13 @@
 		A120413D208E79890093E782 /* RoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413C208E79890093E782 /* RoomController.swift */; };
 		A120413F208E79BE0093E782 /* BoxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A120413E208E79BE0093E782 /* BoxController.swift */; };
 		A122B2F420C59E72002E37F0 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A122B2F320C59E72002E37F0 /* RegisterViewController.swift */; };
+		A136259420D9B64000983AA8 /* ModelMappingV1ToV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = A136259320D9B64000983AA8 /* ModelMappingV1ToV2.xcmappingmodel */; };
+		A136259620DC074600983AA8 /* BreeBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A136259520DC074500983AA8 /* BreeBold.otf */; };
 		A145AF732097D5C6005C2388 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF722097D5C6005C2388 /* MainViewController.swift */; };
 		A145AF7520983B0E005C2388 /* PackedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */; };
 		A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */; };
 		A14D803920D44408004EBE67 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14D803820D44408004EBE67 /* OnboardingViewController.swift */; };
+		A14E912920DC4A8F007CEBC1 /* ModelMapV2ToV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = A14E912820DC4A8F007CEBC1 /* ModelMapV2ToV3.xcmappingmodel */; };
 		A169E89220D5A49200CB05E7 /* InstructionSlideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A169E89120D5A49200CB05E7 /* InstructionSlideViewController.swift */; };
 		A174FF8B20C5E87100D89564 /* FirebaseDataManagerCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A174FF8A20C5E87100D89564 /* FirebaseDataManagerCreator.swift */; };
 		A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */; };
@@ -60,7 +62,6 @@
 		A11887AF2090D13B0026F971 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel.xcdatamodel; sourceTree = "<group>"; };
 		A11D6A1220D5F57900C73979 /* MoveDataModel_v1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel_v1.xcdatamodel; sourceTree = "<group>"; };
-		A11D6A1320D5F76900C73979 /* MappingModelV1ToV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV1ToV2.xcmappingmodel; sourceTree = "<group>"; };
 		A120412D208E56390093E782 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A120412F208E72680093E782 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		A1204131208E72BA0093E782 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
@@ -70,10 +71,14 @@
 		A120413C208E79890093E782 /* RoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomController.swift; sourceTree = "<group>"; };
 		A120413E208E79BE0093E782 /* BoxController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxController.swift; sourceTree = "<group>"; };
 		A122B2F320C59E72002E37F0 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		A136259320D9B64000983AA8 /* ModelMappingV1ToV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = ModelMappingV1ToV2.xcmappingmodel; sourceTree = "<group>"; };
+		A136259520DC074500983AA8 /* BreeBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BreeBold.otf; sourceTree = "<group>"; };
 		A145AF722097D5C6005C2388 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedTableViewCell.swift; sourceTree = "<group>"; };
 		A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceViewController.swift; sourceTree = "<group>"; };
 		A14D803820D44408004EBE67 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		A14E912520DC49DC007CEBC1 /* MoveDataModel_v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel_v3.xcdatamodel; sourceTree = "<group>"; };
+		A14E912820DC4A8F007CEBC1 /* ModelMapV2ToV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = ModelMapV2ToV3.xcmappingmodel; sourceTree = "<group>"; };
 		A169E89120D5A49200CB05E7 /* InstructionSlideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionSlideViewController.swift; sourceTree = "<group>"; };
 		A174FF8A20C5E87100D89564 /* FirebaseDataManagerCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDataManagerCreator.swift; sourceTree = "<group>"; };
 		A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
@@ -130,7 +135,8 @@
 			children = (
 				A11887AF2090D13B0026F971 /* CoreDataStack.swift */,
 				A11887B12090D1660026F971 /* PackedDataModel.xcdatamodeld */,
-				A11D6A1320D5F76900C73979 /* MappingModelV1ToV2.xcmappingmodel */,
+				A14E912820DC4A8F007CEBC1 /* ModelMapV2ToV3.xcmappingmodel */,
+				A136259320D9B64000983AA8 /* ModelMappingV1ToV2.xcmappingmodel */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -179,6 +185,7 @@
 				A120412D208E56390093E782 /* Constants.swift */,
 				A11296AD20A0A4FB00F9737F /* Extensions.swift */,
 				A1EFE636208BBE43000C6E21 /* Assets.xcassets */,
+				A136259720DC07B800983AA8 /* Fonts */,
 				A1EFE63B208BBE43000C6E21 /* Info.plist */,
 				A1EFE638208BBE43000C6E21 /* LaunchScreen.storyboard */,
 			);
@@ -225,6 +232,14 @@
 				A18F728320C6FF9E00C9BD68 /* FireBaseDataManagerDestroyer.swift */,
 			);
 			path = ModelControllers;
+			sourceTree = "<group>";
+		};
+		A136259720DC07B800983AA8 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A136259520DC074500983AA8 /* BreeBold.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		A1E9E5FC208F7DE600971DA7 /* TableViewCells */ = {
@@ -338,6 +353,7 @@
 				A1EFE63A208BBE43000C6E21 /* LaunchScreen.storyboard in Resources */,
 				A1DB092C20A5F62D001D2FF1 /* GoogleService-Info.plist in Resources */,
 				A1EFE637208BBE43000C6E21 /* Assets.xcassets in Resources */,
+				A136259620DC074600983AA8 /* BreeBold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,7 +422,6 @@
 				A11887B32090D1660026F971 /* PackedDataModel.xcdatamodeld in Sources */,
 				A11488D720A11BA100F60B92 /* ItemDetailViewController.swift in Sources */,
 				A1AA1ABD20A0E9D600E53C51 /* RoomViewController.swift in Sources */,
-				A11D6A1420D5F76900C73979 /* MappingModelV1ToV2.xcmappingmodel in Sources */,
 				A11488C920A0EC6000F60B92 /* RoomDetailViewController.swift in Sources */,
 				A1EFE630208BBE42000C6E21 /* AppDelegate.swift in Sources */,
 				A11887B02090D13B0026F971 /* CoreDataStack.swift in Sources */,
@@ -420,9 +435,11 @@
 				A120412E208E56390093E782 /* Constants.swift in Sources */,
 				A11488CE20A0F14700F60B92 /* RenamePlaceViewController.swift in Sources */,
 				A122B2F420C59E72002E37F0 /* RegisterViewController.swift in Sources */,
+				A14E912920DC4A8F007CEBC1 /* ModelMapV2ToV3.xcmappingmodel in Sources */,
 				A1204132208E72BA0093E782 /* Room.swift in Sources */,
 				A11488D520A11A8F00F60B92 /* ItemViewController.swift in Sources */,
 				A14D803920D44408004EBE67 /* OnboardingViewController.swift in Sources */,
+				A136259420D9B64000983AA8 /* ModelMappingV1ToV2.xcmappingmodel in Sources */,
 				A169E89220D5A49200CB05E7 /* InstructionSlideViewController.swift in Sources */,
 				A174FF8B20C5E87100D89564 /* FirebaseDataManagerCreator.swift in Sources */,
 				A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */,
@@ -628,6 +645,7 @@
 		A11887B12090D1660026F971 /* PackedDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				A14E912520DC49DC007CEBC1 /* MoveDataModel_v3.xcdatamodel */,
 				A11D6A1220D5F57900C73979 /* MoveDataModel_v1.xcdatamodel */,
 				A11887B22090D1660026F971 /* MoveDataModel.xcdatamodel */,
 			);
