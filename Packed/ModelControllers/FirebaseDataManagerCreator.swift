@@ -166,7 +166,13 @@ extension FirebaseDataManager {
                 newPlaceDict.setValue(owner, forKey: "ownerName")
                 newPlaceDict.setValue(placeID, forKey: "id")
                 
-                PlaceController.createPlace(withDict: newPlaceDict)
+                let newPlace = PlaceController.createPlace(withDict: newPlaceDict)
+                
+                ref.child("rooms").child(placeID).observe(DataEventType.childAdded, with: { (snapshot) in
+                    let dict = snapshot.value as? [String : AnyObject] ?? [:]
+                    FirebaseDataManager.processStorageRoom(dict: dict, place: newPlace)
+                    
+                })
             }
             
             
@@ -193,6 +199,20 @@ extension FirebaseDataManager {
                 print("room already exists, moving on")
                 return
             }
+        }
+        
+        newRoomDict = dict as NSDictionary
+        PlaceController.createRoom(withDict: newRoomDict, inPlace: place)
+        
+    }
+    
+    static func processStorageRoom(dict: [String:Any], place: Place) {
+        var newRoomDict: NSDictionary = [:]
+        
+        print("new room dict: \(dict)")
+        guard let roomID = dict["id"] as? String else {
+            print("Error decoding room id")
+            return
         }
         
         newRoomDict = dict as NSDictionary

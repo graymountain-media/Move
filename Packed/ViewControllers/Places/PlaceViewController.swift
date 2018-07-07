@@ -117,9 +117,9 @@ class PlaceViewController: MainViewController {
         PlacesFetchedResultsController.delegate = self
         try? PlacesFetchedResultsController.performFetch()
         
-        if let places = PlacesFetchedResultsController.fetchedObjects, UserDefaults.standard.bool(forKey: "didConvert") != true {
-            PlaceController.convert(places: places, forOwner: Auth.auth().currentUser?.uid ?? UUID().uuidString)
-        }
+//        if let places = PlacesFetchedResultsController.fetchedObjects, UserDefaults.standard.bool(forKey: "didConvert") != true {
+//            PlaceController.convert(places: places, forOwner: Auth.auth().currentUser?.uid ?? UUID().uuidString)
+//        }
         
         navigationItem.largeTitleDisplayMode = .always
         

@@ -131,21 +131,21 @@ class OnboardingViewController: UIPageViewController {
         skipButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32).isActive = true
         skipButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
-        logInButton.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 40).isActive = true
+        logInButton.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 10).isActive = true
         logInButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32).isActive = true
         logInButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32).isActive = true
         logInButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
         pageControl.translatesAutoresizingMaskIntoConstraints = false
-        pageControl.topAnchor.constraint(equalTo: fillerView.bottomAnchor, constant: 15).isActive = true
-        pageControl.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -20).isActive = true
-        pageControl.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        pageControl.topAnchor.constraint(equalTo: fillerView.bottomAnchor).isActive = true
+        pageControl.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -10).isActive = true
+        pageControl.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
         pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         fillerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
         fillerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         fillerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        fillerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6).isActive = true
+        fillerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7).isActive = true
         
     }
     

@@ -34,6 +34,7 @@ class BoxViewController: MainViewController {
         super.viewDidLoad()
         
         guard let room = room else { return }
+        print(room)
         
         viewTitle = room.name!
         

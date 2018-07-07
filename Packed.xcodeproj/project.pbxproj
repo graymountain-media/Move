@@ -31,12 +31,12 @@
 		A145AF7520983B0E005C2388 /* PackedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7420983B0E005C2388 /* PackedTableViewCell.swift */; };
 		A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */; };
 		A14D803920D44408004EBE67 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14D803820D44408004EBE67 /* OnboardingViewController.swift */; };
-		A14E912920DC4A8F007CEBC1 /* ModelMapV2ToV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = A14E912820DC4A8F007CEBC1 /* ModelMapV2ToV3.xcmappingmodel */; };
 		A169E89220D5A49200CB05E7 /* InstructionSlideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A169E89120D5A49200CB05E7 /* InstructionSlideViewController.swift */; };
 		A174FF8B20C5E87100D89564 /* FirebaseDataManagerCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A174FF8A20C5E87100D89564 /* FirebaseDataManagerCreator.swift */; };
 		A17FA91F20937DA700C40C4C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */; };
 		A17FA9212093A18000C40C4C /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */; };
 		A18DAC1B20A0B40E00A9FAF1 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */; };
+		A18E24C520F04BEF00C53C8A /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18E24C420F04BEF00C53C8A /* HelpViewController.swift */; };
 		A18F728420C6FF9E00C9BD68 /* FireBaseDataManagerDestroyer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18F728320C6FF9E00C9BD68 /* FireBaseDataManagerDestroyer.swift */; };
 		A18F728620C8481F00C9BD68 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18F728520C8481F00C9BD68 /* ShareViewController.swift */; };
 		A1A9987420A231060039662E /* PackedItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A9987320A231060039662E /* PackedItemTableViewCell.swift */; };
@@ -78,12 +78,12 @@
 		A145AF7820990ECA005C2388 /* NewPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceViewController.swift; sourceTree = "<group>"; };
 		A14D803820D44408004EBE67 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		A14E912520DC49DC007CEBC1 /* MoveDataModel_v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoveDataModel_v3.xcdatamodel; sourceTree = "<group>"; };
-		A14E912820DC4A8F007CEBC1 /* ModelMapV2ToV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = ModelMapV2ToV3.xcmappingmodel; sourceTree = "<group>"; };
 		A169E89120D5A49200CB05E7 /* InstructionSlideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionSlideViewController.swift; sourceTree = "<group>"; };
 		A174FF8A20C5E87100D89564 /* FirebaseDataManagerCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDataManagerCreator.swift; sourceTree = "<group>"; };
 		A17FA91E20937DA700C40C4C /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		A17FA9202093A18000C40C4C /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		A18DAC1A20A0B40E00A9FAF1 /* PlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
+		A18E24C420F04BEF00C53C8A /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		A18F728320C6FF9E00C9BD68 /* FireBaseDataManagerDestroyer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBaseDataManagerDestroyer.swift; sourceTree = "<group>"; };
 		A18F728520C8481F00C9BD68 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		A1A9987320A231060039662E /* PackedItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedItemTableViewCell.swift; sourceTree = "<group>"; };
@@ -135,7 +135,6 @@
 			children = (
 				A11887AF2090D13B0026F971 /* CoreDataStack.swift */,
 				A11887B12090D1660026F971 /* PackedDataModel.xcdatamodeld */,
-				A14E912820DC4A8F007CEBC1 /* ModelMapV2ToV3.xcmappingmodel */,
 				A136259320D9B64000983AA8 /* ModelMappingV1ToV2.xcmappingmodel */,
 			);
 			path = "Core Data";
@@ -201,8 +200,8 @@
 				A1C8B3D920D60576001BB2DB /* ForgotPasswordViewController.swift */,
 				A122B2F320C59E72002E37F0 /* RegisterViewController.swift */,
 				A18F728520C8481F00C9BD68 /* ShareViewController.swift */,
-				A14D803820D44408004EBE67 /* OnboardingViewController.swift */,
-				A169E89120D5A49200CB05E7 /* InstructionSlideViewController.swift */,
+				A18E24C620F04BF200C53C8A /* Help */,
+				A18E24C320F04B9A00C53C8A /* Onboarding */,
 				A11488C720A0EC3300F60B92 /* Places */,
 				A11488CA20A0EEA800F60B92 /* Rooms */,
 				A11488D320A1100D00F60B92 /* Boxes */,
@@ -240,6 +239,23 @@
 				A136259520DC074500983AA8 /* BreeBold.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		A18E24C320F04B9A00C53C8A /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				A14D803820D44408004EBE67 /* OnboardingViewController.swift */,
+				A169E89120D5A49200CB05E7 /* InstructionSlideViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		A18E24C620F04BF200C53C8A /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				A18E24C420F04BEF00C53C8A /* HelpViewController.swift */,
+			);
+			path = Help;
 			sourceTree = "<group>";
 		};
 		A1E9E5FC208F7DE600971DA7 /* TableViewCells */ = {
@@ -434,8 +450,8 @@
 				A145AF7920990ECA005C2388 /* NewPlaceViewController.swift in Sources */,
 				A120412E208E56390093E782 /* Constants.swift in Sources */,
 				A11488CE20A0F14700F60B92 /* RenamePlaceViewController.swift in Sources */,
+				A18E24C520F04BEF00C53C8A /* HelpViewController.swift in Sources */,
 				A122B2F420C59E72002E37F0 /* RegisterViewController.swift in Sources */,
-				A14E912920DC4A8F007CEBC1 /* ModelMapV2ToV3.xcmappingmodel in Sources */,
 				A1204132208E72BA0093E782 /* Room.swift in Sources */,
 				A11488D520A11A8F00F60B92 /* ItemViewController.swift in Sources */,
 				A14D803920D44408004EBE67 /* OnboardingViewController.swift in Sources */,

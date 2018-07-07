@@ -21,21 +21,21 @@ class PlaceController {
         }
     }
     
-    static func createPlace(withDict dict: NSDictionary){
-        let _ = Place(dict: dict)
+    static func createPlace(withDict dict: NSDictionary) -> Place {
+        let newPlace = Place(dict: dict)
         
         saveData()
-        
+        return newPlace
 //        if !isHome{
 //            PlaceController.createRoom(withName: newPlace.name!, inPlace: newPlace)
 //        }
     }
     
-    static func recreatePlaces(fromDict dict: [String:Any], withIds ids: [String]) {
+    static func recreatePlaces(fromDict dict: [String:Any], withIds ids: [String]){
         for outerPlaceDict in dict {
             let placeDict = outerPlaceDict.value as? [String: String] ?? [:]
             if ids.contains(placeDict["id"]!) == false {
-                let _ = Place(dict: placeDict as NSDictionary)
+                let newPlace = Place(dict: placeDict as NSDictionary)
             }
         }
         saveData()
