@@ -13,6 +13,7 @@ class RoomController {
     //Update Room
     static func update(room: Room, withName newName: String){
         room.name = newName
+        saveData()
     }
     
     //create Box

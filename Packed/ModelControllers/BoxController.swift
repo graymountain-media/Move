@@ -28,7 +28,9 @@ class BoxController {
         item.name = newName
         item.isFragile = newIsFragile
         
+        
         checkFragileState(forBox: item.box!)
+        saveData()
     }
     
     //delete Item
