@@ -13,6 +13,7 @@ class BoxController {
     //Edit Box
     static func update(box: Box, withName newName: String){
         box.name = newName
+        saveData()
     }
     
     //create Item
